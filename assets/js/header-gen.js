@@ -10,7 +10,7 @@ const navItems = [
 header.innerHTML = `
   <header class="site-header">
     <div class="header-main">
-      <img class="header-logo" src="assets/img/logo-suzini.png" alt="Logo Suzini">
+      <img class="header-logo" src="assets/img/blason-suzini.png" alt="Logo Suzini">
 
       <div class="header-title">
         <div class="header-kicker">Tennis Club de Suzini</div>
