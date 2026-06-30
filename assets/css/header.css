@@ -12,6 +12,8 @@
   box-shadow:0 10px 24px rgba(0,0,0,.18);
 }
 
+/* ---------- Bandeau ---------- */
+
 .header-main{
   width:min(var(--container), calc(100% - 24px));
   margin:auto;
@@ -47,6 +49,8 @@
   color:#fff;
 }
 
+/* ---------- Navigation ---------- */
+
 .header-nav-wrap{
   position:relative;
   width:min(var(--container), calc(100% - 24px));
@@ -59,29 +63,29 @@
   position:absolute;
   top:0;
   bottom:10px;
-  z-index:3;
   width:42px;
+  z-index:3;
   pointer-events:none;
 }
 
 .header-nav-wrap::before{
   left:0;
-  background:linear-gradient(90deg,rgba(17,170,245,.98),rgba(17,170,245,.65),transparent);
+  background:linear-gradient(90deg,rgba(17,170,245,.95),transparent);
 }
 
 .header-nav-wrap::after{
   right:0;
-  background:linear-gradient(270deg,rgba(11,143,98,.98),rgba(11,143,98,.65),transparent);
+  background:linear-gradient(270deg,rgba(11,143,98,.95),transparent);
 }
+
+/* ---------- Flèches ---------- */
 
 .header-scroll-hint{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  z-index:5;
   width:24px;
   height:24px;
-  border-radius:999px;
   display:grid;
   place-items:center;
   color:#fff;
@@ -91,6 +95,7 @@
   pointer-events:none;
   opacity:0;
   transition:opacity .25s ease;
+  z-index:5;
 }
 
 .header-scroll-hint.left{
@@ -100,6 +105,8 @@
 .header-scroll-hint.right{
   right:6px;
 }
+
+/* ---------- Boutons ---------- */
 
 .header-nav{
   display:flex;
@@ -120,18 +127,28 @@
 .header-nav a{
   flex:0 0 auto;
   scroll-snap-align:start;
+
   display:flex;
   align-items:center;
   justify-content:center;
   gap:6px;
-  padding:10px 16px;
+
   min-height:42px;
-  border-radius:16px;
-  background:rgba(255,255,255,.95);
-  color:var(--green-dark);
+  padding:10px 16px;
+
+  border-radius:22px;
+
+  background:linear-gradient(135deg,#ff5ea6,#ff2f80);
+
+  color:#fff;
+
   font-size:13px;
   font-weight:900;
-  box-shadow:0 6px 16px rgba(0,0,0,.12);
+
+  box-shadow:
+    0 8px 18px rgba(255,62,138,.30),
+    inset 0 1px 0 rgba(255,255,255,.25);
+
   transition:.25s;
 }
 
@@ -140,11 +157,18 @@
 }
 
 .header-nav a.active{
-  background:linear-gradient(135deg,var(--pink),var(--orange));
-  color:#fff;
+  background:linear-gradient(135deg,#ffd84d,#ffb400);
+  color:var(--green-dark);
+
+  box-shadow:
+    0 10px 20px rgba(255,216,77,.40),
+    inset 0 1px 0 rgba(255,255,255,.35);
 }
 
+/* ---------- Mobile ---------- */
+
 @media(max-width:700px){
+
   .header-main{
     min-height:64px;
     grid-template-columns:44px 1fr 44px;
@@ -165,13 +189,14 @@
   }
 
   .header-nav{
-    padding:0 36px 10px;
     gap:8px;
+    padding:0 34px 10px;
   }
 
   .header-nav a{
-    font-size:12px;
-    padding:8px 14px;
     min-height:40px;
+    padding:8px 14px;
+    font-size:12px;
   }
+
 }
