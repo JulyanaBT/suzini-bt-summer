@@ -36,7 +36,7 @@
         </div>
 
         <div class="hero-actions">
-          <a class="hero-btn hero-btn-primary" href="etape-1.html">
+          <a class="hero-btn hero-btn-primary" href="etape-1/">
             ☀️ Americano 02/07
           </a>
 
@@ -62,7 +62,7 @@
         <div class="summer-pill">02/07</div>
       </div>
 
-      <a class="summer-card summer-card-blue" href="etape-1.html">
+      <a class="summer-card summer-card-blue" href="etape-1/">
         <span class="summer-badge">À venir</span>
         <div class="summer-date">02/07</div>
         <div class="summer-kicker">Étape 1</div>
@@ -89,28 +89,28 @@
       </div>
 
       <div class="summer-grid summer-grid-4">
-        <a class="summer-card summer-card-blue" href="public/inscriptions.html">
+        <a class="summer-card summer-card-blue" href="etape-1/inscriptions.html">
           <div class="summer-kicker">Participer</div>
           <h3 class="summer-title">Inscriptions</h3>
-          <div class="summer-text">Choisir son étape et s’inscrire.</div>
+          <div class="summer-text">S’inscrire à l’Americano.</div>
         </a>
 
-        <a class="summer-card summer-card-pink" href="public/participants.html">
+        <a class="summer-card summer-card-pink" href="etape-1/participants.html">
           <div class="summer-kicker">Joueurs</div>
           <h3 class="summer-title">Participants</h3>
-          <div class="summer-text">Voir les inscrits par étape.</div>
+          <div class="summer-text">Voir les inscrits de l’étape 1.</div>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="public/programmation.html">
+        <a class="summer-card summer-card-yellow" href="etape-1/programmation.html">
           <div class="summer-kicker">Planning</div>
           <h3 class="summer-title">Programmation</h3>
-          <div class="summer-text">Horaires, terrains et déroulement.</div>
+          <div class="summer-text">Horaires, rotations et terrains.</div>
         </a>
 
-        <a class="summer-card summer-card-green" href="public/contact.html">
-          <div class="summer-kicker">Organisation</div>
-          <h3 class="summer-title">Contact</h3>
-          <div class="summer-text">Contacter l’équipe organisatrice.</div>
+        <a class="summer-card summer-card-green" href="infos.html">
+          <div class="summer-kicker">Pratique</div>
+          <h3 class="summer-title">Infos</h3>
+          <div class="summer-text">Accès, restauration, règlement…</div>
         </a>
       </div>
     </div>
@@ -130,7 +130,7 @@
       </div>
 
       <div class="summer-grid summer-grid-2">
-        <a class="summer-card summer-card-pink" href="etape-2.html">
+        <a class="summer-card summer-card-pink" href="etape-2/">
           <div class="summer-date">09/07</div>
           <div class="summer-kicker">Étape 2</div>
           <h3 class="summer-title">Double mixte</h3>
@@ -138,7 +138,7 @@
           <span class="summer-link">Voir l’étape</span>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="etape-3.html">
+        <a class="summer-card summer-card-yellow" href="etape-3/">
           <div class="summer-date">16/07</div>
           <div class="summer-kicker">Étape 3</div>
           <h3 class="summer-title">Double mixte</h3>
@@ -157,200 +157,26 @@
     <div class="summer-panel">
       <div class="summer-panel-head">
         <div>
-          <h2 class="summer-panel-title">Espace organisateurs</h2>
+          <h2 class="summer-panel-title">Administration</h2>
           <p class="summer-panel-text">
-            Accès sécurisé pour gérer les inscriptions et la programmation.
+            Accès sécurisé pour gérer les inscriptions, participants et programmations.
           </p>
         </div>
 
         <div class="summer-pill">Sécurisé</div>
       </div>
 
-      <div class="summer-grid summer-grid-4">
-        <a class="summer-card summer-card-blue" href="#" id="btnAdmin">
-          <div class="summer-kicker">Gestion</div>
-          <h3 class="summer-title">Admin</h3>
-          <div class="summer-text">Administration générale.</div>
-        </a>
-
-        <a class="summer-card summer-card-pink" href="#" id="btnJAT">
-          <div class="summer-kicker">Officiel</div>
-          <h3 class="summer-title">JAT</h3>
-          <div class="summer-text">Gestion sportive.</div>
-        </a>
-
-        <a class="summer-card summer-card-yellow" href="#" id="btnArbitre">
-          <div class="summer-kicker">Terrain</div>
-          <h3 class="summer-title">Arbitre</h3>
-          <div class="summer-text">Suivi terrain.</div>
-        </a>
-
-        <a class="summer-card summer-card-green" href="public/participants.html">
-          <div class="summer-kicker">Lecture</div>
-          <h3 class="summer-title">Vue publique</h3>
-          <div class="summer-text">Voir les infos publiques.</div>
-        </a>
-      </div>
-
-      <div class="status-box">
-        <strong>Statut :</strong>
-        <span id="authHint">Vérification de la connexion…</span>
-        <span id="roleBadge" class="role-badge none" style="display:none;"></span>
-      </div>
-
-      <div style="margin-top:12px;">
-        <a class="mini-link" href="#" id="btnLogout">🚪 Déconnexion</a>
-      </div>
+      <a class="summer-card summer-card-blue" href="admin/inscriptions.html?step=etape-1">
+        <div class="summer-kicker">Gestion</div>
+        <h3 class="summer-title">Espace admin</h3>
+        <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
+      </a>
     </div>
   </section>
 
 </main>
 
 <script type="module" src="assets/js/header-gen.js"></script>
-
-<script type="module">
-  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index1";
-  import {
-    login,
-    logout,
-    getRoleByUid
-  } from "./assets/js/session.js?v=suzini-summer-index1";
-
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-
-  const btnAdmin = document.getElementById("btnAdmin");
-  const btnJAT = document.getElementById("btnJAT");
-  const btnArbitre = document.getElementById("btnArbitre");
-  const btnLogout = document.getElementById("btnLogout");
-  const hint = document.getElementById("authHint");
-  const roleBadge = document.getElementById("roleBadge");
-
-  function setRoleBadge(role){
-    roleBadge.style.display = "inline-flex";
-    roleBadge.className = "role-badge";
-
-    if(role === "admin"){
-      roleBadge.textContent = "ADMIN";
-      roleBadge.classList.add("admin");
-      return;
-    }
-
-    if(role === "jat"){
-      roleBadge.textContent = "JAT";
-      roleBadge.classList.add("jat");
-      return;
-    }
-
-    if(role === "arbitre"){
-      roleBadge.textContent = "ARBITRE";
-      roleBadge.classList.add("arbitre");
-      return;
-    }
-
-    roleBadge.textContent = "AUCUN RÔLE";
-    roleBadge.classList.add("none");
-  }
-
-  function clearRoleBadge(){
-    roleBadge.textContent = "";
-    roleBadge.style.display = "none";
-    roleBadge.className = "role-badge none";
-  }
-
-  async function askLogin(){
-    const email = prompt("Email organisateur ?");
-    if(!email) return null;
-
-    const password = prompt("Mot de passe ?");
-    if(!password) return null;
-
-    try{
-      return await login(email.trim(), password);
-    }catch(error){
-      alert("Connexion impossible : " + (error?.message || "Erreur inconnue"));
-      return null;
-    }
-  }
-
-  async function ensureUser(){
-    if(auth.currentUser) return auth.currentUser;
-    return await askLogin();
-  }
-
-  async function getCurrentRole(){
-    const user = await ensureUser();
-    if(!user) return null;
-
-    const role = await getRoleByUid(user.uid);
-    return { user, role };
-  }
-
-  btnAdmin.onclick = async (event) => {
-    event.preventDefault();
-
-    const ctx = await getCurrentRole();
-    if(!ctx) return;
-
-    if(ctx.role !== "admin"){
-      alert("Accès réservé aux administrateurs.");
-      return;
-    }
-
-    window.location.href = "admin/index.html";
-  };
-
-  btnJAT.onclick = async (event) => {
-    event.preventDefault();
-
-    const ctx = await getCurrentRole();
-    if(!ctx) return;
-
-    if(ctx.role !== "admin" && ctx.role !== "jat"){
-      alert("Accès réservé au juge-arbitre et aux administrateurs.");
-      return;
-    }
-
-    window.location.href = "jat/index.html";
-  };
-
-  btnArbitre.onclick = async (event) => {
-    event.preventDefault();
-
-    const ctx = await getCurrentRole();
-    if(!ctx) return;
-
-    if(ctx.role !== "admin" && ctx.role !== "jat" && ctx.role !== "arbitre"){
-      alert("Accès réservé aux arbitres, juge-arbitres et administrateurs.");
-      return;
-    }
-
-    window.location.href = "arbitre/index.html";
-  };
-
-  btnLogout.onclick = async (event) => {
-    event.preventDefault();
-    await logout();
-    hint.textContent = "Non connecté.";
-    clearRoleBadge();
-  };
-
-  onAuthStateChanged(auth, async (user) => {
-    if(!user){
-      hint.textContent = "Non connecté.";
-      clearRoleBadge();
-      return;
-    }
-
-    try{
-      const role = await getRoleByUid(user.uid);
-      hint.textContent = `Connecté : ${user.email}`;
-      setRoleBadge(role);
-    }catch(error){
-      hint.textContent = `Connecté : ${user.email} — rôle non trouvé`;
-      setRoleBadge(null);
-    }
-  });
-</script>
 
 </body>
 </html>
