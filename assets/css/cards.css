@@ -1,0 +1,303 @@
+/* ==========================================================
+   PANELS
+========================================================== */
+
+.panel{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.74);
+  border-radius:26px;
+  box-shadow:var(--shadow);
+  padding:18px;
+}
+
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.panel-title{
+  margin:0;
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-.04em;
+  color:var(--green-dark);
+}
+
+.panel-text{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.45;
+}
+
+.panel-tag{
+  flex-shrink:0;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(255,62,138,.12);
+  color:var(--pink);
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+
+/* ==========================================================
+   ETAPES
+========================================================== */
+
+.steps-grid{
+  display:grid;
+  gap:14px;
+}
+
+.step-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:24px;
+  padding:18px;
+  color:#fff;
+  min-height:210px;
+  box-shadow:0 14px 30px rgba(16,24,40,.15);
+}
+
+.step-card::after{
+  content:"";
+  position:absolute;
+  width:170px;
+  height:170px;
+  right:-45px;
+  bottom:-45px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+}
+
+.step-americano{
+  background:linear-gradient(135deg,#07539c,#1aa7ff,#43e6d8);
+}
+
+.step-mixte{
+  background:linear-gradient(135deg,#06452d,#0b6b45,#18b87f);
+}
+
+.step-card.is-current{
+  outline:4px solid var(--yellow);
+  outline-offset:-4px;
+}
+
+.current-badge{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  margin-bottom:10px;
+  background:var(--yellow);
+  color:var(--green-dark);
+  font-size:11px;
+  font-weight:1000;
+  text-transform:uppercase;
+}
+
+.step-date{
+  font-size:54px;
+  font-weight:1000;
+  line-height:.9;
+}
+
+.step-kicker{
+  margin-top:6px;
+  color:var(--yellow);
+  font-size:13px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.step-title{
+  margin:8px 0;
+  font-size:28px;
+  line-height:1;
+  font-weight:1000;
+  text-transform:uppercase;
+}
+
+.step-text{
+  max-width:90%;
+  line-height:1.45;
+  font-size:14px;
+}
+
+.step-link{
+  display:inline-flex;
+  margin-top:16px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:#fff;
+  color:var(--green-dark);
+  font-size:13px;
+  font-weight:1000;
+}
+
+
+/* ==========================================================
+   CARTES GENERIQUES
+========================================================== */
+
+.quick-grid,
+.admin-grid{
+  display:grid;
+  gap:12px;
+}
+
+.entry-card{
+  border-radius:20px;
+  min-height:120px;
+  padding:18px;
+  color:#fff;
+  box-shadow:0 12px 24px rgba(16,24,40,.12);
+}
+
+.entry-kicker{
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:900;
+  opacity:.9;
+}
+
+.entry-title{
+  margin:8px 0;
+  font-size:25px;
+  line-height:1;
+  font-weight:1000;
+}
+
+.entry-sub{
+  font-size:14px;
+  line-height:1.45;
+}
+
+.card-blue{
+  background:linear-gradient(135deg,#063b72,var(--blue));
+}
+
+.card-green{
+  background:linear-gradient(135deg,var(--green-dark),var(--green));
+}
+
+.card-pink{
+  background:linear-gradient(135deg,#a0125a,var(--pink));
+}
+
+.card-yellow{
+  background:linear-gradient(135deg,#f2b400,var(--yellow));
+  color:var(--green-dark);
+}
+
+
+/* ==========================================================
+   INFOS
+========================================================== */
+
+.info-list{
+  display:grid;
+  gap:10px;
+}
+
+.info-item{
+  background:#fff;
+  border-radius:18px;
+  padding:15px;
+  border:1px solid rgba(16,24,40,.06);
+  box-shadow:0 8px 18px rgba(16,24,40,.06);
+}
+
+.info-item strong{
+  display:block;
+  margin-bottom:5px;
+  color:var(--green-dark);
+  font-size:12px;
+  text-transform:uppercase;
+}
+
+.info-item span{
+  font-size:15px;
+  font-weight:900;
+}
+
+.note{
+  margin-top:14px;
+  padding:14px 16px;
+  border-radius:18px;
+  background:linear-gradient(
+      135deg,
+      rgba(67,230,216,.16),
+      rgba(255,216,77,.22)
+  );
+}
+
+.note strong{
+  color:var(--green-dark);
+}
+
+
+/* ==========================================================
+   SPONSORS
+========================================================== */
+
+.sponsor-strip{
+  min-height:110px;
+  border-radius:22px;
+  border:2px dashed rgba(6,69,45,.18);
+  display:grid;
+  place-items:center;
+  background:#fff;
+  color:var(--muted);
+  font-weight:900;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(min-width:760px){
+
+  .steps-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .quick-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .admin-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .info-list{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .panel{
+    padding:22px;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .panel-head{
+    display:block;
+  }
+
+  .panel-tag{
+    display:inline-flex;
+    margin-top:12px;
+  }
+
+  .step-card{
+    min-height:190px;
+  }
+
+}
