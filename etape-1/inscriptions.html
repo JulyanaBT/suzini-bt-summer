@@ -3,25 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inscription - Étape 1 Americano</title>
+  <title>Inscription — Étape 1 Americano</title>
 
   <link rel="stylesheet" href="../assets/css/style.css" />
 
   <style>
-    .form-box{
-      display:grid;
-      gap:12px;
-    }
-
-    .field{
-      display:grid;
-      gap:6px;
-    }
+    .form-box{display:grid;gap:12px;}
+    .field{display:grid;gap:7px;}
 
     .field label{
       color:#fff;
-      font-weight:1000;
       font-size:13px;
+      font-weight:1000;
       text-transform:uppercase;
     }
 
@@ -33,35 +26,34 @@
       padding:12px 14px;
       font-size:16px;
       font-weight:800;
-      color:#102033;
       background:#fff;
+      color:#102033;
       box-shadow:0 8px 18px rgba(16,24,40,.12);
     }
 
-    .help{
-      font-size:13px;
-      line-height:1.35;
-      color:#fff;
-      font-weight:800;
+    .field input:disabled{
+      opacity:.6;
+      background:#eef2f6;
     }
 
-    .suggestion{
+    .hint{
+      font-size:13px;
+      font-weight:800;
+      line-height:1.35;
+      color:#fff;
+    }
+
+    .nickname-box{
+      padding:12px 14px;
+      border-radius:16px;
       background:#ff3e8a;
       color:#fff;
-      border-radius:16px;
-      padding:12px 14px;
-      font-weight:900;
       font-size:14px;
+      font-weight:900;
       line-height:1.35;
     }
 
-    .form-actions{
-      display:grid;
-      gap:10px;
-      margin-top:4px;
-    }
-
-    .submit-btn{
+    .btn-submit{
       min-height:50px;
       border:0;
       border-radius:18px;
@@ -72,10 +64,14 @@
       box-shadow:0 10px 22px rgba(16,24,40,.18);
     }
 
+    .btn-submit:disabled{
+      opacity:.55;
+    }
+
     .message{
       display:none;
-      border-radius:16px;
       padding:12px 14px;
+      border-radius:16px;
       font-size:14px;
       font-weight:900;
       line-height:1.35;
@@ -109,6 +105,7 @@
   <section class="section">
     <div class="hero">
       <div class="hero-inner">
+
         <div class="hero-pills">
           <span class="pill">Inscription</span>
           <span class="pill">Americano</span>
@@ -125,6 +122,7 @@
             Choisis ton surnom ou garde la proposition automatique.
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -135,43 +133,41 @@
         <div>
           <h2 class="summer-panel-title">Formulaire joueur</h2>
           <p class="summer-panel-text">
-            Le surnom doit être unique sur toutes les étapes du Summer Tour.
+            Le surnom doit être unique sur tout le Summer Tour.
           </p>
         </div>
         <div class="summer-pill">02/07</div>
       </div>
 
-      <form id="inscriptionForm" class="form-box">
+      <form id="signupForm" class="form-box">
 
         <div class="field">
           <label for="prenom">Prénom *</label>
-          <input id="prenom" name="prenom" type="text" autocomplete="given-name" required>
+          <input id="prenom" type="text" required autocomplete="given-name">
         </div>
 
         <div class="field">
           <label for="nom">Nom *</label>
-          <input id="nom" name="nom" type="text" autocomplete="family-name" required>
+          <input id="nom" type="text" required autocomplete="family-name">
         </div>
 
-        <div class="suggestion" id="suggestionBox">
+        <div class="nickname-box">
           Surnom proposé : <span id="suggestedNickname">—</span>
         </div>
 
         <div class="field">
           <label for="surnom">Surnom choisi</label>
-          <input id="surnom" name="surnom" type="text" autocomplete="nickname" placeholder="Laisser vide pour garder la proposition">
-          <div class="help">
-            Si tu laisses vide, le surnom proposé sera utilisé. Si tu écris ton propre surnom, il sera vérifié avant validation.
+          <input id="surnom" type="text" autocomplete="nickname" placeholder="Laisser vide pour garder la proposition">
+          <div class="hint">
+            Si tu choisis ton propre surnom, il sera refusé s’il est déjà pris.
           </div>
         </div>
 
-        <div class="form-actions">
-          <button class="submit-btn" type="submit">
-            📝 Valider mon inscription
-          </button>
+        <button id="submitBtn" class="btn-submit" type="submit">
+          📝 Valider mon inscription
+        </button>
 
-          <div id="formMessage" class="message"></div>
-        </div>
+        <div id="formMessage" class="message"></div>
 
       </form>
     </div>
@@ -182,31 +178,36 @@
 <script type="module" src="../assets/js/header-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=summer-insc1";
+  import { db } from "../assets/js/firebase.js?v=summer-inscriptions-1";
 
   import {
     collection,
     doc,
     getDoc,
-    setDoc,
-    addDoc,
+    onSnapshot,
+    runTransaction,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-  const EVENT_ID = "suzini-summer-tour";
+  const EVENT_ID = "suzini-summer-tour-2026";
   const STEP_ID = "etape-1";
 
-  const form = document.getElementById("inscriptionForm");
+  const form = document.getElementById("signupForm");
   const prenomInput = document.getElementById("prenom");
   const nomInput = document.getElementById("nom");
   const surnomInput = document.getElementById("surnom");
   const suggestedNickname = document.getElementById("suggestedNickname");
+  const submitBtn = document.getElementById("submitBtn");
   const message = document.getElementById("formMessage");
 
-  function cleanText(value){
-    return String(value || "")
-      .trim()
-      .replace(/\s+/g, " ");
+  const stepRef = doc(db, "events", EVENT_ID, "steps", STEP_ID);
+  const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
+
+  let inscriptionsState = "not_open";
+  let isSubmitting = false;
+
+  function clean(value){
+    return String(value || "").trim().replace(/\s+/g, " ");
   }
 
   function normalizeKey(value){
@@ -220,8 +221,8 @@
   }
 
   function makeBaseNickname(prenom, nom){
-    const p = cleanText(prenom);
-    const n = cleanText(nom);
+    const p = clean(prenom);
+    const n = clean(nom);
 
     if(!p || !n) return "";
 
@@ -232,18 +233,16 @@
     const key = normalizeKey(nickname);
     if(!key) return true;
 
-    const ref = doc(db, "summerTourNicknames", key);
-    const snap = await getDoc(ref);
-
+    const snap = await getDoc(doc(db, "summerTourNicknames", key));
     return snap.exists();
   }
 
-  async function findAvailableNickname(baseNickname){
-    let candidate = cleanText(baseNickname);
+  async function findAvailableNickname(base){
+    let candidate = clean(base);
     let counter = 2;
 
     while(await nicknameExists(candidate)){
-      candidate = `${baseNickname} ${counter}`;
+      candidate = `${base} ${counter}`;
       counter++;
     }
 
@@ -261,95 +260,130 @@
     suggestedNickname.textContent = "Recherche…";
 
     try{
-      const available = await findAvailableNickname(base);
-      suggestedNickname.textContent = available;
+      suggestedNickname.textContent = await findAvailableNickname(base);
     }catch(error){
       suggestedNickname.textContent = base;
     }
   }
 
-  function showMessage(type, text){
+  function setMessage(type, text){
     message.className = `message ${type}`;
     message.textContent = text;
+  }
+
+  function setFormEnabled(enabled){
+    [...form.querySelectorAll("input")].forEach(input => input.disabled = !enabled);
+    submitBtn.disabled = !enabled || isSubmitting;
+  }
+
+  function updateFormState(){
+    if(inscriptionsState === "open"){
+      setFormEnabled(true);
+      if(!message.textContent) setMessage("", "");
+      return;
+    }
+
+    setFormEnabled(false);
+
+    if(inscriptionsState === "closed"){
+      setMessage("error", "Les inscriptions sont clôturées.");
+    }else if(inscriptionsState === "paused"){
+      setMessage("error", "Les inscriptions sont temporairement suspendues.");
+    }else{
+      setMessage("error", "Les inscriptions ne sont pas encore ouvertes.");
+    }
   }
 
   prenomInput.addEventListener("input", updateSuggestion);
   nomInput.addEventListener("input", updateSuggestion);
 
+  onSnapshot(stepRef, (snap) => {
+    const data = snap.exists() ? snap.data() : {};
+    inscriptionsState = data.inscriptionsState || "not_open";
+    updateFormState();
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    showMessage("", "");
-
-    const prenom = cleanText(prenomInput.value);
-    const nom = cleanText(nomInput.value);
-    const customNickname = cleanText(surnomInput.value);
+    const prenom = clean(prenomInput.value);
+    const nom = clean(nomInput.value);
+    const customNickname = clean(surnomInput.value);
 
     if(!prenom || !nom){
-      showMessage("error", "Nom et prénom sont obligatoires.");
+      setMessage("error", "Nom et prénom sont obligatoires.");
       return;
     }
 
-    const baseNickname = makeBaseNickname(prenom, nom);
-    const finalNickname = customNickname || await findAvailableNickname(baseNickname);
-    const nicknameKey = normalizeKey(finalNickname);
-
-    if(!nicknameKey){
-      showMessage("error", "Le surnom n’est pas valide.");
+    if(inscriptionsState !== "open"){
+      updateFormState();
       return;
     }
 
-    if(customNickname && await nicknameExists(finalNickname)){
-      showMessage("error", "Ce surnom est déjà pris. Choisis-en un autre.");
-      return;
-    }
+    isSubmitting = true;
+    submitBtn.disabled = true;
+    setMessage("", "");
 
     try{
-      const nicknameRef = doc(db, "summerTourNicknames", nicknameKey);
-      const nicknameSnap = await getDoc(nicknameRef);
+      const baseNickname = makeBaseNickname(prenom, nom);
+      const finalNickname = customNickname || await findAvailableNickname(baseNickname);
+      const nicknameKey = normalizeKey(finalNickname);
 
-      if(nicknameSnap.exists()){
-        showMessage("error", "Ce surnom vient d’être pris. Réessaie avec un autre surnom.");
-        return;
+      if(!nicknameKey){
+        throw new Error("Le surnom n’est pas valide.");
       }
 
-      const playerData = {
-        eventId: EVENT_ID,
-        stepId: STEP_ID,
-        prenom,
-        nom,
-        surnom: finalNickname,
-        nicknameKey,
-        type: "americano",
-        status: "registered",
-        createdAt: serverTimestamp(),
-        source: "public-form"
-      };
+      if(customNickname && await nicknameExists(finalNickname)){
+        throw new Error("Ce surnom est déjà pris. Choisis-en un autre.");
+      }
 
-      const playerRef = await addDoc(
-        collection(db, "events", EVENT_ID, "steps", STEP_ID, "players"),
-        playerData
-      );
+      const nicknameRef = doc(db, "summerTourNicknames", nicknameKey);
+      const playerRef = doc(playersRef);
 
-      await setDoc(nicknameRef, {
-        nickname: finalNickname,
-        nicknameKey,
-        prenom,
-        nom,
-        eventId: EVENT_ID,
-        stepId: STEP_ID,
-        playerId: playerRef.id,
-        createdAt: serverTimestamp()
+      await runTransaction(db, async (transaction) => {
+        const nicknameSnap = await transaction.get(nicknameRef);
+
+        if(nicknameSnap.exists()){
+          throw new Error("Ce surnom vient d’être pris. Choisis-en un autre.");
+        }
+
+        transaction.set(playerRef, {
+          eventId: EVENT_ID,
+          stepId: STEP_ID,
+          prenom,
+          nom,
+          surnom: finalNickname,
+          nicknameKey,
+          status: "registered",
+          type: "americano",
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          source: "public-form"
+        });
+
+        transaction.set(nicknameRef, {
+          nickname: finalNickname,
+          nicknameKey,
+          prenom,
+          nom,
+          eventId: EVENT_ID,
+          stepId: STEP_ID,
+          playerId: playerRef.id,
+          createdAt: serverTimestamp()
+        });
       });
 
-      showMessage("ok", `Inscription validée. Ton surnom : ${finalNickname}`);
+      setMessage("ok", `Inscription validée. Ton surnom : ${finalNickname}`);
 
       form.reset();
       suggestedNickname.textContent = "—";
 
     }catch(error){
-      showMessage("error", "Erreur lors de l’inscription. Réessaie dans quelques instants.");
       console.error(error);
+      setMessage("error", error?.message || "Impossible d’enregistrer l’inscription.");
+    }finally{
+      isSubmitting = false;
+      updateFormState();
     }
   });
 </script>
