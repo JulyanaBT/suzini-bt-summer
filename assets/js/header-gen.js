@@ -2,12 +2,18 @@ const header = document.getElementById("siteHeader");
 
 const navItems = [
   { label: "Accueil", href: "index.html", icon: "🏠" },
-  { label: "Americano 02/07", href: "etape-1/", icon: "📅" },
+  { label: "Americano 02/07", href: "etape-1/", icon: "☀️" },
   { label: "Tous les événements", href: "evenements.html", icon: "📅" },
   { label: "Infos", href: "infos.html", icon: "ℹ️" }
 ];
 
-const currentPage = window.location.pathname.split("/").pop() || "index.html";
+const path = window.location.pathname;
+
+const currentPage =
+  path.endsWith("/etape-1/") ? "etape-1/" :
+  path.endsWith("/etape-2/") ? "etape-2/" :
+  path.endsWith("/etape-3/") ? "etape-3/" :
+  (path.split("/").pop() || "index.html");
 
 header.innerHTML = `
 <header class="site-header">
