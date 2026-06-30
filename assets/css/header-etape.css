@@ -1,0 +1,185 @@
+/* assets/css/header-etape.css */
+
+.etape-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255,255,255,.95), transparent 9%),
+    radial-gradient(circle at 16% 9%, rgba(255,216,77,.75), transparent 17%),
+    linear-gradient(135deg,#11aaf5 0%,#1fd4e2 40%,#0b8f62 100%);
+  border-bottom:1px solid rgba(255,255,255,.25);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+
+.etape-header-main{
+  width:min(var(--container), calc(100% - 24px));
+  margin:auto;
+  min-height:70px;
+  display:grid;
+  grid-template-columns:48px 1fr 48px;
+  align-items:center;
+  gap:10px;
+}
+
+.etape-header-logo{
+  width:44px;
+  height:44px;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));
+}
+
+.etape-header-title{
+  text-align:center;
+  line-height:1;
+}
+
+.etape-header-name{
+  color:#fff;
+  font-size:clamp(20px,5vw,34px);
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:-.05em;
+  text-shadow:0 8px 18px rgba(0,0,0,.18);
+}
+
+.etape-header-date{
+  margin-top:5px;
+  color:#fff;
+  font-size:13px;
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.etape-nav-wrap{
+  position:relative;
+  width:min(var(--container), calc(100% - 24px));
+  margin:0 auto;
+}
+
+.etape-nav-wrap::before,
+.etape-nav-wrap::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:10px;
+  width:42px;
+  z-index:3;
+  pointer-events:none;
+}
+
+.etape-nav-wrap::before{
+  left:0;
+  background:linear-gradient(90deg,rgba(17,170,245,.95),transparent);
+}
+
+.etape-nav-wrap::after{
+  right:0;
+  background:linear-gradient(270deg,rgba(11,143,98,.95),transparent);
+}
+
+.etape-scroll-hint{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:20px;
+  font-weight:1000;
+  text-shadow:0 2px 6px rgba(0,0,0,.35);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .25s ease;
+  z-index:5;
+}
+
+.etape-scroll-hint.left{
+  left:6px;
+}
+
+.etape-scroll-hint.right{
+  right:6px;
+}
+
+.etape-nav{
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  white-space:nowrap;
+  padding:0 34px 11px;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x proximity;
+}
+
+.etape-nav::-webkit-scrollbar{
+  display:none;
+}
+
+.etape-nav a{
+  flex:0 0 auto;
+  scroll-snap-align:start;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:40px;
+  padding:8px 14px;
+  border-radius:22px;
+  background:#ff3e8a;
+  color:#fff;
+  font-size:12px;
+  font-weight:1000;
+  box-shadow:
+    0 8px 18px rgba(255,62,138,.30),
+    inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+.etape-nav a.active{
+  background:#ffd84d;
+  color:#063b72;
+  box-shadow:
+    0 10px 20px rgba(255,216,77,.40),
+    inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+@media(max-width:700px){
+  .etape-header-main{
+    min-height:64px;
+    grid-template-columns:42px 1fr 42px;
+    gap:8px;
+  }
+
+  .etape-header-logo{
+    width:38px;
+    height:38px;
+  }
+
+  .etape-header-name{
+    font-size:21px;
+  }
+
+  .etape-header-date{
+    font-size:11px;
+  }
+
+  .etape-nav-wrap{
+    width:100%;
+  }
+
+  .etape-nav{
+    gap:8px;
+    padding:0 34px 10px;
+  }
+
+  .etape-nav a{
+    min-height:38px;
+    padding:8px 13px;
+    font-size:12px;
+  }
+}
