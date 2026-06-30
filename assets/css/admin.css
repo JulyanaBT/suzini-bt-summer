@@ -1,0 +1,70 @@
+/* assets/css/admin.css */
+
+.status-box{
+  margin-top:14px;
+  padding:14px 16px;
+  border-radius:18px;
+  background:linear-gradient(
+    135deg,
+    rgba(67,230,216,.16),
+    rgba(255,216,77,.22)
+  );
+  border:1px solid rgba(16,24,40,.08);
+  color:#475467;
+  font-size:14px;
+  line-height:1.45;
+}
+
+.status-box strong{
+  color:var(--green-dark);
+}
+
+.mini-link{
+  min-height:50px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border-radius:18px;
+  background:#fff;
+  border:1px solid rgba(16,24,40,.06);
+  color:#344054;
+  font-size:15px;
+  font-weight:900;
+  padding:12px 14px;
+  box-shadow:0 8px 18px rgba(16,24,40,.05);
+}
+
+.role-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 12px;
+  border-radius:999px;
+  font-weight:1000;
+  font-size:12px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-left:8px;
+  vertical-align:middle;
+}
+
+.role-badge.admin{
+  background:linear-gradient(135deg,var(--green),#15b579);
+  color:#fff;
+}
+
+.role-badge.jat{
+  background:linear-gradient(135deg,#5322a8,#a457f0);
+  color:#fff;
+}
+
+.role-badge.arbitre{
+  background:linear-gradient(135deg,var(--blue-dark),var(--blue));
+  color:#fff;
+}
+
+.role-badge.none{
+  background:#eef2f6;
+  color:#475467;
+}
