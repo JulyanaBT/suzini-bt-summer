@@ -1,165 +1,274 @@
 /* assets/css/cards.css */
 
 .panel{
-  background:#ffffff;
-  border-radius:26px;
-  box-shadow:0 14px 34px rgba(16,24,40,.14);
-  padding:18px;
+    background:#bdf5ef;
+    border-radius:28px;
+    padding:22px;
+    box-shadow:0 14px 36px rgba(16,24,40,.12);
+    margin-bottom:20px;
 }
 
 .panel-head{
-  display:block;
-  margin-bottom:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:18px;
 }
 
 .panel-title{
-  margin:0;
-  font-size:26px;
-  line-height:1.05;
-  color:var(--green-dark);
-  font-weight:1000;
+    margin:0;
+    font-size:28px;
+    font-weight:1000;
+    color:#063b72;
+    line-height:1;
 }
 
 .panel-text{
-  margin:8px 0 0;
-  color:#344054;
-  font-size:15px;
-  line-height:1.45;
-  font-weight:700;
+    margin-top:8px;
+    color:#344054;
+    font-size:15px;
+    line-height:1.45;
 }
 
 .panel-tag{
-  display:inline-flex;
-  margin-top:12px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:var(--yellow);
-  color:var(--green-dark);
-  font-size:12px;
-  font-weight:1000;
-  text-transform:uppercase;
+    background:#ff3e8a;
+    color:#fff;
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:1000;
+    text-transform:uppercase;
 }
 
-/* ÉTAPES */
+/* ===========================
+   GRILLES
+=========================== */
 
 .steps-grid,
 .quick-grid,
 .admin-grid{
-  display:grid;
-  gap:12px;
+    display:grid;
+    gap:14px;
 }
+
+@media(min-width:760px){
+
+.steps-grid{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.quick-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.admin-grid{
+    grid-template-columns:repeat(4,1fr);
+}
+
+}
+
+/* ===========================
+   CARDS
+=========================== */
 
 .step-card,
 .entry-card{
-  border-radius:22px;
-  padding:18px;
-  min-height:120px;
-  color:#ffffff;
-  box-shadow:0 12px 26px rgba(16,24,40,.18);
+
+    border-radius:22px;
+    padding:20px;
+    min-height:170px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+
+    box-shadow:0 12px 28px rgba(16,24,40,.15);
+
 }
+
+/* BLEU */
 
 .step-americano,
 .card-blue{
-  background:#063b72;
+
+    background:#063b72;
+    color:#fff;
+
 }
+
+/* ROSE */
+
+.card-pink{
+
+    background:#ff3e8a;
+    color:#fff;
+
+}
+
+/* JAUNE */
+
+.card-yellow{
+
+    background:#ffd84d;
+    color:#17212b;
+
+}
+
+/* VERT */
 
 .step-mixte,
 .card-green{
-  background:#06452d;
+
+    background:#0b7a3b;
+    color:#fff;
+
 }
 
-.card-pink{
-  background:#ff3e8a;
-}
-
-.card-yellow{
-  background:#ffd84d;
-  color:#06452d;
-}
-
-.step-card.is-current{
-  outline:4px solid var(--yellow);
-  outline-offset:-4px;
-}
-
-.current-badge{
-  display:inline-flex;
-  padding:6px 10px;
-  border-radius:999px;
-  margin-bottom:10px;
-  background:var(--yellow);
-  color:var(--green-dark);
-  font-size:11px;
-  font-weight:1000;
-  text-transform:uppercase;
-}
+/* ===========================
+   CONTENU
+=========================== */
 
 .step-date{
-  font-size:52px;
-  font-weight:1000;
-  line-height:.9;
+
+    font-size:54px;
+    font-weight:1000;
+    line-height:.9;
+
 }
 
 .step-kicker,
 .entry-kicker{
-  margin-top:8px;
-  font-size:12px;
-  font-weight:1000;
-  text-transform:uppercase;
-  opacity:.95;
+
+    font-size:12px;
+    font-weight:1000;
+    text-transform:uppercase;
+    opacity:.95;
+    margin-bottom:8px;
+
 }
 
 .step-title,
 .entry-title{
-  margin:8px 0;
-  font-size:26px;
-  line-height:1;
-  font-weight:1000;
+
+    margin:0 0 10px;
+    font-size:28px;
+    font-weight:1000;
+    line-height:1;
+
 }
 
 .step-text,
 .entry-sub{
-  font-size:15px;
-  line-height:1.4;
-  font-weight:800;
+
+    font-size:15px;
+    line-height:1.4;
+    font-weight:700;
+
 }
 
+/* ===========================
+   BOUTONS
+=========================== */
+
 .step-link{
-  display:inline-flex;
-  margin-top:14px;
-  padding:10px 14px;
-  border-radius:999px;
-  background:#ffffff;
-  color:var(--green-dark);
-  font-size:13px;
-  font-weight:1000;
+
+    margin-top:auto;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#fff;
+    color:#063b72;
+
+    padding:10px 16px;
+
+    border-radius:999px;
+
+    font-size:13px;
+    font-weight:900;
+
+}
+
+/* ===========================
+   BADGES
+=========================== */
+
+.current-badge{
+
+    display:inline-flex;
+
+    margin-bottom:12px;
+
+    background:#ff3e8a;
+    color:#fff;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    font-size:11px;
+    font-weight:1000;
+    text-transform:uppercase;
+
 }
 
 .note{
-  margin-top:14px;
-  padding:14px 16px;
-  border-radius:18px;
-  background:#ffd84d;
-  color:var(--green-dark);
-  font-size:15px;
-  line-height:1.45;
-  font-weight:900;
+
+    margin-top:16px;
+
+    background:#fff;
+
+    border-left:6px solid #ff3e8a;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    font-size:15px;
+
+    line-height:1.5;
+
+    color:#17212b;
+
+    font-weight:700;
+
 }
 
-@media(min-width:760px){
-  .steps-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
+.status-box{
 
-  .quick-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+    margin-top:16px;
 
-  .admin-grid{
-    grid-template-columns:repeat(4,1fr);
-  }
+    background:#fff;
 
-  .panel{
-    padding:22px;
-  }
+    border-left:6px solid #ff3e8a;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    font-size:15px;
+
+    color:#344054;
+
+}
+
+.mini-link{
+
+    display:inline-flex;
+
+    margin-top:16px;
+
+    background:#063b72;
+
+    color:#fff;
+
+    padding:12px 18px;
+
+    border-radius:999px;
+
+    font-weight:900;
+
 }
