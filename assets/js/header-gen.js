@@ -2,7 +2,7 @@ const header = document.getElementById("siteHeader");
 
 const navItems = [
   { label: "Accueil", href: "index.html", icon: "🏠" },
-  { label: "Americano 02/07", href: "etape-1.html", icon: "☀️" },
+  { label: "Americano 02/07", href: "etape-1/", icon: "☀️" },
   { label: "Tous les événements", href: "evenements.html", icon: "📅" },
   { label: "Infos", href: "infos.html", icon: "ℹ️" }
 ];
