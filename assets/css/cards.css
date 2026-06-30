@@ -1,10 +1,12 @@
+/* assets/css/cards.css */
+
 /* ==========================================================
    PANELS
 ========================================================== */
 
 .panel{
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.74);
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.75);
   border-radius:26px;
   box-shadow:var(--shadow);
   padding:18px;
@@ -28,22 +30,22 @@
 
 .panel-text{
   margin:6px 0 0;
-  color:var(--muted);
+  color:#344054;
   font-size:14px;
   line-height:1.45;
+  font-weight:700;
 }
 
 .panel-tag{
   flex-shrink:0;
   padding:8px 14px;
   border-radius:999px;
-  background:rgba(255,62,138,.12);
-  color:var(--pink);
+  background:var(--yellow);
+  color:var(--green-dark);
   font-size:12px;
-  font-weight:900;
+  font-weight:1000;
   text-transform:uppercase;
 }
-
 
 /* ==========================================================
    ETAPES
@@ -76,11 +78,11 @@
 }
 
 .step-americano{
-  background:linear-gradient(135deg,#07539c,#1aa7ff,#43e6d8);
+  background:linear-gradient(135deg,var(--blue-dark),#1187d8,var(--turquoise));
 }
 
 .step-mixte{
-  background:linear-gradient(135deg,#06452d,#0b6b45,#18b87f);
+  background:linear-gradient(135deg,var(--green-dark),var(--green),#18b87f);
 }
 
 .step-card.is-current{
@@ -123,12 +125,17 @@
 }
 
 .step-text{
+  position:relative;
+  z-index:1;
   max-width:90%;
   line-height:1.45;
   font-size:14px;
+  font-weight:800;
 }
 
 .step-link{
+  position:relative;
+  z-index:1;
   display:inline-flex;
   margin-top:16px;
   padding:10px 14px;
@@ -138,7 +145,6 @@
   font-size:13px;
   font-weight:1000;
 }
-
 
 /* ==========================================================
    CARTES GENERIQUES
@@ -155,14 +161,14 @@
   min-height:120px;
   padding:18px;
   color:#fff;
-  box-shadow:0 12px 24px rgba(16,24,40,.12);
+  box-shadow:0 12px 24px rgba(16,24,40,.14);
 }
 
 .entry-kicker{
   font-size:12px;
   text-transform:uppercase;
-  font-weight:900;
-  opacity:.9;
+  font-weight:1000;
+  opacity:.95;
 }
 
 .entry-title{
@@ -175,10 +181,11 @@
 .entry-sub{
   font-size:14px;
   line-height:1.45;
+  font-weight:800;
 }
 
 .card-blue{
-  background:linear-gradient(135deg,#063b72,var(--blue));
+  background:linear-gradient(135deg,var(--blue-dark),#1187d8);
 }
 
 .card-green{
@@ -186,7 +193,7 @@
 }
 
 .card-pink{
-  background:linear-gradient(135deg,#a0125a,var(--pink));
+  background:linear-gradient(135deg,#b31364,var(--pink));
 }
 
 .card-yellow{
@@ -194,68 +201,30 @@
   color:var(--green-dark);
 }
 
+.card-yellow .entry-kicker,
+.card-yellow .entry-title,
+.card-yellow .entry-sub{
+  color:var(--green-dark);
+}
 
 /* ==========================================================
-   INFOS
+   NOTE
 ========================================================== */
-
-.info-list{
-  display:grid;
-  gap:10px;
-}
-
-.info-item{
-  background:#fff;
-  border-radius:18px;
-  padding:15px;
-  border:1px solid rgba(16,24,40,.06);
-  box-shadow:0 8px 18px rgba(16,24,40,.06);
-}
-
-.info-item strong{
-  display:block;
-  margin-bottom:5px;
-  color:var(--green-dark);
-  font-size:12px;
-  text-transform:uppercase;
-}
-
-.info-item span{
-  font-size:15px;
-  font-weight:900;
-}
 
 .note{
   margin-top:14px;
   padding:14px 16px;
   border-radius:18px;
-  background:linear-gradient(
-      135deg,
-      rgba(67,230,216,.16),
-      rgba(255,216,77,.22)
-  );
+  background:linear-gradient(135deg,var(--yellow),#fff2a8);
+  color:var(--green-dark);
+  font-size:15px;
+  line-height:1.45;
+  font-weight:800;
 }
 
 .note strong{
   color:var(--green-dark);
 }
-
-
-/* ==========================================================
-   SPONSORS
-========================================================== */
-
-.sponsor-strip{
-  min-height:110px;
-  border-radius:22px;
-  border:2px dashed rgba(6,69,45,.18);
-  display:grid;
-  place-items:center;
-  background:#fff;
-  color:var(--muted);
-  font-weight:900;
-}
-
 
 /* ==========================================================
    RESPONSIVE
@@ -273,10 +242,6 @@
 
   .admin-grid{
     grid-template-columns:repeat(4,1fr);
-  }
-
-  .info-list{
-    grid-template-columns:repeat(3,1fr);
   }
 
   .panel{
