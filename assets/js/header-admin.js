@@ -5,10 +5,15 @@ const header = document.getElementById("adminHeader");
 const page = document.body.dataset.page || "inscriptions";
 const step = document.body.dataset.step || "etape-1";
 
+const currentFile = window.location.pathname.split("/").pop() || "index.html";
+
+const params = new URLSearchParams(window.location.search);
+const currentStep = params.get("step") || step;
+
 const steps = [
-  { key:"etape-1", label:"Étape 1", sub:"Americano 02/07", href:"inscriptions.html?step=etape-1" },
-  { key:"etape-2", label:"Étape 2", sub:"Mixte 09/07", href:"inscriptions.html?step=etape-2" },
-  { key:"etape-3", label:"Étape 3", sub:"Mixte 16/07", href:"inscriptions.html?step=etape-3" }
+  { key:"etape-1", label:"Étape 1", sub:"Americano 02/07" },
+  { key:"etape-2", label:"Étape 2", sub:"Mixte 09/07" },
+  { key:"etape-3", label:"Étape 3", sub:"Mixte 16/07" }
 ];
 
 const tabs = [
@@ -18,9 +23,6 @@ const tabs = [
   { key:"classement", label:"Classement", href:"classement.html", icon:"🏆" },
   { key:"statistiques", label:"Stats", href:"statistiques.html", icon:"📊" }
 ];
-
-const params = new URLSearchParams(window.location.search);
-const currentStep = params.get("step") || step;
 
 header.innerHTML = `
   <header class="admin-header">
@@ -42,7 +44,7 @@ header.innerHTML = `
 
     <nav class="admin-step-nav" aria-label="Choix de l'étape">
       ${steps.map(item => `
-        <a class="${currentStep === item.key ? "active" : ""}" href="${item.href}">
+        <a class="${currentStep === item.key ? "active" : ""}" href="${currentFile}?step=${item.key}">
           <strong>${item.label}</strong>
           <span>${item.sub}</span>
         </a>
