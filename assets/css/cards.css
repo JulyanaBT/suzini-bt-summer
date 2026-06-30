@@ -1,6 +1,6 @@
 /* assets/css/cards.css */
 
-.panel{
+.summer-panel{
   background:
     radial-gradient(circle at 12% 0%, rgba(255,255,255,.95), transparent 9%),
     radial-gradient(circle at 16% 9%, rgba(255,216,77,.55), transparent 17%),
@@ -11,7 +11,7 @@
   box-shadow:0 8px 22px rgba(16,24,40,.14);
 }
 
-.panel-head{
+.summer-panel-head{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
@@ -19,7 +19,7 @@
   margin-bottom:12px;
 }
 
-.panel-title{
+.summer-panel-title{
   margin:0;
   font-size:22px;
   line-height:1.05;
@@ -27,15 +27,15 @@
   color:#063b72;
 }
 
-.panel-text{
-  margin:5px 0 0;
+.summer-panel-text{
+  margin:6px 0 0;
   font-size:13px;
   line-height:1.35;
   color:#24364a;
   font-weight:800;
 }
 
-.panel-tag{
+.summer-pill{
   flex-shrink:0;
   display:inline-flex;
   align-items:center;
@@ -49,59 +49,43 @@
   text-transform:uppercase;
 }
 
-/* GRIDS */
-
-.steps-grid,
-.quick-grid,
-.admin-grid{
+.summer-grid{
   display:grid;
   gap:10px;
 }
 
-/* CARTES */
-
-.step-card,
-.entry-card{
+.summer-card{
   display:block;
   width:100%;
   border-radius:18px;
   padding:14px;
-  min-height:112px;
+  min-height:104px;
   box-shadow:0 8px 18px rgba(16,24,40,.16);
-  overflow:hidden;
+  color:#fff;
+  text-decoration:none;
 }
 
-/* COULEURS */
-
-.step-americano,
-.card-blue{
+.summer-card-blue{
   background:#063b72;
   color:#fff;
 }
 
-.step-mixte,
-.card-pink{
+.summer-card-pink{
   background:#ff3e8a;
   color:#fff;
 }
 
-.card-yellow{
+.summer-card-yellow{
   background:#ffd84d;
   color:#111;
 }
 
-.card-green{
+.summer-card-green{
   background:#0b7a3b;
   color:#fff;
 }
 
-/* BADGES */
-
-.step-card.is-current{
-  outline:none;
-}
-
-.current-badge{
+.summer-badge{
   display:inline-flex;
   background:#ff3e8a;
   color:#fff;
@@ -113,40 +97,34 @@
   margin-bottom:8px;
 }
 
-/* TEXTES CARTES */
-
-.step-date{
+.summer-date{
   font-size:34px;
   line-height:.9;
   font-weight:1000;
 }
 
-.step-kicker,
-.entry-kicker{
+.summer-kicker{
   margin-top:6px;
   font-size:10px;
   font-weight:1000;
   text-transform:uppercase;
   letter-spacing:.05em;
-  opacity:.95;
 }
 
-.step-title,
-.entry-title{
+.summer-title{
   margin:5px 0;
   font-size:21px;
   line-height:1;
   font-weight:1000;
 }
 
-.step-text,
-.entry-sub{
+.summer-text{
   font-size:13px;
   line-height:1.35;
   font-weight:800;
 }
 
-.step-link{
+.summer-link{
   display:inline-flex;
   margin-top:9px;
   padding:7px 12px;
@@ -157,9 +135,7 @@
   font-weight:1000;
 }
 
-/* NOTE */
-
-.note{
+.summer-note{
   margin-top:12px;
   background:#ff3e8a;
   color:#fff;
@@ -170,38 +146,16 @@
   font-weight:800;
 }
 
-/* RESPONSIVE */
-
 @media(min-width:760px){
-  .panel{
-    padding:18px;
-  }
-
-  .steps-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .quick-grid{
+  .summer-grid-2{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .admin-grid{
+  .summer-grid-3{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .summer-grid-4{
     grid-template-columns:repeat(4,1fr);
-  }
-
-  .step-card,
-  .entry-card{
-    min-height:130px;
-  }
-}
-
-@media(max-width:520px){
-  .panel-head{
-    display:flex;
-  }
-
-  .step-card,
-  .entry-card{
-    min-height:108px;
   }
 }
