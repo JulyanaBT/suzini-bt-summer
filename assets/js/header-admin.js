@@ -1,5 +1,8 @@
 // assets/js/header-admin.js
 
+import { auth } from "./firebase.js";
+import { getRoleByUid } from "./session.js";
+
 const header = document.getElementById("adminHeader");
 
 const page = document.body.dataset.page || "index";
@@ -39,7 +42,7 @@ header.innerHTML = `
         <div class="admin-header-sub">Administration</div>
       </div>
 
-      <a href="../index.html">
+      <a href="#" id="julyanaSwitch" aria-label="Basculer vers la page publique">
         <img class="admin-header-logo" src="../assets/img/logo-julyana-bt.png" alt="Jul'Yana BT">
       </a>
     </div>
@@ -64,3 +67,39 @@ header.innerHTML = `
 
   </header>
 `;
+
+const julyanaSwitch = document.getElementById("julyanaSwitch");
+
+async function canSwitchToPublic(){
+  if(!auth.currentUser) return false;
+
+  const role = await getRoleByUid(auth.currentUser.uid);
+  return ["admin", "jat", "arbitre"].includes(role);
+}
+
+function publicTargetForPage(){
+  const publicPages = {
+    index: "",
+    inscriptions: "inscriptions.html",
+    participants: "participants.html",
+    programmation: "programmation.html",
+    classement: "classement.html",
+    statistiques: "statistiques.html"
+  };
+
+  const target = publicPages[page];
+
+  if(!target){
+    return `../${currentStep}/`;
+  }
+
+  return `../${currentStep}/${target}`;
+}
+
+julyanaSwitch.addEventListener("click", async (event) => {
+  event.preventDefault();
+
+  if(!(await canSwitchToPublic())) return;
+
+  window.location.href = publicTargetForPage();
+});
