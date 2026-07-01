@@ -166,17 +166,85 @@
         <div class="summer-pill">Sécurisé</div>
       </div>
 
-      <a class="summer-card summer-card-blue" href="admin/inscriptions.html?step=etape-1">
+      <a class="summer-card summer-card-blue" href="admin/">
         <div class="summer-kicker">Gestion</div>
         <h3 class="summer-title">Espace admin</h3>
         <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
       </a>
+
+      <div class="summer-note" style="margin-top:14px;">
+        <strong>Statut :</strong>
+        <span id="authStatus">Vérification de la connexion…</span>
+      </div>
+
+      <div style="margin-top:12px;">
+        <button id="logoutBtn" class="admin-btn" type="button" style="display:none;">
+          🚪 Déconnexion
+        </button>
+      </div>
     </div>
   </section>
 
 </main>
 
 <script type="module" src="assets/js/header-gen.js"></script>
+
+<script type="module">
+  import { auth, db } from "./assets/js/firebase.js?v=index-auth-1";
+
+  import {
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  import {
+    doc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const authStatus = document.getElementById("authStatus");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  async function getUserRole(uid){
+    const snap = await getDoc(doc(db, "users", uid));
+
+    if(!snap.exists()) return null;
+
+    const data = snap.data() || {};
+    if(data.active !== true) return null;
+
+    return data.role || null;
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if(!user){
+      authStatus.textContent = "Non connecté.";
+      logoutBtn.style.display = "none";
+      return;
+    }
+
+    try{
+      const role = await getUserRole(user.uid);
+
+      if(!role){
+        authStatus.textContent = `${user.email} — aucun rôle actif.`;
+      }else{
+        authStatus.textContent = `${user.email} — rôle : ${role}`;
+      }
+
+      logoutBtn.style.display = "inline-flex";
+
+    }catch(error){
+      console.error(error);
+      authStatus.textContent = `${user.email} — rôle impossible à lire.`;
+      logoutBtn.style.display = "inline-flex";
+    }
+  });
+
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+  };
+</script>
 
 </body>
 </html>
