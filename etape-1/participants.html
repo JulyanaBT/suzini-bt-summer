@@ -9,7 +9,7 @@
 
   <style>
     main{
-      padding-top:calc(var(--etape-total-top, 150px) + 12px);
+      padding-top:12px;
     }
 
     .participants-grid{
@@ -17,21 +17,46 @@
       gap:14px;
     }
 
+    .list-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .list-title{
+      margin:0;
+      font-size:21px;
+      line-height:1.05;
+      letter-spacing:-.03em;
+      color:#063b72;
+      font-weight:1000;
+    }
+
+    .list-sub{
+      margin:4px 0 0;
+      color:#667085;
+      font-size:13px;
+      font-weight:800;
+      line-height:1.3;
+    }
+
     .players-list{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:1fr;
       gap:8px;
     }
 
     .player-chip{
       min-height:42px;
-      border-radius:999px;
-      padding:9px 12px;
+      border-radius:16px;
+      padding:10px 12px;
       display:flex;
       align-items:center;
-      justify-content:center;
-      text-align:center;
-      font-size:15px;
+      justify-content:flex-start;
+      text-align:left;
+      font-size:16px;
       font-weight:1000;
       line-height:1.1;
       background:#fff;
@@ -46,7 +71,6 @@
     }
 
     .empty{
-      grid-column:1 / -1;
       padding:13px 14px;
       border-radius:16px;
       background:#fff;
@@ -57,12 +81,12 @@
     }
 
     @media(min-width:760px){
-      .participants-grid{
-        grid-template-columns:1fr 1fr;
+      main{
+        padding-top:18px;
       }
 
-      .players-list{
-        grid-template-columns:1fr 1fr 1fr;
+      .participants-grid{
+        grid-template-columns:1fr 1fr;
       }
     }
   </style>
@@ -85,7 +109,7 @@
         <div>
           <h1 class="summer-panel-title">Participants</h1>
           <p class="summer-panel-text">
-            Liste publique des surnoms. La programmation utilisera uniquement les joueurs actifs.
+            Surnoms publics des joueurs. Seuls les actifs sont pris en compte pour la programmation.
           </p>
         </div>
         <div class="summer-pill">
@@ -96,10 +120,10 @@
       <div class="participants-grid">
 
         <div>
-          <div class="summer-panel-head">
+          <div class="list-head">
             <div>
-              <h2 class="summer-panel-title" style="font-size:22px;">✅ Actifs</h2>
-              <p class="summer-panel-text">Joueurs pris en compte immédiatement.</p>
+              <h2 class="list-title">✅ Actifs</h2>
+              <p class="list-sub">Pris en compte immédiatement.</p>
             </div>
             <div class="summer-pill"><span id="countActive">0</span></div>
           </div>
@@ -110,10 +134,10 @@
         </div>
 
         <div>
-          <div class="summer-panel-head">
+          <div class="list-head">
             <div>
-              <h2 class="summer-panel-title" style="font-size:22px;">⏳ En attente</h2>
-              <p class="summer-panel-text">Non validés, absents, en pause ou partis.</p>
+              <h2 class="list-title">⏳ En attente</h2>
+              <p class="list-sub">Non validés, absents, en pause ou partis.</p>
             </div>
             <div class="summer-pill"><span id="countWaiting">0</span></div>
           </div>
@@ -132,7 +156,7 @@
 <script type="module" src="../assets/js/header-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=participants-etape1-v2";
+  import { db } from "../assets/js/firebase.js?v=participants-etape1-v3";
 
   import {
     collection,
@@ -158,6 +182,17 @@
     return data.publicList === "active" || data.status === "active";
   }
 
+  function getNickname(data){
+    return (data.surnom || data.nickname || "Sans surnom").trim();
+  }
+
+  function sortByNickname(a, b){
+    return a.nickname.localeCompare(b.nickname, "fr", {
+      sensitivity: "base",
+      numeric: true
+    });
+  }
+
   function chip(nickname, type){
     const div = document.createElement("div");
     div.className = type === "waiting" ? "player-chip waiting" : "player-chip";
@@ -176,42 +211,47 @@
     activeList.innerHTML = "";
     waitingList.innerHTML = "";
 
-    let active = 0;
-    let waiting = 0;
-
-    if(snap.empty){
-      activeList.appendChild(empty("Aucun joueur actif."));
-      waitingList.appendChild(empty("Aucun joueur en attente."));
-      countTotal.textContent = "0";
-      countActive.textContent = "0";
-      countWaiting.textContent = "0";
-      return;
-    }
+    const activePlayers = [];
+    const waitingPlayers = [];
 
     snap.forEach(docSnap => {
       const data = docSnap.data() || {};
-      const nickname = data.surnom || data.nickname || "Sans surnom";
+      const nickname = getNickname(data);
+
+      const row = {
+        id: docSnap.id,
+        nickname
+      };
 
       if(isActivePlayer(data)){
-        active++;
-        activeList.appendChild(chip(nickname, "active"));
+        activePlayers.push(row);
       }else{
-        waiting++;
-        waitingList.appendChild(chip(nickname, "waiting"));
+        waitingPlayers.push(row);
       }
     });
 
-    if(active === 0){
+    activePlayers.sort(sortByNickname);
+    waitingPlayers.sort(sortByNickname);
+
+    if(activePlayers.length === 0){
       activeList.appendChild(empty("Aucun joueur actif."));
+    }else{
+      activePlayers.forEach(player => {
+        activeList.appendChild(chip(player.nickname, "active"));
+      });
     }
 
-    if(waiting === 0){
+    if(waitingPlayers.length === 0){
       waitingList.appendChild(empty("Aucun joueur en attente."));
+    }else{
+      waitingPlayers.forEach(player => {
+        waitingList.appendChild(chip(player.nickname, "waiting"));
+      });
     }
 
-    countTotal.textContent = String(active + waiting);
-    countActive.textContent = String(active);
-    countWaiting.textContent = String(waiting);
+    countActive.textContent = String(activePlayers.length);
+    countWaiting.textContent = String(waitingPlayers.length);
+    countTotal.textContent = String(activePlayers.length + waitingPlayers.length);
 
   }, (error) => {
     console.error(error);
@@ -221,6 +261,10 @@
 
     activeList.appendChild(empty("Impossible de charger les participants."));
     waitingList.appendChild(empty("Impossible de charger les participants."));
+
+    countActive.textContent = "0";
+    countWaiting.textContent = "0";
+    countTotal.textContent = "0";
   });
 </script>
 
