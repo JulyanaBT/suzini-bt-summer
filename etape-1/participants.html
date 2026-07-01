@@ -8,24 +8,62 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
 
   <style>
-    .players-list{display:grid;gap:10px;}
-    .player-card{
-      background:#fff;
-      color:#102033;
-      border-radius:18px;
-      padding:14px;
-      box-shadow:0 8px 18px rgba(16,24,40,.12);
+    main{
+      padding-top:calc(var(--etape-total-top, 150px) + 12px);
     }
-    .player-name{
-      font-size:22px;
+
+    .participants-grid{
+      display:grid;
+      gap:14px;
+    }
+
+    .players-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .player-chip{
+      min-height:42px;
+      border-radius:999px;
+      padding:9px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-size:15px;
       font-weight:1000;
+      line-height:1.1;
+      background:#fff;
       color:#063b72;
+      box-shadow:0 6px 14px rgba(16,24,40,.10);
+      word-break:break-word;
     }
-    .player-meta{
-      margin-top:4px;
+
+    .player-chip.waiting{
+      background:#fff7d6;
+      color:#102033;
+    }
+
+    .empty{
+      grid-column:1 / -1;
+      padding:13px 14px;
+      border-radius:16px;
+      background:#fff;
+      color:#667085;
       font-size:14px;
-      font-weight:800;
-      color:#344054;
+      font-weight:900;
+      text-align:center;
+    }
+
+    @media(min-width:760px){
+      .participants-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .players-list{
+        grid-template-columns:1fr 1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -42,41 +80,49 @@
 <main class="container">
 
   <section class="section">
-    <div class="hero">
-      <div class="hero-inner">
-        <div class="hero-pills">
-          <span class="pill">Participants</span>
-          <span class="pill">Americano</span>
-        </div>
-
-        <div>
-          <h1 class="hero-title">
-            Joueurs<br>
-            <span class="summer">inscrits</span>
-          </h1>
-
-          <div class="hero-slogan">
-            Liste mise à jour automatiquement.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
     <div class="summer-panel">
       <div class="summer-panel-head">
         <div>
-          <h2 class="summer-panel-title">Participants</h2>
+          <h1 class="summer-panel-title">Participants</h1>
           <p class="summer-panel-text">
-            Les joueurs inscrits à l’Americano du 02 juillet.
+            Liste publique des surnoms. La programmation utilisera uniquement les joueurs actifs.
           </p>
         </div>
-        <div class="summer-pill"><span id="countPlayers">0</span> joueur(s)</div>
+        <div class="summer-pill">
+          <span id="countTotal">0</span> joueur(s)
+        </div>
       </div>
 
-      <div id="playersList" class="players-list">
-        <div class="summer-note">Chargement des participants…</div>
+      <div class="participants-grid">
+
+        <div>
+          <div class="summer-panel-head">
+            <div>
+              <h2 class="summer-panel-title" style="font-size:22px;">✅ Actifs</h2>
+              <p class="summer-panel-text">Joueurs pris en compte immédiatement.</p>
+            </div>
+            <div class="summer-pill"><span id="countActive">0</span></div>
+          </div>
+
+          <div id="activeList" class="players-list">
+            <div class="empty">Chargement…</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="summer-panel-head">
+            <div>
+              <h2 class="summer-panel-title" style="font-size:22px;">⏳ En attente</h2>
+              <p class="summer-panel-text">Non validés, absents, en pause ou partis.</p>
+            </div>
+            <div class="summer-pill"><span id="countWaiting">0</span></div>
+          </div>
+
+          <div id="waitingList" class="players-list">
+            <div class="empty">Chargement…</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -86,7 +132,7 @@
 <script type="module" src="../assets/js/header-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=participants-etape1";
+  import { db } from "../assets/js/firebase.js?v=participants-etape1-v2";
 
   import {
     collection,
@@ -98,49 +144,83 @@
   const EVENT_ID = "suzini-summer-tour-2026";
   const STEP_ID = "etape-1";
 
-  const playersList = document.getElementById("playersList");
-  const countPlayers = document.getElementById("countPlayers");
+  const activeList = document.getElementById("activeList");
+  const waitingList = document.getElementById("waitingList");
+
+  const countTotal = document.getElementById("countTotal");
+  const countActive = document.getElementById("countActive");
+  const countWaiting = document.getElementById("countWaiting");
 
   const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
   const q = query(playersRef, orderBy("createdAt", "asc"));
 
+  function isActivePlayer(data){
+    return data.publicList === "active" || data.status === "active";
+  }
+
+  function chip(nickname, type){
+    const div = document.createElement("div");
+    div.className = type === "waiting" ? "player-chip waiting" : "player-chip";
+    div.textContent = nickname || "Sans surnom";
+    return div;
+  }
+
+  function empty(text){
+    const div = document.createElement("div");
+    div.className = "empty";
+    div.textContent = text;
+    return div;
+  }
+
   onSnapshot(q, (snap) => {
-    playersList.innerHTML = "";
-    countPlayers.textContent = snap.size;
+    activeList.innerHTML = "";
+    waitingList.innerHTML = "";
+
+    let active = 0;
+    let waiting = 0;
 
     if(snap.empty){
-      playersList.innerHTML = `
-        <div class="summer-note">
-          Aucun joueur inscrit pour le moment.
-        </div>
-      `;
+      activeList.appendChild(empty("Aucun joueur actif."));
+      waitingList.appendChild(empty("Aucun joueur en attente."));
+      countTotal.textContent = "0";
+      countActive.textContent = "0";
+      countWaiting.textContent = "0";
       return;
     }
 
     snap.forEach(docSnap => {
       const data = docSnap.data() || {};
+      const nickname = data.surnom || data.nickname || "Sans surnom";
 
-      const div = document.createElement("div");
-      div.className = "player-card";
-
-      div.innerHTML = `
-        <div class="player-name">${data.surnom || "Sans surnom"}</div>
-        <div class="player-meta">
-          ${data.prenom || ""} ${data.nom || ""}<br>
-          Statut : ${data.status || "registered"}
-        </div>
-      `;
-
-      playersList.appendChild(div);
+      if(isActivePlayer(data)){
+        active++;
+        activeList.appendChild(chip(nickname, "active"));
+      }else{
+        waiting++;
+        waitingList.appendChild(chip(nickname, "waiting"));
+      }
     });
+
+    if(active === 0){
+      activeList.appendChild(empty("Aucun joueur actif."));
+    }
+
+    if(waiting === 0){
+      waitingList.appendChild(empty("Aucun joueur en attente."));
+    }
+
+    countTotal.textContent = String(active + waiting);
+    countActive.textContent = String(active);
+    countWaiting.textContent = String(waiting);
 
   }, (error) => {
     console.error(error);
-    playersList.innerHTML = `
-      <div class="summer-note">
-        Impossible de charger les participants.
-      </div>
-    `;
+
+    activeList.innerHTML = "";
+    waitingList.innerHTML = "";
+
+    activeList.appendChild(empty("Impossible de charger les participants."));
+    waitingList.appendChild(empty("Impossible de charger les participants."));
   });
 </script>
 
