@@ -1,3 +1,6 @@
+import { auth } from "./firebase.js";
+import { getRoleByUid } from "./session.js";
+
 const header = document.getElementById("siteHeader");
 
 const navItems = [
@@ -31,10 +34,12 @@ header.innerHTML = `
       </div>
     </div>
 
-    <img
-      class="header-logo"
-      src="assets/img/logo-julyana-bt.png"
-      alt="Logo Jul'Yana Beach Tennis">
+    <a href="#" id="julyanaSwitch" aria-label="Basculer vers l'administration">
+      <img
+        class="header-logo"
+        src="assets/img/logo-julyana-bt.png"
+        alt="Logo Jul'Yana Beach Tennis">
+    </a>
 
   </div>
 
@@ -63,6 +68,22 @@ header.innerHTML = `
 const headerNav = document.getElementById("headerNav");
 const navHintLeft = document.getElementById("navHintLeft");
 const navHintRight = document.getElementById("navHintRight");
+const julyanaSwitch = document.getElementById("julyanaSwitch");
+
+async function canSwitchToAdmin(){
+  if(!auth.currentUser) return false;
+
+  const role = await getRoleByUid(auth.currentUser.uid);
+  return ["admin", "jat", "arbitre"].includes(role);
+}
+
+julyanaSwitch.addEventListener("click", async (event) => {
+  event.preventDefault();
+
+  if(!(await canSwitchToAdmin())) return;
+
+  window.location.href = "admin/index.html?step=etape-1";
+});
 
 function updateNavHints() {
   if (!headerNav || !navHintLeft || !navHintRight) return;
