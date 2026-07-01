@@ -2,7 +2,7 @@
 
 const header = document.getElementById("adminHeader");
 
-const page = document.body.dataset.page || "inscriptions";
+const page = document.body.dataset.page || "index";
 const step = document.body.dataset.step || "etape-1";
 
 const currentFile = window.location.pathname.split("/").pop() || "index.html";
@@ -17,11 +17,13 @@ const steps = [
 ];
 
 const tabs = [
+  { key:"index", label:"Accueil", href:"index.html", icon:"🏠" },
   { key:"inscriptions", label:"Inscriptions", href:"inscriptions.html", icon:"📝" },
   { key:"participants", label:"Participants", href:"participants.html", icon:"👥" },
-  { key:"programmation", label:"Programmation", href:"programmation.html", icon:"📋" },
+  { key:"tirage", label:"Tirage", href:"tirage.html", icon:"🎲" },
+  { key:"programmation", label:"Planning", href:"programmation.html", icon:"📅" },
   { key:"classement", label:"Classement", href:"classement.html", icon:"🏆" },
-  { key:"statistiques", label:"Stats", href:"statistiques.html", icon:"📊" }
+  { key:"parametres", label:"Paramètres", href:"parametres.html", icon:"⚙️" }
 ];
 
 header.innerHTML = `
@@ -34,7 +36,7 @@ header.innerHTML = `
 
       <div class="admin-header-title">
         <div class="admin-header-name">ADMIN SUMMER TOUR</div>
-        <div class="admin-header-sub">Gestion des étapes</div>
+        <div class="admin-header-sub">Administration</div>
       </div>
 
       <a href="../index.html">
