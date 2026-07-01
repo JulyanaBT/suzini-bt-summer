@@ -6,94 +6,476 @@
   <title>Règlement — Suzini BT Summer Tour</title>
 
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    .rule-controls{
+      display:grid;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .rule-toggle{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+
+    .rule-toggle::-webkit-scrollbar{
+      display:none;
+    }
+
+    .rule-btn{
+      flex:0 0 auto;
+      min-height:40px;
+      border:0;
+      border-radius:999px;
+      padding:8px 14px;
+      background:#063b72;
+      color:#fff;
+      font-size:13px;
+      font-weight:1000;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .rule-btn[aria-selected="true"]{
+      background:#ffd84d;
+      color:#063b72;
+    }
+
+    .rule-content{
+      display:grid;
+      gap:12px;
+    }
+
+    .rule-card{
+      background:#fff;
+      color:#102033;
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+    }
+
+    .rule-card h3{
+      margin:0 0 8px;
+      color:#063b72;
+      font-size:20px;
+      line-height:1.15;
+    }
+
+    .rule-card ul{
+      margin:0;
+      padding-left:20px;
+      font-size:14px;
+      line-height:1.55;
+      font-weight:800;
+    }
+
+    .rule-card li{
+      margin:5px 0;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+  </style>
 </head>
 
-<body>
+<body data-info-page="reglement">
 
 <div id="siteHeader"></div>
-
-<nav class="infos-subnav">
-
-  <a class="active" href="reglement.html">
-    📜 Règlement
-  </a>
-
-  <a href="restauration.html">
-    🍔 Restauration
-  </a>
-
-  <a href="acces.html">
-    📍 Accès
-  </a>
-
-  <a href="contacts.html">
-    ☎️ Contacts
-  </a>
-
-</nav>
+<div id="infosHeader"></div>
 
 <main class="container">
 
-<section class="section">
+  <section class="section">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h1 class="summer-panel-title">📜 Règlement</h1>
+          <p class="summer-panel-text">
+            Règlement du Suzini BT Summer Tour — version française et portugaise.
+          </p>
+        </div>
+        <div class="summer-pill">Officiel</div>
+      </div>
 
-<div class="summer-panel">
+      <div class="rule-controls">
+        <div class="rule-toggle">
+          <button class="rule-btn" id="btnFr" type="button" aria-selected="true">🇫🇷 Français</button>
+          <button class="rule-btn" id="btnPt" type="button" aria-selected="false">🇧🇷 Português</button>
+        </div>
 
-<div class="summer-panel-head">
+        <div class="rule-toggle">
+          <button class="rule-btn" id="btnGeneral" type="button" aria-selected="true">📘 Général</button>
+          <button class="rule-btn" id="btnAmericano" type="button" aria-selected="false">☀️ Americano</button>
+          <button class="rule-btn" id="btnMixte" type="button" aria-selected="false">🏆 Double mixte</button>
+        </div>
+      </div>
 
-<div>
+      <div id="contentFrGeneral" class="rule-content">
+        <div class="rule-card">
+          <h3>🎾 Organisation</h3>
+          <ul>
+            <li>Le Suzini BT Summer Tour est organisé par la Commission Beach Tennis du Tennis Club de Suzini.</li>
+            <li>Il se déroule au Tennis Club de Suzini durant l’été 2026.</li>
+          </ul>
+        </div>
 
-<h2 class="summer-panel-title">
-📜 Règlement
-</h2>
+        <div class="rule-card">
+          <h3>👥 Épreuves</h3>
+          <ul>
+            <li>Étape 1 : Americano — 02 juillet 2026.</li>
+            <li>Étape 2 : Double mixte BT250 — 09 juillet 2026.</li>
+            <li>Étape 3 : Double mixte BT250 — 16 juillet 2026.</li>
+          </ul>
+        </div>
 
-<p class="summer-panel-text">
-Les principales règles du Suzini BT Summer Tour.
-</p>
+        <div class="rule-card">
+          <h3>✅ Conditions de participation</h3>
+          <ul>
+            <li>Chaque participant s’engage à respecter le règlement du Summer Tour.</li>
+            <li>Les organisateurs peuvent refuser une inscription incomplète ou ne respectant pas le règlement.</li>
+            <li>Les participants doivent être aptes à la pratique du beach tennis.</li>
+          </ul>
+        </div>
 
-</div>
+        <div class="rule-card">
+          <h3>📝 Inscriptions</h3>
+          <ul>
+            <li>Les inscriptions s’effectuent exclusivement via le mini-site officiel du Suzini BT Summer Tour.</li>
+            <li>Les droits d’inscription sont fixés à 10 € par joueur pour chaque étape.</li>
+            <li>À titre exceptionnel, les droits d’inscription de l’étape 1 sont offerts par la Commission Beach Tennis du Tennis Club de Suzini.</li>
+            <li>Le nombre de places peut être limité selon les contraintes d’organisation.</li>
+          </ul>
+        </div>
 
-<div class="summer-pill">
-Infos
-</div>
+        <div class="rule-card">
+          <h3>⏱️ Programmation</h3>
+          <ul>
+            <li>Les rencontres débutent à 18h00.</li>
+            <li>Les horaires publiés sur le mini-site sont donnés à titre indicatif.</li>
+            <li>L’organisation peut modifier les horaires, rotations ou programmations selon les contraintes sportives, météorologiques ou organisationnelles.</li>
+          </ul>
+        </div>
 
-</div>
+        <div class="rule-card">
+          <h3>⚖️ Arbitrage et organisation</h3>
+          <ul>
+            <li>Le juge-arbitre veille au bon déroulement sportif de chaque étape.</li>
+            <li>Les décisions du juge-arbitre et de l’organisation s’imposent à tous les participants.</li>
+            <li>L’organisation peut adapter toute disposition rendue nécessaire par le bon déroulement de l’événement.</li>
+          </ul>
+        </div>
 
-<div class="info-block">
+        <div class="rule-card">
+          <h3>🤝 Discipline</h3>
+          <ul>
+            <li>Le respect des partenaires, adversaires, arbitres, bénévoles et spectateurs est obligatoire.</li>
+            <li>Le fair-play est exigé.</li>
+            <li>Tout comportement antisportif peut entraîner un avertissement, une pénalité ou une exclusion.</li>
+          </ul>
+        </div>
 
-<div class="info-line">
-<strong>Americano</strong><br>
-Ouvert aux joueurs licenciés et non licenciés.
-</div>
+        <div class="rule-card">
+          <h3>⚠️ Responsabilité</h3>
+          <ul>
+            <li>Les participants prennent part au Summer Tour sous leur propre responsabilité.</li>
+            <li>Les organisateurs déclinent toute responsabilité en cas de perte, vol ou détérioration d’effets personnels.</li>
+            <li>Les organisateurs ne pourront être tenus responsables en cas d’accident survenu en dehors de leur responsabilité légale.</li>
+          </ul>
+        </div>
 
-<div class="info-line">
-<strong>BT250 Double Mixte</strong><br>
-Réservé aux joueurs titulaires d'une licence FFT.
-</div>
+        <div class="rule-card">
+          <h3>📷 Droit à l’image</h3>
+          <ul>
+            <li>Les participants autorisent la Commission Beach Tennis du Tennis Club de Suzini et Jul’Yana Beach Tennis à utiliser les photos et vidéos réalisées durant le Summer Tour.</li>
+            <li>Cette autorisation concerne les réseaux sociaux, le mini-site du Summer Tour et tout support de communication de l’événement.</li>
+          </ul>
+        </div>
+      </div>
 
-<div class="info-line">
-<strong>Licence</strong><br>
-Une pièce d'identité pourra être demandée lors de l'émargement.
-</div>
+      <div id="contentFrAmericano" class="rule-content hidden">
+        <div class="rule-card">
+          <h3>☀️ Participation</h3>
+          <ul>
+            <li>L’Americano est ouvert aux licenciés FFT et aux non licenciés.</li>
+            <li>L’inscription est individuelle.</li>
+            <li>Les mineurs restent sous la responsabilité de leur représentant légal.</li>
+            <li>L’organisation peut limiter le nombre de participants.</li>
+          </ul>
+        </div>
 
-<div class="info-line">
-<strong>Horaires</strong><br>
-Merci d'arriver 30 minutes avant le début des rencontres.
-</div>
+        <div class="rule-card">
+          <h3>📝 Inscriptions et départs</h3>
+          <ul>
+            <li>Une pré-inscription est recommandée via le mini-site.</li>
+            <li>Les joueurs peuvent aussi s’inscrire directement sur place pendant l’événement.</li>
+            <li>Toute inscription est soumise à validation par le comité d’organisation.</li>
+            <li>Une inscription validée devient effective à partir de la rotation R+2.</li>
+            <li>Un joueur peut quitter le tournoi à tout moment en informant l’organisation.</li>
+            <li>Le départ devient effectif à partir de la rotation R+2, sauf décision exceptionnelle de l’organisation.</li>
+          </ul>
+        </div>
 
-<div class="info-line">
-<strong>Esprit sportif</strong><br>
-Fair-play et bonne humeur sont les maîtres mots du Summer Tour.
-</div>
+        <div class="rule-card">
+          <h3>🏆 Format sportif</h3>
+          <ul>
+            <li>L’Americano est une compétition individuelle.</li>
+            <li>Chaque joueur dispute plusieurs rotations avec des partenaires et adversaires différents.</li>
+            <li>Les terrains sont recomposés avant chaque rotation par l’organisation.</li>
+            <li>Les rencontres se jouent au format Découverte FFT : un set unique de 12 points.</li>
+            <li>Chaque joueur marque au classement le nombre de points obtenus durant son match.</li>
+            <li>Un joueur disponible mais non intégré à une rotation pour raison d’organisation reçoit 6 points.</li>
+            <li>Un joueur absent d’une rotation reçoit 3 points.</li>
+            <li>Le classement est établi en additionnant les points obtenus à chaque rotation.</li>
+          </ul>
+        </div>
 
-</div>
+        <div class="rule-card">
+          <h3>⏱️ Horaires</h3>
+          <ul>
+            <li>Le début des rencontres est fixé à 18h00.</li>
+            <li>La fin du tournoi est prévue à 23h00.</li>
+            <li>L’organisation peut avancer ou repousser l’heure de fin selon le déroulement de la soirée, le nombre de participants ou les conditions météorologiques.</li>
+          </ul>
+        </div>
 
-</div>
+        <div class="rule-card">
+          <h3>⚖️ Organisation des rotations</h3>
+          <ul>
+            <li>Le comité d’organisation assure la gestion des rotations.</li>
+            <li>Les affectations des joueurs et des terrains sont sans appel.</li>
+            <li>Les corrections de score doivent être signalées immédiatement à la fin du match.</li>
+          </ul>
+        </div>
+      </div>
 
-</section>
+      <div id="contentFrMixte" class="rule-content hidden">
+        <div class="rule-card">
+          <h3>🏆 Participation</h3>
+          <ul>
+            <li>Le Double Mixte BT250 est une épreuve officielle.</li>
+            <li>Elle est réservée aux joueurs titulaires d’une licence FFT valide.</li>
+            <li>Chaque équipe doit être composée d’un homme et d’une femme.</li>
+            <li>Les joueurs doivent être qualifiables pour une compétition officielle FFT Beach Tennis.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>📝 Inscriptions</h3>
+          <ul>
+            <li>L’inscription se fait par équipe complète.</li>
+            <li>Les deux joueurs doivent être licenciés FFT.</li>
+            <li>Les droits d’inscription sont fixés à 10 € par joueur.</li>
+            <li>L’inscription est définitive après validation par l’organisation.</li>
+            <li>En cas de désistement, l’équipe doit prévenir l’organisation dans les meilleurs délais.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>🏆 Format sportif</h3>
+          <ul>
+            <li>Le format sportif est publié quelques jours avant l’épreuve.</li>
+            <li>Il dépend du nombre d’équipes inscrites.</li>
+            <li>L’organisation pourra retenir des poules, un tableau à élimination directe, un tableau multi-chances ou une formule mixte.</li>
+            <li>Les matchs sont disputés conformément au règlement sportif FFT Beach Tennis.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>⏱️ Horaires</h3>
+          <ul>
+            <li>Le pointage des équipes est fixé à 17h45.</li>
+            <li>Toutes les équipes doivent être présentes à cette heure pour permettre le bon déroulement de la compétition.</li>
+            <li>Les rencontres débutent à 18h00.</li>
+            <li>Un retard peut être exceptionnellement toléré s’il est signalé au juge-arbitre dans un délai raisonnable et que son motif est jugé recevable.</li>
+            <li>Le juge-arbitre demeure seul décisionnaire quant à l’acceptation d’un retard et aux conséquences sportives qui peuvent en découler.</li>
+            <li>Une équipe absente sans information préalable pourra être déclarée forfait conformément au règlement sportif FFT.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>⚖️ Juge-arbitrage</h3>
+          <ul>
+            <li>L’épreuve est placée sous l’autorité du juge-arbitre FFT.</li>
+            <li>Le règlement sportif FFT Beach Tennis s’applique pour tous les cas non prévus par le présent règlement.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="contentPtGeneral" class="rule-content hidden">
+        <div class="rule-card">
+          <h3>🎾 Organização</h3>
+          <ul>
+            <li>O Suzini BT Summer Tour é organizado pela Comissão de Beach Tennis do Tennis Club de Suzini.</li>
+            <li>O evento acontece no Tennis Club de Suzini durante o verão de 2026.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>👥 Etapas</h3>
+          <ul>
+            <li>Etapa 1: Americano — 02 de julho de 2026.</li>
+            <li>Etapa 2: Duplas Mistas BT250 — 09 de julho de 2026.</li>
+            <li>Etapa 3: Duplas Mistas BT250 — 16 de julho de 2026.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>✅ Participação</h3>
+          <ul>
+            <li>Cada participante compromete-se a respeitar o regulamento do Summer Tour.</li>
+            <li>A organização pode recusar uma inscrição incompleta ou que não respeite o regulamento.</li>
+            <li>Os participantes devem estar aptos à prática do beach tennis.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>📝 Inscrições</h3>
+          <ul>
+            <li>As inscrições são feitas exclusivamente pelo mini-site oficial do Suzini BT Summer Tour.</li>
+            <li>A taxa de inscrição é de 10 € por jogador para cada etapa.</li>
+            <li>Excepcionalmente, a taxa da etapa 1 é oferecida pela Comissão de Beach Tennis do Tennis Club de Suzini.</li>
+            <li>O número de vagas pode ser limitado de acordo com as necessidades da organização.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>⏱️ Programação</h3>
+          <ul>
+            <li>Os jogos começam às 18h00.</li>
+            <li>Os horários publicados no mini-site são indicativos.</li>
+            <li>A organização pode alterar horários, rotações ou programação por motivos esportivos, meteorológicos ou organizacionais.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="contentPtAmericano" class="rule-content hidden">
+        <div class="rule-card">
+          <h3>☀️ Participação</h3>
+          <ul>
+            <li>O Americano é aberto a jogadores federados e não federados.</li>
+            <li>A inscrição é individual.</li>
+            <li>Menores permanecem sob responsabilidade de seu representante legal.</li>
+            <li>A organização pode limitar o número de participantes.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>📝 Inscrições e saídas</h3>
+          <ul>
+            <li>A pré-inscrição pelo mini-site é recomendada.</li>
+            <li>Os jogadores também podem se inscrever no local durante o evento.</li>
+            <li>Toda inscrição depende de validação pela organização.</li>
+            <li>Uma inscrição validada passa a valer a partir da rotação R+2.</li>
+            <li>Um jogador pode sair do torneio a qualquer momento, desde que informe a organização.</li>
+            <li>A saída passa a valer a partir da rotação R+2, salvo decisão excepcional da organização.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>🏆 Formato esportivo</h3>
+          <ul>
+            <li>O Americano é uma competição individual.</li>
+            <li>Cada jogador disputa várias rotações com parceiros e adversários diferentes.</li>
+            <li>As quadras são reorganizadas antes de cada rotação pela organização.</li>
+            <li>Os jogos seguem o formato Découverte FFT: um set único de 12 pontos.</li>
+            <li>Cada jogador soma no ranking o número de pontos marcados no jogo.</li>
+            <li>Um jogador disponível, mas não escalado por motivo de organização, recebe 6 pontos.</li>
+            <li>Um jogador ausente em uma rotação recebe 3 pontos.</li>
+            <li>O ranking é calculado pela soma dos pontos de cada rotação.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="contentPtMixte" class="rule-content hidden">
+        <div class="rule-card">
+          <h3>🏆 Participação</h3>
+          <ul>
+            <li>A etapa de Duplas Mistas BT250 é uma competição oficial.</li>
+            <li>É reservada a jogadores com licença FFT válida.</li>
+            <li>Cada dupla deve ser composta por um homem e uma mulher.</li>
+            <li>Os jogadores devem estar aptos a participar de uma competição oficial FFT Beach Tennis.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>📝 Inscrições</h3>
+          <ul>
+            <li>A inscrição é feita por dupla completa.</li>
+            <li>Os dois jogadores devem possuir licença FFT.</li>
+            <li>A taxa de inscrição é de 10 € por jogador.</li>
+            <li>A inscrição é definitiva após validação pela organização.</li>
+            <li>Em caso de desistência, a dupla deve avisar a organização o mais rápido possível.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>⏱️ Horários</h3>
+          <ul>
+            <li>O check-in das duplas é às 17h45.</li>
+            <li>Todas as duplas devem estar presentes neste horário para o bom andamento da competição.</li>
+            <li>Os jogos começam às 18h00.</li>
+            <li>Um atraso pode ser excepcionalmente aceito se informado ao árbitro-geral em prazo razoável e com motivo considerado válido.</li>
+            <li>O árbitro-geral decide sobre a aceitação do atraso e suas consequências esportivas.</li>
+            <li>Uma dupla ausente sem aviso prévio poderá ser declarada WO conforme as regras FFT.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
 </main>
 
 <script type="module" src="assets/js/header-gen.js"></script>
+<script type="module" src="assets/js/header-infos.js"></script>
+
+<script>
+  const btnFr = document.getElementById("btnFr");
+  const btnPt = document.getElementById("btnPt");
+
+  const btnGeneral = document.getElementById("btnGeneral");
+  const btnAmericano = document.getElementById("btnAmericano");
+  const btnMixte = document.getElementById("btnMixte");
+
+  let lang = "fr";
+  let tab = "general";
+
+  function refreshRules(){
+    btnFr.setAttribute("aria-selected", lang === "fr");
+    btnPt.setAttribute("aria-selected", lang === "pt");
+
+    btnGeneral.setAttribute("aria-selected", tab === "general");
+    btnAmericano.setAttribute("aria-selected", tab === "americano");
+    btnMixte.setAttribute("aria-selected", tab === "mixte");
+
+    document.querySelectorAll(".rule-content").forEach(el => {
+      el.classList.add("hidden");
+    });
+
+    const id =
+      lang === "fr" && tab === "general" ? "contentFrGeneral" :
+      lang === "fr" && tab === "americano" ? "contentFrAmericano" :
+      lang === "fr" && tab === "mixte" ? "contentFrMixte" :
+      lang === "pt" && tab === "general" ? "contentPtGeneral" :
+      lang === "pt" && tab === "americano" ? "contentPtAmericano" :
+      "contentPtMixte";
+
+    document.getElementById(id).classList.remove("hidden");
+  }
+
+  btnFr.onclick = () => { lang = "fr"; refreshRules(); };
+  btnPt.onclick = () => { lang = "pt"; refreshRules(); };
+
+  btnGeneral.onclick = () => { tab = "general"; refreshRules(); };
+  btnAmericano.onclick = () => { tab = "americano"; refreshRules(); };
+  btnMixte.onclick = () => { tab = "mixte"; refreshRules(); };
+
+  refreshRules();
+</script>
 
 </body>
 </html>
