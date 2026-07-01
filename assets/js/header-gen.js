@@ -64,13 +64,13 @@ const headerNav = document.getElementById("headerNav");
 const navHintLeft = document.getElementById("navHintLeft");
 const navHintRight = document.getElementById("navHintRight");
 
-function updateNavHints(){
-  if(!headerNav || !navHintLeft || !navHintRight) return;
+function updateNavHints() {
+  if (!headerNav || !navHintLeft || !navHintRight) return;
 
   const maxScroll = headerNav.scrollWidth - headerNav.clientWidth;
   const currentScroll = headerNav.scrollLeft;
 
-  if(maxScroll <= 4){
+  if (maxScroll <= 4) {
     navHintLeft.style.opacity = "0";
     navHintRight.style.opacity = "0";
     return;
@@ -80,8 +80,36 @@ function updateNavHints(){
   navHintRight.style.opacity = currentScroll < maxScroll - 6 ? "1" : "0";
 }
 
-headerNav.addEventListener("scroll", updateNavHints);
-window.addEventListener("resize", updateNavHints);
-window.addEventListener("load", updateNavHints);
+function centerActiveTab() {
+  const active = headerNav.querySelector("a.active");
+  if (!active) return;
 
-setTimeout(updateNavHints, 100);
+  const target =
+    active.offsetLeft
+    - (headerNav.clientWidth / 2)
+    + (active.clientWidth / 2);
+
+  const maxScroll = headerNav.scrollWidth - headerNav.clientWidth;
+
+  headerNav.scrollTo({
+    left: Math.max(0, Math.min(target, maxScroll)),
+    behavior: "instant"
+  });
+}
+
+headerNav.addEventListener("scroll", updateNavHints);
+
+window.addEventListener("resize", () => {
+  centerActiveTab();
+  updateNavHints();
+});
+
+window.addEventListener("load", () => {
+  centerActiveTab();
+  updateNavHints();
+});
+
+setTimeout(() => {
+  centerActiveTab();
+  updateNavHints();
+}, 100);
