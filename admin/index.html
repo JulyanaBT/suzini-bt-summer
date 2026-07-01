@@ -3,140 +3,198 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Suzini BT Summer Tour</title>
+  <title>Suzini BT Summer Tour</title>
 
-  <link rel="stylesheet" href="../assets/css/style.css" />
-
-  <style>
-    .admin-login{
-      display:grid;
-      gap:10px;
-    }
-
-    .admin-input{
-      width:100%;
-      min-height:48px;
-      border:0;
-      border-radius:16px;
-      padding:12px 14px;
-      font-size:16px;
-      font-weight:800;
-      background:#fff;
-      color:#102033;
-    }
-
-    .admin-btn{
-      min-height:48px;
-      border:0;
-      border-radius:16px;
-      padding:12px 14px;
-      font-size:15px;
-      font-weight:1000;
-      background:#063b72;
-      color:#fff;
-      cursor:pointer;
-    }
-
-    .admin-status{
-      margin-top:10px;
-      padding:12px 14px;
-      border-radius:16px;
-      background:#fff;
-      color:#102033;
-      font-size:14px;
-      font-weight:900;
-      line-height:1.35;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
-<body data-page="index" data-step="etape-1">
+<body>
 
-<div id="adminHeader"></div>
+<div id="siteHeader"></div>
 
 <main class="container">
 
-  <section class="section" id="loginSection">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
+  <section class="section">
+    <div class="hero">
+      <div class="hero-inner">
+
+        <div class="hero-pills">
+          <span class="pill">Tennis Club de Suzini</span>
+          <span class="pill">Été 2026</span>
+        </div>
+
         <div>
-          <h1 class="summer-panel-title">Connexion admin</h1>
-          <p class="summer-panel-text">
-            Connecte-toi pour accéder à la gestion du Summer Tour.
-          </p>
+          <h1 class="hero-title">
+            Suzini BT<br>
+            <span class="summer">Summer Tour</span>
+          </h1>
+
+          <div class="hero-slogan">
+            Le beach tennis ne part pas en vacances :
+            <strong>il explose !</strong>
+          </div>
         </div>
-        <div class="summer-pill">Admin</div>
+
+        <div class="hero-actions">
+          <a class="hero-btn hero-btn-primary" href="etape-1/">
+            ☀️ Americano 02/07
+          </a>
+
+          <a class="hero-btn hero-btn-secondary" href="evenements.html">
+            📅 Tous les événements
+          </a>
+        </div>
+
       </div>
-
-      <form id="loginForm" class="admin-login">
-        <input id="email" class="admin-input" type="email" placeholder="Email" required>
-        <input id="password" class="admin-input" type="password" placeholder="Mot de passe" required>
-
-        <button class="admin-btn" type="submit">
-          🔐 Se connecter
-        </button>
-
-        <div id="loginMessage" class="admin-status">
-          Non connecté.
-        </div>
-      </form>
     </div>
   </section>
 
-  <section class="section" id="adminContent" style="display:none;">
+  <section class="section">
     <div class="summer-panel">
       <div class="summer-panel-head">
         <div>
-          <h1 class="summer-panel-title">Espace admin</h1>
+          <h2 class="summer-panel-title">Événement à venir</h2>
           <p class="summer-panel-text">
-            Sélectionne une étape dans le bandeau, puis choisis la page de gestion.
+            Première étape du Summer Tour : ouverte à tous, licenciés et non licenciés.
           </p>
         </div>
-        <div class="summer-pill">Summer Tour</div>
+
+        <div class="summer-pill">02/07</div>
+      </div>
+
+      <a class="summer-card summer-card-blue" href="etape-1/">
+        <span class="summer-badge">À venir</span>
+        <div class="summer-date">02/07</div>
+        <div class="summer-kicker">Étape 1</div>
+        <h3 class="summer-title">Americano</h3>
+        <div class="summer-text">
+          Format convivial, équipes tournantes et bonne ambiance.
+        </div>
+        <span class="summer-link">Voir l’étape</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h2 class="summer-panel-title">Accès rapide</h2>
+          <p class="summer-panel-text">
+            Les pages utiles pour participer et suivre le Summer Tour.
+          </p>
+        </div>
+
+        <div class="summer-pill">Mini-site</div>
       </div>
 
       <div class="summer-grid summer-grid-4">
-        <a class="summer-card summer-card-blue" href="inscriptions.html?step=etape-1">
-          <div class="summer-kicker">Ouverture</div>
+        <a class="summer-card summer-card-blue" href="etape-1/inscriptions.html">
+          <div class="summer-kicker">Participer</div>
           <h3 class="summer-title">Inscriptions</h3>
-          <div class="summer-text">Ouvrir, suspendre ou clôturer les inscriptions.</div>
+          <div class="summer-text">S’inscrire à l’Americano.</div>
         </a>
 
-        <a class="summer-card summer-card-pink" href="participants.html?step=etape-1">
+        <a class="summer-card summer-card-pink" href="etape-1/participants.html">
           <div class="summer-kicker">Joueurs</div>
           <h3 class="summer-title">Participants</h3>
-          <div class="summer-text">Voir et gérer les joueurs inscrits.</div>
+          <div class="summer-text">Voir les inscrits de l’étape 1.</div>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="programmation.html?step=etape-1">
+        <a class="summer-card summer-card-yellow" href="etape-1/programmation.html">
           <div class="summer-kicker">Planning</div>
           <h3 class="summer-title">Programmation</h3>
-          <div class="summer-text">Préparer les horaires, rotations et terrains.</div>
+          <div class="summer-text">Horaires, rotations et terrains.</div>
         </a>
 
-        <a class="summer-card summer-card-green" href="classement.html?step=etape-1">
-          <div class="summer-kicker">Résultats</div>
-          <h3 class="summer-title">Classement</h3>
-          <div class="summer-text">Gérer le classement de l’étape.</div>
+        <a class="summer-card summer-card-green" href="infos.html">
+          <div class="summer-kicker">Pratique</div>
+          <h3 class="summer-title">Infos</h3>
+          <div class="summer-text">Accès, restauration, règlement…</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h2 class="summer-panel-title">Autres étapes</h2>
+          <p class="summer-panel-text">
+            Deux soirées double mixte BT250 réservées aux joueurs licenciés FFT.
+          </p>
+        </div>
+
+        <div class="summer-pill">BT250</div>
+      </div>
+
+      <div class="summer-grid summer-grid-2">
+        <a class="summer-card summer-card-pink" href="etape-2/">
+          <div class="summer-date">09/07</div>
+          <div class="summer-kicker">Étape 2</div>
+          <h3 class="summer-title">Double mixte</h3>
+          <div class="summer-text">BT250 — licenciés uniquement.</div>
+          <span class="summer-link">Voir l’étape</span>
+        </a>
+
+        <a class="summer-card summer-card-yellow" href="etape-3/">
+          <div class="summer-date">16/07</div>
+          <div class="summer-kicker">Étape 3</div>
+          <h3 class="summer-title">Double mixte</h3>
+          <div class="summer-text">BT250 — licenciés uniquement.</div>
+          <span class="summer-link">Voir l’étape</span>
         </a>
       </div>
 
       <div class="summer-note">
-        Les droits seront adaptés selon le rôle du compte connecté : admin, JAT ou arbitre.
+        Les Americanos sont accessibles aux non licenciés. Les doubles mixtes BT250 sont réservés aux joueurs licenciés FFT.
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="orga">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h2 class="summer-panel-title">Administration</h2>
+          <p class="summer-panel-text">
+            Accès sécurisé pour gérer les inscriptions, participants et programmations.
+          </p>
+        </div>
+
+        <div class="summer-pill">Sécurisé</div>
+      </div>
+
+      <a class="summer-card summer-card-blue" href="admin/">
+        <div class="summer-kicker">Gestion</div>
+        <h3 class="summer-title">Espace admin</h3>
+        <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
+      </a>
+
+      <div class="summer-note" style="margin-top:14px;">
+        <strong>Statut :</strong>
+        <span id="authStatus">Vérification de la connexion…</span>
+      </div>
+
+      <div style="margin-top:12px;">
+        <button id="logoutBtn" class="admin-btn" type="button" style="display:none;">
+          🚪 Déconnexion
+        </button>
       </div>
     </div>
   </section>
 
 </main>
 
-<script type="module" src="../assets/js/header-admin.js"></script>
+<script type="module" src="assets/js/header-gen.js"></script>
 
 <script type="module">
-  import { auth, db } from "../assets/js/firebase.js?v=admin-index-1";
+  import { auth, db } from "./assets/js/firebase.js?v=index-auth-1";
 
   import {
-    signInWithEmailAndPassword,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
   import {
@@ -144,55 +202,24 @@
     getDoc
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-  const loginSection = document.getElementById("loginSection");
-  const adminContent = document.getElementById("adminContent");
-  const loginForm = document.getElementById("loginForm");
-  const loginMessage = document.getElementById("loginMessage");
+  const authStatus = document.getElementById("authStatus");
+  const logoutBtn = document.getElementById("logoutBtn");
 
   async function getUserRole(uid){
-    const userRef = doc(db, "users", uid);
-    const snap = await getDoc(userRef);
+    const snap = await getDoc(doc(db, "users", uid));
 
     if(!snap.exists()) return null;
 
     const data = snap.data() || {};
-
     if(data.active !== true) return null;
 
     return data.role || null;
   }
 
-  function showLogin(message = "Non connecté."){
-    loginSection.style.display = "block";
-    adminContent.style.display = "none";
-    loginMessage.textContent = message;
-  }
-
-  function showAdmin(){
-    loginSection.style.display = "none";
-    adminContent.style.display = "block";
-  }
-
-  loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    loginMessage.textContent = "Connexion…";
-
-    try{
-      await signInWithEmailAndPassword(
-        auth,
-        loginForm.email.value.trim(),
-        loginForm.password.value
-      );
-    }catch(error){
-      console.error(error);
-      loginMessage.textContent = "Connexion impossible.";
-    }
-  });
-
   onAuthStateChanged(auth, async (user) => {
     if(!user){
-      showLogin();
+      authStatus.textContent = "Non connecté.";
+      logoutBtn.style.display = "none";
       return;
     }
 
@@ -200,17 +227,23 @@
       const role = await getUserRole(user.uid);
 
       if(!role){
-        showLogin("Connecté, mais aucun rôle actif trouvé.");
-        return;
+        authStatus.textContent = `${user.email} — aucun rôle actif.`;
+      }else{
+        authStatus.textContent = `${user.email} — rôle : ${role}`;
       }
 
-      showAdmin();
+      logoutBtn.style.display = "inline-flex";
 
     }catch(error){
       console.error(error);
-      showLogin("Erreur lors de la vérification des droits.");
+      authStatus.textContent = `${user.email} — rôle impossible à lire.`;
+      logoutBtn.style.display = "inline-flex";
     }
   });
+
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+  };
 </script>
 
 </body>
