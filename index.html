@@ -166,21 +166,28 @@
         <div class="summer-pill">Sécurisé</div>
       </div>
 
-      <a class="summer-card summer-card-blue" href="admin/">
-        <div class="summer-kicker">Gestion</div>
-        <h3 class="summer-title">Espace admin</h3>
-        <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
-      </a>
+      <div class="summer-grid summer-grid-2">
+        <a class="summer-card summer-card-blue" href="#" id="btnAdmin">
+          <div class="summer-kicker">Gestion</div>
+          <h3 class="summer-title">Admin</h3>
+          <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
+        </a>
+
+        <a class="summer-card summer-card-green" href="etape-1/participants.html">
+          <div class="summer-kicker">Lecture</div>
+          <h3 class="summer-title">Vue publique</h3>
+          <div class="summer-text">Voir les inscrits de l’étape 1.</div>
+        </a>
+      </div>
 
       <div class="summer-note" style="margin-top:14px;">
         <strong>Statut :</strong>
-        <span id="authStatus">Vérification de la connexion…</span>
+        <span id="authHint">Vérification de la connexion…</span>
+        <span id="roleBadge" class="role-badge none" style="display:none;"></span>
       </div>
 
       <div style="margin-top:12px;">
-        <button id="logoutBtn" class="admin-btn" type="button" style="display:none;">
-          🚪 Déconnexion
-        </button>
+        <a class="mini-link" href="#" id="btnLogout">🚪 Déconnexion</a>
       </div>
     </div>
   </section>
@@ -190,60 +197,117 @@
 <script type="module" src="assets/js/header-gen.js"></script>
 
 <script type="module">
-  import { auth, db } from "./assets/js/firebase.js?v=index-auth-1";
-
+  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index2";
   import {
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    login,
+    logout,
+    getRoleByUid
+  } from "./assets/js/session.js?v=suzini-summer-index2";
 
-  import {
-    doc,
-    getDoc
-  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
-  const authStatus = document.getElementById("authStatus");
-  const logoutBtn = document.getElementById("logoutBtn");
+  const btnAdmin = document.getElementById("btnAdmin");
+  const btnLogout = document.getElementById("btnLogout");
+  const hint = document.getElementById("authHint");
+  const roleBadge = document.getElementById("roleBadge");
 
-  async function getUserRole(uid){
-    const snap = await getDoc(doc(db, "users", uid));
+  function setRoleBadge(role){
+    roleBadge.style.display = "inline-flex";
+    roleBadge.className = "role-badge";
 
-    if(!snap.exists()) return null;
+    if(role === "admin"){
+      roleBadge.textContent = "ADMIN";
+      roleBadge.classList.add("admin");
+      return;
+    }
 
-    const data = snap.data() || {};
-    if(data.active !== true) return null;
+    if(role === "jat"){
+      roleBadge.textContent = "JAT";
+      roleBadge.classList.add("jat");
+      return;
+    }
 
-    return data.role || null;
+    if(role === "arbitre"){
+      roleBadge.textContent = "ARBITRE";
+      roleBadge.classList.add("arbitre");
+      return;
+    }
+
+    roleBadge.textContent = "AUCUN RÔLE";
+    roleBadge.classList.add("none");
   }
+
+  function clearRoleBadge(){
+    roleBadge.textContent = "";
+    roleBadge.style.display = "none";
+    roleBadge.className = "role-badge none";
+  }
+
+  async function askLogin(){
+    const email = prompt("Email organisateur ?");
+    if(!email) return null;
+
+    const password = prompt("Mot de passe ?");
+    if(!password) return null;
+
+    try{
+      return await login(email.trim(), password);
+    }catch(error){
+      alert("Connexion impossible : " + (error?.message || "Erreur inconnue"));
+      return null;
+    }
+  }
+
+  async function ensureUser(){
+    if(auth.currentUser) return auth.currentUser;
+    return await askLogin();
+  }
+
+  async function getCurrentRole(){
+    const user = await ensureUser();
+    if(!user) return null;
+
+    const role = await getRoleByUid(user.uid);
+    return { user, role };
+  }
+
+  btnAdmin.onclick = async (event) => {
+    event.preventDefault();
+
+    const ctx = await getCurrentRole();
+    if(!ctx) return;
+
+    if(ctx.role !== "admin" && ctx.role !== "jat" && ctx.role !== "arbitre"){
+      alert("Accès réservé aux organisateurs.");
+      return;
+    }
+
+    window.location.href = "admin/index.html?step=etape-1";
+  };
+
+  btnLogout.onclick = async (event) => {
+    event.preventDefault();
+    await logout();
+    hint.textContent = "Non connecté.";
+    clearRoleBadge();
+  };
 
   onAuthStateChanged(auth, async (user) => {
     if(!user){
-      authStatus.textContent = "Non connecté.";
-      logoutBtn.style.display = "none";
+      hint.textContent = "Non connecté.";
+      clearRoleBadge();
       return;
     }
 
     try{
-      const role = await getUserRole(user.uid);
-
-      if(!role){
-        authStatus.textContent = `${user.email} — aucun rôle actif.`;
-      }else{
-        authStatus.textContent = `${user.email} — rôle : ${role}`;
-      }
-
-      logoutBtn.style.display = "inline-flex";
-
+      const role = await getRoleByUid(user.uid);
+      hint.textContent = `Connecté : ${user.email}`;
+      setRoleBadge(role);
     }catch(error){
-      console.error(error);
-      authStatus.textContent = `${user.email} — rôle impossible à lire.`;
-      logoutBtn.style.display = "inline-flex";
+      hint.textContent = `Connecté : ${user.email} — rôle non trouvé`;
+      setRoleBadge(null);
     }
   });
-
-  logoutBtn.onclick = async () => {
-    await signOut(auth);
-  };
 </script>
 
 </body>
