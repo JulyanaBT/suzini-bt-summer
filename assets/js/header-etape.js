@@ -1,5 +1,8 @@
 // assets/js/header-etape.js
 
+import { auth } from "./firebase.js";
+import { getRoleByUid } from "./session.js";
+
 const header = document.getElementById("siteHeaderEtape");
 
 const page = document.body.dataset.page || "accueil";
@@ -32,6 +35,11 @@ const navItems = type === "americano"
   ? navAmericano
   : navDoubleMixte;
 
+function currentStepFromPath(){
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  return parts.find(part => part.startsWith("etape-")) || "etape-1";
+}
+
 header.innerHTML = `
 <header class="etape-header">
 
@@ -54,7 +62,7 @@ header.innerHTML = `
       </div>
     </div>
 
-    <a href="${ROOT}index.html">
+    <a href="#" id="julyanaSwitch" aria-label="Basculer vers l'administration">
       <img
         class="etape-header-logo"
         src="${ROOT}assets/img/logo-julyana-bt.png"
@@ -95,23 +103,56 @@ header.innerHTML = `
 const nav = document.getElementById("etapeNav");
 const left = document.getElementById("hintLeft");
 const right = document.getElementById("hintRight");
+const julyanaSwitch = document.getElementById("julyanaSwitch");
+
+async function canSwitchToAdmin(){
+  if(!auth.currentUser) return false;
+
+  const role = await getRoleByUid(auth.currentUser.uid);
+  return ["admin", "jat", "arbitre"].includes(role);
+}
+
+function adminTargetForPage(){
+  const step = currentStepFromPath();
+
+  const adminPages = {
+    accueil: "index.html",
+    inscription: "inscriptions.html",
+    participants: "participants.html",
+    programmation: "programmation.html",
+    classement: "classement.html",
+    statistiques: "statistiques.html",
+    tirage: "tirage.html",
+    live: "programmation.html"
+  };
+
+  const target = adminPages[page] || "index.html";
+
+  return `${ROOT}admin/${target}?step=${step}`;
+}
+
+julyanaSwitch.addEventListener("click", async (event) => {
+  event.preventDefault();
+
+  if(!(await canSwitchToAdmin())) return;
+
+  window.location.href = adminTargetForPage();
+});
 
 function updateHints(){
+  const max = nav.scrollWidth - nav.clientWidth;
 
-  const max = nav.scrollWidth-nav.clientWidth;
-
-  if(max<5){
-    left.style.opacity=0;
-    right.style.opacity=0;
+  if(max < 5){
+    left.style.opacity = 0;
+    right.style.opacity = 0;
     return;
   }
 
-  left.style.opacity = nav.scrollLeft>5 ? 1 : 0;
-  right.style.opacity = nav.scrollLeft<max-5 ? 1 : 0;
-
+  left.style.opacity = nav.scrollLeft > 5 ? 1 : 0;
+  right.style.opacity = nav.scrollLeft < max - 5 ? 1 : 0;
 }
 
-nav.addEventListener("scroll",updateHints);
-window.addEventListener("resize",updateHints);
+nav.addEventListener("scroll", updateHints);
+window.addEventListener("resize", updateHints);
 
-setTimeout(updateHints,100);
+setTimeout(updateHints, 100);
