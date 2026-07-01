@@ -9,7 +9,7 @@
 
   <style>
     main{
-      padding-top:calc(var(--admin-total-top, 140px) + 14px);
+      padding-top:12px;
     }
 
     .admin-status{
@@ -21,6 +21,65 @@
       font-size:14px;
       font-weight:900;
       line-height:1.35;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .summary-box{
+      background:#fff;
+      color:#063b72;
+      border-radius:16px;
+      padding:12px;
+      text-align:center;
+      font-weight:1000;
+    }
+
+    .summary-box strong{
+      display:block;
+      font-size:26px;
+      line-height:1;
+    }
+
+    .summary-box span{
+      display:block;
+      margin-top:4px;
+      font-size:11px;
+      color:#667085;
+      text-transform:uppercase;
+    }
+
+    .admin-lists-grid{
+      display:grid;
+      gap:14px;
+    }
+
+    .list-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .list-title{
+      margin:0;
+      font-size:21px;
+      line-height:1.05;
+      letter-spacing:-.03em;
+      color:#063b72;
+      font-weight:1000;
+    }
+
+    .list-sub{
+      margin:4px 0 0;
+      color:#667085;
+      font-size:13px;
+      font-weight:800;
+      line-height:1.3;
     }
 
     .players-admin-list{
@@ -95,42 +154,32 @@
     }
 
     .admin-btn.green{background:#0b7a3b;}
-    .admin-btn.pink{background:#ff3e8a;}
-    .admin-btn.red{background:#9b1c1c;}
     .admin-btn.yellow{background:#ffd84d;color:#102033;}
+    .admin-btn.red{background:#9b1c1c;}
 
     .admin-btn:disabled{
       opacity:.55;
       cursor:not-allowed;
     }
 
-    .summary-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-    }
-
-    .summary-box{
-      background:#fff;
-      color:#063b72;
+    .empty{
+      padding:13px 14px;
       border-radius:16px;
-      padding:12px;
-      text-align:center;
-      font-weight:1000;
-    }
-
-    .summary-box strong{
-      display:block;
-      font-size:26px;
-      line-height:1;
-    }
-
-    .summary-box span{
-      display:block;
-      margin-top:4px;
-      font-size:11px;
+      background:#fff;
       color:#667085;
-      text-transform:uppercase;
+      font-size:14px;
+      font-weight:900;
+      text-align:center;
+    }
+
+    @media(min-width:760px){
+      main{
+        padding-top:18px;
+      }
+
+      .admin-lists-grid{
+        grid-template-columns:1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -183,17 +232,39 @@
 
   <section class="section" id="playersSection" style="display:none;">
     <div class="summer-panel">
-      <div class="summer-panel-head">
+
+      <div class="admin-lists-grid">
+
         <div>
-          <h2 class="summer-panel-title">Liste admin</h2>
-          <p class="summer-panel-text">
-            Les joueurs actifs seront utilisés pour générer les rotations.
-          </p>
+          <div class="list-head">
+            <div>
+              <h2 class="list-title">✅ Actifs</h2>
+              <p class="list-sub">Utilisés pour générer les rotations.</p>
+            </div>
+            <div class="summer-pill"><span id="countActiveTop">0</span></div>
+          </div>
+
+          <div id="activePlayersList" class="players-admin-list">
+            <div class="empty">Chargement…</div>
+          </div>
         </div>
-        <div class="summer-pill">Live</div>
+
+        <div>
+          <div class="list-head">
+            <div>
+              <h2 class="list-title">⏳ En attente</h2>
+              <p class="list-sub">Non validés, absents, partis ou non disponibles.</p>
+            </div>
+            <div class="summer-pill"><span id="countWaitingTop">0</span></div>
+          </div>
+
+          <div id="waitingPlayersList" class="players-admin-list">
+            <div class="empty">Chargement…</div>
+          </div>
+        </div>
+
       </div>
 
-      <div id="playersList" class="players-admin-list"></div>
     </div>
   </section>
 
@@ -202,8 +273,8 @@
 <script type="module" src="../assets/js/header-admin.js"></script>
 
 <script type="module">
-  import { auth, db } from "../assets/js/firebase.js?v=admin-participants-1";
-  import { getRoleByUid } from "../assets/js/session.js?v=admin-participants-1";
+  import { auth, db } from "../assets/js/firebase.js?v=admin-participants-2";
+  import { getRoleByUid } from "../assets/js/session.js?v=admin-participants-2";
 
   import {
     onAuthStateChanged
@@ -238,11 +309,15 @@
 
   const stepLabel = document.getElementById("stepLabel");
   const statusMsg = document.getElementById("statusMsg");
-  const playersList = document.getElementById("playersList");
+
+  const activePlayersList = document.getElementById("activePlayersList");
+  const waitingPlayersList = document.getElementById("waitingPlayersList");
 
   const countTotal = document.getElementById("countTotal");
   const countActive = document.getElementById("countActive");
   const countWaiting = document.getElementById("countWaiting");
+  const countActiveTop = document.getElementById("countActiveTop");
+  const countWaitingTop = document.getElementById("countWaitingTop");
 
   stepLabel.textContent = stepLabels[STEP_ID] || STEP_ID;
 
@@ -268,39 +343,42 @@
       .replaceAll("'", "&#039;");
   }
 
-  function renderPlayer(id, data){
-    const active = isActivePlayer(data);
-    const surnom = escapeHtml(data.surnom || data.nickname || "Sans surnom");
-    const prenom = escapeHtml(data.prenom || "");
-    const nom = escapeHtml(data.nom || "");
+  function getNickname(data){
+    return (data.surnom || data.nickname || "Sans surnom").trim();
+  }
+
+  function sortByNickname(a, b){
+    return a.nickname.localeCompare(b.nickname, "fr", {
+      sensitivity: "base",
+      numeric: true
+    });
+  }
+
+  function renderPlayer(player){
+    const active = player.active;
+    const nextAction = active ? "waiting" : "active";
+    const nextLabel = active ? "⏳ Passer en attente" : "✅ Passer actif";
+    const nextClass = active ? "yellow" : "green";
 
     return `
       <div class="player-admin-card">
         <div class="player-top">
           <div>
-            <div class="player-name">${surnom}</div>
-            <div class="player-meta">${prenom} ${nom}</div>
+            <div class="player-name">${escapeHtml(player.nickname)}</div>
+            <div class="player-meta">${escapeHtml(player.prenom)} ${escapeHtml(player.nom)}</div>
           </div>
 
           <div class="status-pill ${active ? "active" : ""}">
-            ${statusLabel(data)}
+            ${statusLabel(player.raw)}
           </div>
         </div>
 
         <div class="player-actions">
-          <button class="admin-btn green" data-action="active" data-id="${id}">
-            ✅ Actif
+          <button class="admin-btn ${nextClass}" data-action="${nextAction}" data-id="${player.id}">
+            ${nextLabel}
           </button>
 
-          <button class="admin-btn yellow" data-action="waiting" data-id="${id}">
-            ⏳ Attente
-          </button>
-
-          <button class="admin-btn pink" data-action="pause" data-id="${id}">
-            ⏸️ Pause
-          </button>
-
-          <button class="admin-btn red" data-action="delete" data-id="${id}" data-key="${escapeHtml(data.nicknameKey || "")}">
+          <button class="admin-btn red" data-action="delete" data-id="${player.id}" data-key="${escapeHtml(player.nicknameKey)}">
             🗑️ Supprimer
           </button>
         </div>
@@ -308,58 +386,86 @@
     `;
   }
 
+  function empty(text){
+    return `<div class="empty">${escapeHtml(text)}</div>`;
+  }
+
   function startPlayersListener(){
     if(unsubscribePlayers) unsubscribePlayers();
 
     unsubscribePlayers = onSnapshot(q, (snap) => {
-      let total = 0;
-      let active = 0;
-      let waiting = 0;
+      const activePlayers = [];
+      const waitingPlayers = [];
 
-      playersList.innerHTML = "";
-
-      if(snap.empty){
-        statusMsg.textContent = "Aucun joueur inscrit pour le moment.";
-        countTotal.textContent = "0";
-        countActive.textContent = "0";
-        countWaiting.textContent = "0";
-        return;
-      }
+      activePlayersList.innerHTML = "";
+      waitingPlayersList.innerHTML = "";
 
       snap.forEach(docSnap => {
         const data = docSnap.data() || {};
-        total++;
+        const active = isActivePlayer(data);
 
-        if(isActivePlayer(data)) active++;
-        else waiting++;
+        const player = {
+          id: docSnap.id,
+          raw: data,
+          active,
+          nickname: getNickname(data),
+          prenom: data.prenom || "",
+          nom: data.nom || "",
+          nicknameKey: data.nicknameKey || ""
+        };
 
-        playersList.insertAdjacentHTML("beforeend", renderPlayer(docSnap.id, data));
+        if(active) activePlayers.push(player);
+        else waitingPlayers.push(player);
       });
 
-      countTotal.textContent = total;
-      countActive.textContent = active;
-      countWaiting.textContent = waiting;
+      activePlayers.sort(sortByNickname);
+      waitingPlayers.sort(sortByNickname);
+
+      if(activePlayers.length === 0){
+        activePlayersList.innerHTML = empty("Aucun joueur actif.");
+      }else{
+        activePlayersList.innerHTML = activePlayers.map(renderPlayer).join("");
+      }
+
+      if(waitingPlayers.length === 0){
+        waitingPlayersList.innerHTML = empty("Aucun joueur en attente.");
+      }else{
+        waitingPlayersList.innerHTML = waitingPlayers.map(renderPlayer).join("");
+      }
+
+      countTotal.textContent = String(activePlayers.length + waitingPlayers.length);
+      countActive.textContent = String(activePlayers.length);
+      countWaiting.textContent = String(waitingPlayers.length);
+      countActiveTop.textContent = String(activePlayers.length);
+      countWaitingTop.textContent = String(waitingPlayers.length);
+
       statusMsg.textContent = "Liste à jour.";
 
     }, (error) => {
       console.error(error);
+
+      activePlayersList.innerHTML = empty("Impossible de charger les joueurs actifs.");
+      waitingPlayersList.innerHTML = empty("Impossible de charger les joueurs en attente.");
       statusMsg.textContent = "Impossible de charger les participants.";
+
+      countTotal.textContent = "0";
+      countActive.textContent = "0";
+      countWaiting.textContent = "0";
+      countActiveTop.textContent = "0";
+      countWaitingTop.textContent = "0";
     });
   }
 
-  playersList.addEventListener("click", async (event) => {
-    const btn = event.target.closest("button");
-    if(!btn) return;
-
-    const id = btn.dataset.id;
-    const action = btn.dataset.action;
-    const nicknameKey = btn.dataset.key;
+  async function handleAction(button){
+    const id = button.dataset.id;
+    const action = button.dataset.action;
+    const nicknameKey = button.dataset.key;
 
     if(!id || !action) return;
 
     const playerRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "players", id);
 
-    btn.disabled = true;
+    button.disabled = true;
 
     try{
       if(action === "active"){
@@ -374,14 +480,6 @@
         await updateDoc(playerRef, {
           publicList: "waiting",
           status: "waiting",
-          updatedAt: serverTimestamp()
-        });
-      }
-
-      if(action === "pause"){
-        await updateDoc(playerRef, {
-          publicList: "waiting",
-          status: "pause",
           updatedAt: serverTimestamp()
         });
       }
@@ -401,8 +499,15 @@
       console.error(error);
       alert("Action impossible.");
     }finally{
-      btn.disabled = false;
+      button.disabled = false;
     }
+  }
+
+  document.addEventListener("click", async (event) => {
+    const button = event.target.closest("button[data-action]");
+    if(!button) return;
+
+    await handleAction(button);
   });
 
   function stopListeners(){
