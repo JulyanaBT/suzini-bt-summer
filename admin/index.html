@@ -3,196 +3,234 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Suzini BT Summer Tour</title>
+  <title>Admin — Suzini BT Summer Tour</title>
 
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    .admin-login{display:grid;gap:10px;}
+
+    .admin-input{
+      width:100%;
+      min-height:48px;
+      border:0;
+      border-radius:16px;
+      padding:12px 14px;
+      font-size:16px;
+      font-weight:800;
+      background:#fff;
+      color:#102033;
+    }
+
+    .admin-btn{
+      min-height:48px;
+      border:0;
+      border-radius:16px;
+      padding:12px 14px;
+      font-size:15px;
+      font-weight:1000;
+      background:#063b72;
+      color:#fff;
+      cursor:pointer;
+    }
+
+    .admin-btn.pink{background:#ff3e8a;}
+    .admin-btn.yellow{background:#ffd84d;color:#102033;}
+    .admin-btn.green{background:#0b7a3b;}
+
+    .admin-status{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:#fff;
+      color:#102033;
+      font-size:14px;
+      font-weight:900;
+      line-height:1.35;
+    }
+
+    .admin-status strong{color:#063b72;}
+
+    .admin-top-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+  </style>
 </head>
 
-<body>
+<body data-page="index" data-step="etape-1">
 
-<div id="siteHeader"></div>
+<div id="adminHeader"></div>
 
 <main class="container">
 
-  <section class="section">
-    <div class="hero">
-      <div class="hero-inner">
-
-        <div class="hero-pills">
-          <span class="pill">Tennis Club de Suzini</span>
-          <span class="pill">Été 2026</span>
-        </div>
-
+  <section class="section" id="loginSection">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
         <div>
-          <h1 class="hero-title">
-            Suzini BT<br>
-            <span class="summer">Summer Tour</span>
-          </h1>
-
-          <div class="hero-slogan">
-            Le beach tennis ne part pas en vacances :
-            <strong>il explose !</strong>
-          </div>
+          <h1 class="summer-panel-title">Connexion admin</h1>
+          <p class="summer-panel-text">
+            Connecte-toi pour accéder à la gestion du Summer Tour.
+          </p>
         </div>
+        <div class="summer-pill">Admin</div>
+      </div>
 
-        <div class="hero-actions">
-          <a class="hero-btn hero-btn-primary" href="etape-1/">
-            ☀️ Americano 02/07
-          </a>
+      <form id="loginForm" class="admin-login">
+        <input id="email" class="admin-input" type="email" placeholder="Email" required>
+        <input id="password" class="admin-input" type="password" placeholder="Mot de passe" required>
 
-          <a class="hero-btn hero-btn-secondary" href="evenements.html">
-            📅 Tous les événements
-          </a>
+        <button class="admin-btn" type="submit">
+          🔐 Se connecter
+        </button>
+
+        <div id="loginMessage" class="admin-status">
+          Non connecté.
         </div>
+      </form>
+    </div>
+  </section>
 
+  <section class="section" id="accessDenied" style="display:none;">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h1 class="summer-panel-title">⛔ Accès refusé</h1>
+          <p class="summer-panel-text">
+            Ce compte n’a pas de rôle actif pour accéder à l’administration.
+          </p>
+        </div>
+        <div class="summer-pill">Refusé</div>
+      </div>
+
+      <div class="admin-status" id="deniedMessage">
+        Vérifie le document utilisateur dans Firestore.
+      </div>
+
+      <div class="admin-top-actions">
+        <button id="logoutDeniedBtn" class="admin-btn pink" type="button">
+          🚪 Déconnexion
+        </button>
+
+        <a class="admin-btn green" href="../index.html">
+          🏠 Retour accueil
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="adminContent" style="display:none;">
     <div class="summer-panel">
       <div class="summer-panel-head">
         <div>
-          <h2 class="summer-panel-title">Événement à venir</h2>
+          <h1 class="summer-panel-title">🎛️ Espace admin</h1>
           <p class="summer-panel-text">
-            Première étape du Summer Tour : ouverte à tous, licenciés et non licenciés.
+            Sélectionne une étape dans le bandeau, puis choisis la page de gestion.
           </p>
         </div>
-
-        <div class="summer-pill">02/07</div>
+        <div class="summer-pill">Summer Tour</div>
       </div>
 
-      <a class="summer-card summer-card-blue" href="etape-1/">
-        <span class="summer-badge">À venir</span>
-        <div class="summer-date">02/07</div>
-        <div class="summer-kicker">Étape 1</div>
-        <h3 class="summer-title">Americano</h3>
-        <div class="summer-text">
-          Format convivial, équipes tournantes et bonne ambiance.
-        </div>
-        <span class="summer-link">Voir l’étape</span>
-      </a>
+      <div class="admin-status">
+        <strong>Connecté :</strong>
+        <span id="connectedUser">—</span><br>
+        <strong>Rôle :</strong>
+        <span id="connectedRole">—</span><br>
+        <strong>Étape active :</strong>
+        <span id="activeStep">Étape 1</span>
+      </div>
+
+      <div class="admin-top-actions">
+        <button id="logoutBtn" class="admin-btn pink" type="button">
+          🚪 Déconnexion
+        </button>
+
+        <a class="admin-btn green" href="../index.html">
+          🏠 Vue publique
+        </a>
+      </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="menuContent" style="display:none;">
     <div class="summer-panel">
       <div class="summer-panel-head">
         <div>
-          <h2 class="summer-panel-title">Accès rapide</h2>
+          <h2 class="summer-panel-title">Gestion</h2>
           <p class="summer-panel-text">
-            Les pages utiles pour participer et suivre le Summer Tour.
+            Accès rapides aux principales fonctions de l’étape sélectionnée.
           </p>
         </div>
-
-        <div class="summer-pill">Mini-site</div>
+        <div class="summer-pill">Menu</div>
       </div>
 
       <div class="summer-grid summer-grid-4">
-        <a class="summer-card summer-card-blue" href="etape-1/inscriptions.html">
-          <div class="summer-kicker">Participer</div>
+        <a class="summer-card summer-card-blue" href="inscriptions.html?step=etape-1">
+          <div class="summer-kicker">Ouverture</div>
           <h3 class="summer-title">Inscriptions</h3>
-          <div class="summer-text">S’inscrire à l’Americano.</div>
+          <div class="summer-text">Ouvrir, suspendre ou clôturer les inscriptions.</div>
         </a>
 
-        <a class="summer-card summer-card-pink" href="etape-1/participants.html">
+        <a class="summer-card summer-card-pink" href="participants.html?step=etape-1">
           <div class="summer-kicker">Joueurs</div>
           <h3 class="summer-title">Participants</h3>
-          <div class="summer-text">Voir les inscrits de l’étape 1.</div>
+          <div class="summer-text">Voir et gérer les joueurs inscrits.</div>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="etape-1/programmation.html">
+        <a class="summer-card summer-card-yellow" href="programmation.html?step=etape-1">
           <div class="summer-kicker">Planning</div>
           <h3 class="summer-title">Programmation</h3>
-          <div class="summer-text">Horaires, rotations et terrains.</div>
+          <div class="summer-text">Préparer les horaires, rotations et terrains.</div>
         </a>
 
-        <a class="summer-card summer-card-green" href="infos.html">
-          <div class="summer-kicker">Pratique</div>
-          <h3 class="summer-title">Infos</h3>
-          <div class="summer-text">Accès, restauration, règlement…</div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Autres étapes</h2>
-          <p class="summer-panel-text">
-            Deux soirées double mixte BT250 réservées aux joueurs licenciés FFT.
-          </p>
-        </div>
-
-        <div class="summer-pill">BT250</div>
-      </div>
-
-      <div class="summer-grid summer-grid-2">
-        <a class="summer-card summer-card-pink" href="etape-2/">
-          <div class="summer-date">09/07</div>
-          <div class="summer-kicker">Étape 2</div>
-          <h3 class="summer-title">Double mixte</h3>
-          <div class="summer-text">BT250 — licenciés uniquement.</div>
-          <span class="summer-link">Voir l’étape</span>
+        <a class="summer-card summer-card-green" href="classement.html?step=etape-1">
+          <div class="summer-kicker">Résultats</div>
+          <h3 class="summer-title">Classement</h3>
+          <div class="summer-text">Gérer le classement de l’étape.</div>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="etape-3/">
-          <div class="summer-date">16/07</div>
-          <div class="summer-kicker">Étape 3</div>
-          <h3 class="summer-title">Double mixte</h3>
-          <div class="summer-text">BT250 — licenciés uniquement.</div>
-          <span class="summer-link">Voir l’étape</span>
+        <a class="summer-card summer-card-blue" href="statistiques.html?step=etape-1">
+          <div class="summer-kicker">Analyse</div>
+          <h3 class="summer-title">Statistiques</h3>
+          <div class="summer-text">Suivre les données de participation.</div>
+        </a>
+
+        <a class="summer-card summer-card-pink" href="parametres.html?step=etape-1">
+          <div class="summer-kicker">Configuration</div>
+          <h3 class="summer-title">Paramètres</h3>
+          <div class="summer-text">Configurer l’étape, les liens et les options.</div>
+        </a>
+
+        <a class="summer-card summer-card-yellow" href="../etape-1/">
+          <div class="summer-kicker">Public</div>
+          <h3 class="summer-title">Voir l’étape</h3>
+          <div class="summer-text">Ouvrir la page publique de l’étape 1.</div>
+        </a>
+
+        <a class="summer-card summer-card-green" href="../index.html">
+          <div class="summer-kicker">Accueil</div>
+          <h3 class="summer-title">Site public</h3>
+          <div class="summer-text">Retourner à l’accueil général.</div>
         </a>
       </div>
 
       <div class="summer-note">
-        Les Americanos sont accessibles aux non licenciés. Les doubles mixtes BT250 sont réservés aux joueurs licenciés FFT.
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="orga">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Administration</h2>
-          <p class="summer-panel-text">
-            Accès sécurisé pour gérer les inscriptions, participants et programmations.
-          </p>
-        </div>
-
-        <div class="summer-pill">Sécurisé</div>
-      </div>
-
-      <a class="summer-card summer-card-blue" href="admin/">
-        <div class="summer-kicker">Gestion</div>
-        <h3 class="summer-title">Espace admin</h3>
-        <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
-      </a>
-
-      <div class="summer-note" style="margin-top:14px;">
-        <strong>Statut :</strong>
-        <span id="authStatus">Vérification de la connexion…</span>
-      </div>
-
-      <div style="margin-top:12px;">
-        <button id="logoutBtn" class="admin-btn" type="button" style="display:none;">
-          🚪 Déconnexion
-        </button>
+        Les affichages pourront ensuite être adaptés selon le rôle : admin, JAT ou arbitre.
       </div>
     </div>
   </section>
 
 </main>
 
-<script type="module" src="assets/js/header-gen.js"></script>
+<script type="module" src="../assets/js/header-admin.js"></script>
 
 <script type="module">
-  import { auth, db } from "./assets/js/firebase.js?v=index-auth-1";
+  import { auth, db } from "../assets/js/firebase.js?v=admin-index-2";
 
   import {
+    signInWithEmailAndPassword,
     onAuthStateChanged,
     signOut
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
@@ -202,48 +240,146 @@
     getDoc
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-  const authStatus = document.getElementById("authStatus");
-  const logoutBtn = document.getElementById("logoutBtn");
+  const params = new URLSearchParams(window.location.search);
+  const currentStep = params.get("step") || "etape-1";
 
-  async function getUserRole(uid){
-    const snap = await getDoc(doc(db, "users", uid));
+  document.body.dataset.step = currentStep;
+
+  const stepLabels = {
+    "etape-1": "Étape 1 — Americano 02/07",
+    "etape-2": "Étape 2 — Double mixte 09/07",
+    "etape-3": "Étape 3 — Double mixte 16/07"
+  };
+
+  const loginSection = document.getElementById("loginSection");
+  const accessDenied = document.getElementById("accessDenied");
+  const adminContent = document.getElementById("adminContent");
+  const menuContent = document.getElementById("menuContent");
+
+  const loginForm = document.getElementById("loginForm");
+  const loginMessage = document.getElementById("loginMessage");
+  const deniedMessage = document.getElementById("deniedMessage");
+
+  const connectedUser = document.getElementById("connectedUser");
+  const connectedRole = document.getElementById("connectedRole");
+  const activeStep = document.getElementById("activeStep");
+
+  const logoutBtn = document.getElementById("logoutBtn");
+  const logoutDeniedBtn = document.getElementById("logoutDeniedBtn");
+
+  activeStep.textContent = stepLabels[currentStep] || currentStep;
+
+  function setMenuLinks(){
+    document.querySelectorAll('a[href*="?step=etape-1"]').forEach(link => {
+      link.href = link.href.replace("step=etape-1", `step=${currentStep}`);
+    });
+
+    const publicStepLink = document.querySelector('a[href="../etape-1/"]');
+    if(publicStepLink){
+      publicStepLink.href = `../${currentStep}/`;
+      publicStepLink.querySelector(".summer-text").textContent =
+        `Ouvrir la page publique de ${stepLabels[currentStep] || currentStep}.`;
+    }
+  }
+
+  setMenuLinks();
+
+  async function getUserProfile(uid){
+    const userRef = doc(db, "users", uid);
+    const snap = await getDoc(userRef);
 
     if(!snap.exists()) return null;
 
     const data = snap.data() || {};
+
     if(data.active !== true) return null;
 
-    return data.role || null;
+    return data;
   }
+
+  function hideAll(){
+    loginSection.style.display = "none";
+    accessDenied.style.display = "none";
+    adminContent.style.display = "none";
+    menuContent.style.display = "none";
+  }
+
+  function showLogin(message = "Non connecté."){
+    hideAll();
+    loginSection.style.display = "block";
+    loginMessage.textContent = message;
+  }
+
+  function showDenied(message){
+    hideAll();
+    accessDenied.style.display = "block";
+    deniedMessage.textContent = message || "Accès refusé.";
+  }
+
+  function showAdmin(user, profile){
+    hideAll();
+
+    connectedUser.textContent = user.email || "Utilisateur connecté";
+    connectedRole.textContent = profile.role || "—";
+    activeStep.textContent = stepLabels[currentStep] || currentStep;
+
+    adminContent.style.display = "block";
+    menuContent.style.display = "block";
+  }
+
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    loginMessage.textContent = "Connexion…";
+
+    try{
+      await signInWithEmailAndPassword(
+        auth,
+        loginForm.email.value.trim(),
+        loginForm.password.value
+      );
+    }catch(error){
+      console.error(error);
+      loginMessage.textContent = "Connexion impossible. Vérifie l’email et le mot de passe.";
+    }
+  });
+
+  async function doLogout(){
+    await signOut(auth);
+    showLogin("Déconnecté.");
+  }
+
+  logoutBtn.onclick = doLogout;
+  logoutDeniedBtn.onclick = doLogout;
 
   onAuthStateChanged(auth, async (user) => {
     if(!user){
-      authStatus.textContent = "Non connecté.";
-      logoutBtn.style.display = "none";
+      showLogin();
       return;
     }
 
     try{
-      const role = await getUserRole(user.uid);
+      const profile = await getUserProfile(user.uid);
 
-      if(!role){
-        authStatus.textContent = `${user.email} — aucun rôle actif.`;
-      }else{
-        authStatus.textContent = `${user.email} — rôle : ${role}`;
+      if(!profile){
+        showDenied(
+          `${user.email || "Compte connecté"} — aucun rôle actif trouvé. Vérifie Firestore : users/${user.uid}`
+        );
+        return;
       }
 
-      logoutBtn.style.display = "inline-flex";
+      if(!["admin", "jat", "arbitre"].includes(profile.role)){
+        showDenied(`Rôle non autorisé : ${profile.role}`);
+        return;
+      }
+
+      showAdmin(user, profile);
 
     }catch(error){
       console.error(error);
-      authStatus.textContent = `${user.email} — rôle impossible à lire.`;
-      logoutBtn.style.display = "inline-flex";
+      showDenied("Erreur lors de la vérification des droits.");
     }
   });
-
-  logoutBtn.onclick = async () => {
-    await signOut(auth);
-  };
 </script>
 
 </body>
