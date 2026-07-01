@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Participants</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    main{
+      padding-top:calc(var(--admin-total-top, 140px) + 14px);
+    }
+
+    .admin-status{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:#fff;
+      color:#102033;
+      font-size:14px;
+      font-weight:900;
+      line-height:1.35;
+    }
+
+    .players-admin-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .player-admin-card{
+      background:#fff;
+      color:#102033;
+      border-radius:18px;
+      padding:13px;
+      display:grid;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+    }
+
+    .player-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .player-name{
+      font-size:20px;
+      font-weight:1000;
+      color:#063b72;
+      line-height:1.1;
+    }
+
+    .player-meta{
+      margin-top:3px;
+      font-size:13px;
+      font-weight:800;
+      color:#667085;
+      line-height:1.3;
+    }
+
+    .status-pill{
+      flex-shrink:0;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      background:#fff7d6;
+      color:#102033;
+    }
+
+    .status-pill.active{
+      background:#d9fbe8;
+      color:#087a35;
+    }
+
+    .player-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .admin-btn{
+      min-height:42px;
+      border:0;
+      border-radius:14px;
+      padding:9px 10px;
+      font-size:13px;
+      font-weight:1000;
+      cursor:pointer;
+      background:#063b72;
+      color:#fff;
+    }
+
+    .admin-btn.green{background:#0b7a3b;}
+    .admin-btn.pink{background:#ff3e8a;}
+    .admin-btn.red{background:#9b1c1c;}
+    .admin-btn.yellow{background:#ffd84d;color:#102033;}
+
+    .admin-btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .summary-box{
+      background:#fff;
+      color:#063b72;
+      border-radius:16px;
+      padding:12px;
+      text-align:center;
+      font-weight:1000;
+    }
+
+    .summary-box strong{
+      display:block;
+      font-size:26px;
+      line-height:1;
+    }
+
+    .summary-box span{
+      display:block;
+      margin-top:4px;
+      font-size:11px;
+      color:#667085;
+      text-transform:uppercase;
+    }
+  </style>
+</head>
+
+<body data-page="participants" data-step="etape-1">
+
+<div id="adminHeader"></div>
+
+<main class="container">
+
+  <section class="section" id="accessDenied" style="display:none;">
+    <div class="summer-panel">
+      <h1 class="summer-panel-title">⛔ Accès refusé</h1>
+      <p class="summer-panel-text">Cette page est réservée aux organisateurs.</p>
+    </div>
+  </section>
+
+  <section class="section" id="pageContent" style="display:none;">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h1 class="summer-panel-title">Participants</h1>
+          <p class="summer-panel-text">
+            Gère les joueurs actifs et les joueurs en attente pour la programmation.
+          </p>
+        </div>
+        <div class="summer-pill" id="stepLabel">Étape 1</div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-box">
+          <strong id="countTotal">0</strong>
+          <span>Total</span>
+        </div>
+        <div class="summary-box">
+          <strong id="countActive">0</strong>
+          <span>Actifs</span>
+        </div>
+        <div class="summary-box">
+          <strong id="countWaiting">0</strong>
+          <span>Attente</span>
+        </div>
+      </div>
+
+      <div id="statusMsg" class="admin-status">
+        Chargement des participants…
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="playersSection" style="display:none;">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h2 class="summer-panel-title">Liste admin</h2>
+          <p class="summer-panel-text">
+            Les joueurs actifs seront utilisés pour générer les rotations.
+          </p>
+        </div>
+        <div class="summer-pill">Live</div>
+      </div>
+
+      <div id="playersList" class="players-admin-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<script type="module" src="../assets/js/header-admin.js"></script>
+
+<script type="module">
+  import { auth, db } from "../assets/js/firebase.js?v=admin-participants-1";
+  import { getRoleByUid } from "../assets/js/session.js?v=admin-participants-1";
+
+  import {
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  import {
+    collection,
+    doc,
+    onSnapshot,
+    updateDoc,
+    deleteDoc,
+    query,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const EVENT_ID = "suzini-summer-tour-2026";
+
+  const params = new URLSearchParams(window.location.search);
+  const STEP_ID = params.get("step") || "etape-1";
+  document.body.dataset.step = STEP_ID;
+
+  const stepLabels = {
+    "etape-1": "Étape 1 — Americano",
+    "etape-2": "Étape 2 — Mixte",
+    "etape-3": "Étape 3 — Mixte"
+  };
+
+  const accessDenied = document.getElementById("accessDenied");
+  const pageContent = document.getElementById("pageContent");
+  const playersSection = document.getElementById("playersSection");
+
+  const stepLabel = document.getElementById("stepLabel");
+  const statusMsg = document.getElementById("statusMsg");
+  const playersList = document.getElementById("playersList");
+
+  const countTotal = document.getElementById("countTotal");
+  const countActive = document.getElementById("countActive");
+  const countWaiting = document.getElementById("countWaiting");
+
+  stepLabel.textContent = stepLabels[STEP_ID] || STEP_ID;
+
+  const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
+  const q = query(playersRef, orderBy("createdAt", "asc"));
+
+  let unsubscribePlayers = null;
+
+  function isActivePlayer(data){
+    return data.publicList === "active" || data.status === "active";
+  }
+
+  function statusLabel(data){
+    return isActivePlayer(data) ? "Actif" : "En attente";
+  }
+
+  function escapeHtml(value){
+    return String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function renderPlayer(id, data){
+    const active = isActivePlayer(data);
+    const surnom = escapeHtml(data.surnom || data.nickname || "Sans surnom");
+    const prenom = escapeHtml(data.prenom || "");
+    const nom = escapeHtml(data.nom || "");
+
+    return `
+      <div class="player-admin-card">
+        <div class="player-top">
+          <div>
+            <div class="player-name">${surnom}</div>
+            <div class="player-meta">${prenom} ${nom}</div>
+          </div>
+
+          <div class="status-pill ${active ? "active" : ""}">
+            ${statusLabel(data)}
+          </div>
+        </div>
+
+        <div class="player-actions">
+          <button class="admin-btn green" data-action="active" data-id="${id}">
+            ✅ Actif
+          </button>
+
+          <button class="admin-btn yellow" data-action="waiting" data-id="${id}">
+            ⏳ Attente
+          </button>
+
+          <button class="admin-btn pink" data-action="pause" data-id="${id}">
+            ⏸️ Pause
+          </button>
+
+          <button class="admin-btn red" data-action="delete" data-id="${id}" data-key="${escapeHtml(data.nicknameKey || "")}">
+            🗑️ Supprimer
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  function startPlayersListener(){
+    if(unsubscribePlayers) unsubscribePlayers();
+
+    unsubscribePlayers = onSnapshot(q, (snap) => {
+      let total = 0;
+      let active = 0;
+      let waiting = 0;
+
+      playersList.innerHTML = "";
+
+      if(snap.empty){
+        statusMsg.textContent = "Aucun joueur inscrit pour le moment.";
+        countTotal.textContent = "0";
+        countActive.textContent = "0";
+        countWaiting.textContent = "0";
+        return;
+      }
+
+      snap.forEach(docSnap => {
+        const data = docSnap.data() || {};
+        total++;
+
+        if(isActivePlayer(data)) active++;
+        else waiting++;
+
+        playersList.insertAdjacentHTML("beforeend", renderPlayer(docSnap.id, data));
+      });
+
+      countTotal.textContent = total;
+      countActive.textContent = active;
+      countWaiting.textContent = waiting;
+      statusMsg.textContent = "Liste à jour.";
+
+    }, (error) => {
+      console.error(error);
+      statusMsg.textContent = "Impossible de charger les participants.";
+    });
+  }
+
+  playersList.addEventListener("click", async (event) => {
+    const btn = event.target.closest("button");
+    if(!btn) return;
+
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+    const nicknameKey = btn.dataset.key;
+
+    if(!id || !action) return;
+
+    const playerRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "players", id);
+
+    btn.disabled = true;
+
+    try{
+      if(action === "active"){
+        await updateDoc(playerRef, {
+          publicList: "active",
+          status: "active",
+          updatedAt: serverTimestamp()
+        });
+      }
+
+      if(action === "waiting"){
+        await updateDoc(playerRef, {
+          publicList: "waiting",
+          status: "waiting",
+          updatedAt: serverTimestamp()
+        });
+      }
+
+      if(action === "pause"){
+        await updateDoc(playerRef, {
+          publicList: "waiting",
+          status: "pause",
+          updatedAt: serverTimestamp()
+        });
+      }
+
+      if(action === "delete"){
+        const ok = confirm("Supprimer cette inscription ? Le surnom sera libéré.");
+        if(!ok) return;
+
+        await deleteDoc(playerRef);
+
+        if(nicknameKey){
+          await deleteDoc(doc(db, "summerTourNicknames", nicknameKey));
+        }
+      }
+
+    }catch(error){
+      console.error(error);
+      alert("Action impossible.");
+    }finally{
+      btn.disabled = false;
+    }
+  });
+
+  function stopListeners(){
+    if(unsubscribePlayers){
+      unsubscribePlayers();
+      unsubscribePlayers = null;
+    }
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    accessDenied.style.display = "none";
+    pageContent.style.display = "none";
+    playersSection.style.display = "none";
+    stopListeners();
+
+    if(!user){
+      accessDenied.style.display = "block";
+      return;
+    }
+
+    try{
+      const role = await getRoleByUid(user.uid);
+
+      if(!["admin", "jat", "arbitre"].includes(role)){
+        accessDenied.style.display = "block";
+        return;
+      }
+
+      pageContent.style.display = "block";
+      playersSection.style.display = "block";
+      startPlayersListener();
+
+    }catch(error){
+      console.error(error);
+      accessDenied.style.display = "block";
+    }
+  });
+</script>
+
+</body>
+</html>
