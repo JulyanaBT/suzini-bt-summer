@@ -79,7 +79,8 @@
       line-height:1;
     }
 
-    .court-block{
+    .court-block,
+    .bench-block{
       border-radius:15px;
       padding:8px;
       display:grid;
@@ -97,20 +98,31 @@
       border-color:rgba(255,196,0,.35);
     }
 
-    .court-head{
+    .bench-block{
+      background:#e6f7ee;
+      border-color:rgba(11,122,59,.22);
+    }
+
+    .court-head,
+    .bench-head{
       display:grid;
       grid-template-columns:1fr auto;
       gap:8px;
       align-items:center;
     }
 
-    .court-name{
+    .court-name,
+    .bench-title{
       font-size:12px;
       font-weight:1000;
       color:#063b72;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
+    }
+
+    .bench-title{
+      color:#087a35;
     }
 
     .match-pill{
@@ -167,6 +179,17 @@
       align-items:center;
       justify-content:center;
       box-shadow:inset 0 0 0 1px rgba(16,24,40,.10);
+    }
+
+    .bench-list{
+      min-height:30px;
+      border-radius:12px;
+      padding:7px 9px;
+      background:rgba(255,255,255,.82);
+      font-size:13px;
+      font-weight:1000;
+      color:#102033;
+      line-height:1.15;
     }
 
     .empty{
@@ -249,7 +272,7 @@
 <script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=public-prog-americano-2";
+  import { db } from "../assets/js/firebase.js?v=public-prog-americano-3";
 
   import {
     collection,
@@ -291,6 +314,11 @@
   function teamName(team){
     if(!Array.isArray(team) || team.length < 2) return "Équipe";
     return `${playerName(team[0])} / ${playerName(team[1])}`;
+  }
+
+  function benchNames(bench){
+    if(!Array.isArray(bench) || bench.length === 0) return "Aucun joueur sur le banc";
+    return bench.map(playerName).join(" • ");
   }
 
   function scoreValue(value){
@@ -365,6 +393,21 @@
     `;
   }
 
+  function renderBench(round){
+    return `
+      <div class="bench-block">
+        <div class="bench-head">
+          <div class="bench-title">🌴 Banc</div>
+          <div class="match-pill current">Actifs</div>
+        </div>
+
+        <div class="bench-list">
+          ${esc(benchNames(round.bench))}
+        </div>
+      </div>
+    `;
+  }
+
   function renderRound(round){
     const matches = sortedMatches(round);
 
@@ -372,6 +415,7 @@
       <div class="round-card">
         <div class="round-title">Tour ${esc(round.roundNumber)}</div>
         ${matches.map(renderCourt).join("")}
+        ${renderBench(round)}
       </div>
     `;
   }
