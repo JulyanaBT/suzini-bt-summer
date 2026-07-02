@@ -26,7 +26,7 @@ const tabs = [
   { key:"tirage", label:"Tirage", href:"tirage.html", icon:"🎲" },
   { key:"programmation", label:"Planning", href:"programmation.html", icon:"📅" },
   { key:"classement", label:"Classement", href:"classement.html", icon:"🏆" },
-  { key:"parametres", label:"Paramètres", href:"parametres.html", icon:"⚙️" }
+  { key:"parametres", label:"Paramètres", href:"maintenance.html", icon:"⚙️" }
 ];
 
 header.innerHTML = `
