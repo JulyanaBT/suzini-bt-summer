@@ -8,118 +8,160 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
 
   <style>
-    main{padding-top:12px;}
+    main{
+      padding-top:8px;
+      padding-bottom:24px;
+    }
+
+    .section{
+      margin-top:8px;
+    }
 
     .status-box{
-      padding:12px 14px;
+      padding:10px 12px;
       border-radius:16px;
       background:#fff;
       color:#102033;
-      font-size:14px;
-      font-weight:900;
-      line-height:1.35;
+      font-size:13px;
+      font-weight:1000;
+      line-height:1.3;
       box-shadow:0 6px 14px rgba(16,24,40,.08);
-    }
-
-    .program-grid{
       display:grid;
-      gap:12px;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      text-align:center;
     }
 
-    .match-card{
+    .status-box strong{
+      display:block;
+      font-size:20px;
+      color:#063b72;
+      line-height:1;
+    }
+
+    .status-box span{
+      display:block;
+      margin-top:3px;
+      color:#667085;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    .section-title{
+      margin:0 0 8px;
+      font-size:19px;
+      color:#063b72;
+      font-weight:1000;
+      letter-spacing:-.03em;
+    }
+
+    .rounds-list{
+      display:grid;
+      gap:8px;
+    }
+
+    .round-card{
       background:#fff;
       color:#102033;
       border-radius:18px;
-      padding:13px;
+      padding:10px;
       display:grid;
-      gap:10px;
+      gap:7px;
       box-shadow:0 8px 18px rgba(16,24,40,.10);
       border:1px solid rgba(16,24,40,.08);
     }
 
-    .match-card.done{
-      opacity:.88;
-      background:#f8fafc;
+    .round-title{
+      font-size:17px;
+      font-weight:1000;
+      color:#063b72;
+      line-height:1;
     }
 
-    .match-card.court-a{
-      background:#fff8dd;
-      border-color:rgba(255,196,0,.35);
+    .court-block{
+      border-radius:15px;
+      padding:8px;
+      display:grid;
+      gap:5px;
+      border:1px solid rgba(16,24,40,.08);
     }
 
-    .match-card.court-b{
+    .court-lisa{
       background:#ffeef2;
       border-color:rgba(255,0,60,.20);
     }
 
-    .match-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
+    .court-manon{
+      background:#fff8dd;
+      border-color:rgba(255,196,0,.35);
     }
 
-    .match-title{
-      font-size:18px;
+    .court-head{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:8px;
+      align-items:center;
+    }
+
+    .court-name{
+      font-size:12px;
       font-weight:1000;
       color:#063b72;
-      line-height:1.1;
-    }
-
-    .match-sub{
-      margin-top:4px;
-      font-size:13px;
-      font-weight:900;
-      color:#667085;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .match-pill{
-      flex-shrink:0;
-      padding:6px 10px;
+      padding:4px 8px;
       border-radius:999px;
-      font-size:11px;
+      font-size:9px;
       font-weight:1000;
       text-transform:uppercase;
       background:#fff7d6;
       color:#102033;
+      white-space:nowrap;
     }
 
-    .match-pill.done{
+    .match-pill.current{
       background:#d9fbe8;
       color:#087a35;
     }
 
-    .teams{
-      display:grid;
-      gap:8px;
+    .match-pill.done{
+      background:#e6f7ee;
+      color:#087a35;
     }
 
     .team-row{
       display:grid;
-      grid-template-columns:1fr 54px;
-      gap:8px;
+      grid-template-columns:1fr 42px;
+      gap:6px;
       align-items:center;
     }
 
     .team-name{
-      min-height:44px;
-      border-radius:15px;
-      padding:10px 12px;
-      background:rgba(255,255,255,.80);
+      min-height:30px;
+      border-radius:12px;
+      padding:7px 9px;
+      background:rgba(255,255,255,.82);
+      font-size:13px;
       font-weight:1000;
       color:#102033;
-      display:flex;
-      align-items:center;
-      line-height:1.15;
+      line-height:1.05;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .score-box{
-      min-height:44px;
-      border-radius:15px;
-      padding:8px 10px;
+      min-height:30px;
+      border-radius:12px;
+      padding:6px 8px;
       background:#fff;
       color:#063b72;
-      font-size:20px;
+      font-size:15px;
       font-weight:1000;
       display:flex;
       align-items:center;
@@ -127,35 +169,8 @@
       box-shadow:inset 0 0 0 1px rgba(16,24,40,.10);
     }
 
-    .vs-line{
-      text-align:center;
-      font-weight:1000;
-      letter-spacing:2px;
-      color:#667085;
-      font-size:12px;
-    }
-
-    .bench-box{
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius:16px;
-      background:#fff7d6;
-      color:#102033;
-      font-size:13px;
-      font-weight:900;
-      line-height:1.35;
-    }
-
-    .section-title{
-      margin:0 0 10px;
-      font-size:22px;
-      color:#063b72;
-      font-weight:1000;
-      letter-spacing:-.03em;
-    }
-
     .empty{
-      padding:13px 14px;
+      padding:12px 14px;
       border-radius:16px;
       background:#fff;
       color:#667085;
@@ -164,9 +179,18 @@
       text-align:center;
     }
 
+    .compact-panel{
+      padding:12px;
+    }
+
     @media(min-width:760px){
-      main{padding-top:18px;}
-      .program-grid{grid-template-columns:1fr 1fr;}
+      main{
+        padding-top:14px;
+      }
+
+      .rounds-list{
+        grid-template-columns:1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -183,36 +207,37 @@
 <main class="container">
 
   <section class="section">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h1 class="summer-panel-title">Programmation</h1>
-          <p class="summer-panel-text">
-            Matchs en cours, matchs à venir et résultats de l’Americano.
-          </p>
-        </div>
-        <div class="summer-pill">Live</div>
-      </div>
-
+    <div class="summer-panel compact-panel">
       <div id="statusBox" class="status-box">
-        Chargement de la programmation…
+        <div>
+          <strong id="countRounds">0</strong>
+          <span>Tours</span>
+        </div>
+        <div>
+          <strong id="countPending">0</strong>
+          <span>À jouer</span>
+        </div>
+        <div>
+          <strong id="countDone">0</strong>
+          <span>Terminés</span>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="summer-panel">
-      <h2 class="section-title">🔥 Matchs en cours / à venir</h2>
-      <div id="currentList" class="program-grid">
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">🔥 Tours en cours / à venir</h2>
+      <div id="currentList" class="rounds-list">
         <div class="empty">Chargement…</div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="summer-panel">
-      <h2 class="section-title">✅ Matchs terminés</h2>
-      <div id="doneList" class="program-grid">
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">✅ Tours terminés</h2>
+      <div id="doneList" class="rounds-list">
         <div class="empty">Chargement…</div>
       </div>
     </div>
@@ -221,9 +246,10 @@
 </main>
 
 <script type="module" src="../assets/js/header-etape.js"></script>
+<script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=public-prog-americano-1";
+  import { db } from "../assets/js/firebase.js?v=public-prog-americano-2";
 
   import {
     collection,
@@ -235,9 +261,12 @@
   const EVENT_ID = "suzini-summer-tour-2026";
   const STEP_ID = "etape-1";
 
-  const statusBox = document.getElementById("statusBox");
   const currentList = document.getElementById("currentList");
   const doneList = document.getElementById("doneList");
+
+  const countRounds = document.getElementById("countRounds");
+  const countPending = document.getElementById("countPending");
+  const countDone = document.getElementById("countDone");
 
   const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
   const roundsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "rounds");
@@ -264,117 +293,113 @@
     return `${playerName(team[0])} / ${playerName(team[1])}`;
   }
 
-  function allMatches(){
-    return rounds.flatMap(round =>
-      (round.matches || []).map(match => ({
-        ...match,
-        roundId: round.id,
-        roundNumber: round.roundNumber,
-        bench: round.bench || []
-      }))
-    );
-  }
-
-  function completedMatches(){
-    return allMatches().filter(m => m.status === "completed");
-  }
-
-  function pendingMatches(){
-    return allMatches().filter(m => m.status !== "completed");
-  }
-
-  function courtClass(court){
-    if(String(court || "").includes("Lisa")) return "court-a";
-    if(String(court || "").includes("Manon")) return "court-b";
-    return "";
-  }
-
   function scoreValue(value){
     if(value === null || value === undefined || value === "") return "—";
     return String(value);
   }
 
-  function renderMatch(match){
-    const done = match.status === "completed";
+  function isCompleted(match){
+    return match?.status === "completed";
+  }
+
+  function roundCompleted(round){
+    const matches = round.matches || [];
+    return matches.length > 0 && matches.every(isCompleted);
+  }
+
+  function roundPending(round){
+    return (round.matches || []).some(match => !isCompleted(match));
+  }
+
+  function matchState(match){
+    if(isCompleted(match)) return "Terminé";
+    return "À venir";
+  }
+
+  function matchPillClass(match){
+    if(isCompleted(match)) return "done";
+    return "current";
+  }
+
+  function courtClass(court){
+    if(String(court || "").includes("Lisa")) return "court-lisa";
+    if(String(court || "").includes("Manon")) return "court-manon";
+    return "";
+  }
+
+  function courtOrder(match){
+    const court = String(match?.court || "");
+    if(court.includes("Lisa")) return 1;
+    if(court.includes("Manon")) return 2;
+    return 9;
+  }
+
+  function sortedMatches(round){
+    return [...(round.matches || [])].sort((a,b) => {
+      const courtDiff = courtOrder(a) - courtOrder(b);
+      if(courtDiff !== 0) return courtDiff;
+      return Number(a.matchIndex || 0) - Number(b.matchIndex || 0);
+    });
+  }
+
+  function renderCourt(match){
     const cls = courtClass(match.court);
 
     return `
-      <div class="match-card ${done ? "done" : ""} ${esc(cls)}">
-        <div class="match-head">
-          <div>
-            <div class="match-title">Tour ${esc(match.roundNumber)} — ${esc(match.court)}</div>
-            <div class="match-sub">${done ? "Résultat validé" : "Match à jouer"}</div>
-          </div>
-
-          <div class="match-pill ${done ? "done" : ""}">
-            ${done ? "Terminé" : "À jouer"}
-          </div>
+      <div class="court-block ${esc(cls)}">
+        <div class="court-head">
+          <div class="court-name">${esc(match.court || "Terrain")}</div>
+          <div class="match-pill ${matchPillClass(match)}">${esc(matchState(match))}</div>
         </div>
 
-        <div class="teams">
-          <div class="team-row">
-            <div class="team-name">${esc(teamName(match.teamA))}</div>
-            <div class="score-box">${esc(scoreValue(match.scoreA))}</div>
-          </div>
+        <div class="team-row">
+          <div class="team-name">${esc(teamName(match.teamA))}</div>
+          <div class="score-box">${esc(scoreValue(match.scoreA))}</div>
+        </div>
 
-          <div class="vs-line">VS</div>
-
-          <div class="team-row">
-            <div class="team-name">${esc(teamName(match.teamB))}</div>
-            <div class="score-box">${esc(scoreValue(match.scoreB))}</div>
-          </div>
+        <div class="team-row">
+          <div class="team-name">${esc(teamName(match.teamB))}</div>
+          <div class="score-box">${esc(scoreValue(match.scoreB))}</div>
         </div>
       </div>
     `;
   }
 
-  function renderBench(round){
-    const bench = Array.isArray(round.bench) ? round.bench : [];
-    if(!bench.length) return "";
+  function renderRound(round){
+    const matches = sortedMatches(round);
 
     return `
-      <div class="bench-box">
-        Banc tour ${esc(round.roundNumber)} :
-        ${bench.map(playerName).map(esc).join(" • ")}
+      <div class="round-card">
+        <div class="round-title">Tour ${esc(round.roundNumber)}</div>
+        ${matches.map(renderCourt).join("")}
       </div>
     `;
   }
 
   function render(){
-    const pending = pendingMatches()
-      .sort((a,b) => Number(a.roundNumber) - Number(b.roundNumber) || Number(a.matchIndex) - Number(b.matchIndex));
+    const pendingRounds = rounds
+      .filter(roundPending)
+      .sort((a,b) => Number(a.roundNumber) - Number(b.roundNumber));
 
-    const done = completedMatches()
-      .sort((a,b) => {
-        const da = a.completedAt?.seconds || 0;
-        const db = b.completedAt?.seconds || 0;
-        if(db !== da) return db - da;
-        return Number(b.roundNumber) - Number(a.roundNumber);
-      });
+    const doneRounds = rounds
+      .filter(roundCompleted)
+      .sort((a,b) => Number(b.roundNumber) - Number(a.roundNumber));
 
-    currentList.innerHTML = pending.length
-      ? pending.map(renderMatch).join("")
-      : `<div class="empty">Aucun match en cours.</div>`;
+    const allMatches = rounds.flatMap(round => round.matches || []);
+    const pendingMatches = allMatches.filter(match => !isCompleted(match));
+    const doneMatches = allMatches.filter(isCompleted);
 
-    doneList.innerHTML = done.length
-      ? done.map(renderMatch).join("")
-      : `<div class="empty">Aucun match terminé.</div>`;
+    countRounds.textContent = String(rounds.length);
+    countPending.textContent = String(pendingMatches.length);
+    countDone.textContent = String(doneMatches.length);
 
-    const activeRounds = rounds.filter(round =>
-      (round.matches || []).some(match => match.status !== "completed")
-    );
+    currentList.innerHTML = pendingRounds.length
+      ? pendingRounds.map(renderRound).join("")
+      : `<div class="empty">Aucun tour en cours.</div>`;
 
-    const benchHtml = activeRounds
-      .map(renderBench)
-      .filter(Boolean)
-      .join("");
-
-    statusBox.innerHTML = `
-      ${rounds.length} tour(s) généré(s) —
-      ${pending.length} match(s) à jouer —
-      ${done.length} match(s) terminé(s).
-      ${benchHtml ? `<div style="margin-top:10px;">${benchHtml}</div>` : ""}
-    `;
+    doneList.innerHTML = doneRounds.length
+      ? doneRounds.map(renderRound).join("")
+      : `<div class="empty">Aucun tour terminé.</div>`;
   }
 
   onSnapshot(query(playersRef, orderBy("createdAt", "asc")), (snap) => {
@@ -390,7 +415,7 @@
 
   }, (error) => {
     console.error(error);
-    statusBox.textContent = "Impossible de charger les participants.";
+    currentList.innerHTML = `<div class="empty">Impossible de charger les participants.</div>`;
   });
 
   onSnapshot(query(roundsRef, orderBy("roundNumber", "asc")), (snap) => {
@@ -403,7 +428,7 @@
 
   }, (error) => {
     console.error(error);
-    statusBox.textContent = "Impossible de charger la programmation.";
+    currentList.innerHTML = `<div class="empty">Impossible de charger la programmation.</div>`;
   });
 </script>
 
