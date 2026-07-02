@@ -8,21 +8,28 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
 
   <style>
-    main{padding-top:12px;}
+    main{
+      padding-top:8px;
+      padding-bottom:24px;
+    }
+
+    .section{margin-top:8px;}
+
+    .compact-panel{padding:12px;}
 
     .ranking-list{
       display:grid;
-      gap:10px;
+      gap:8px;
     }
 
     .rank-card{
       background:#fff;
       color:#102033;
-      border-radius:18px;
-      padding:13px;
+      border-radius:16px;
+      padding:10px;
       display:grid;
-      gap:10px;
-      box-shadow:0 8px 18px rgba(16,24,40,.10);
+      gap:8px;
+      box-shadow:0 6px 14px rgba(16,24,40,.10);
       border:1px solid rgba(16,24,40,.08);
     }
 
@@ -33,21 +40,21 @@
 
     .rank-main{
       display:grid;
-      grid-template-columns:44px 1fr auto;
-      gap:10px;
+      grid-template-columns:38px 1fr auto;
+      gap:8px;
       align-items:center;
     }
 
     .rank-pos{
-      width:44px;
-      height:44px;
-      border-radius:16px;
+      width:38px;
+      height:38px;
+      border-radius:14px;
       background:#063b72;
       color:#fff;
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:18px;
+      font-size:17px;
       font-weight:1000;
     }
 
@@ -57,18 +64,18 @@
     }
 
     .rank-name{
-      font-size:20px;
+      font-size:18px;
       font-weight:1000;
       color:#063b72;
       line-height:1.05;
     }
 
     .rank-sub{
-      margin-top:4px;
+      margin-top:3px;
       color:#667085;
-      font-size:12px;
+      font-size:11px;
       font-weight:900;
-      line-height:1.3;
+      line-height:1.25;
     }
 
     .rank-points{
@@ -80,28 +87,28 @@
 
     .rank-points strong{
       display:block;
-      font-size:28px;
+      font-size:24px;
     }
 
     .rank-points span{
       display:block;
-      margin-top:3px;
-      font-size:10px;
+      margin-top:2px;
+      font-size:9px;
       text-transform:uppercase;
       color:#667085;
-      letter-spacing:.06em;
+      letter-spacing:.04em;
     }
 
     .rank-stats{
       display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:6px;
+      grid-template-columns:repeat(6,1fr);
+      gap:5px;
     }
 
     .mini-stat{
-      border-radius:14px;
+      border-radius:12px;
       background:#f8fafc;
-      padding:8px 6px;
+      padding:6px 4px;
       text-align:center;
       font-weight:1000;
       color:#102033;
@@ -109,22 +116,26 @@
 
     .mini-stat strong{
       display:block;
-      font-size:17px;
+      font-size:15px;
       line-height:1;
       color:#063b72;
     }
 
     .mini-stat span{
       display:block;
-      margin-top:4px;
-      font-size:9px;
+      margin-top:3px;
+      font-size:8px;
       color:#667085;
       text-transform:uppercase;
-      letter-spacing:.04em;
+      letter-spacing:.03em;
+    }
+
+    .mini-stat.bonus{
+      background:#fff7d6;
     }
 
     .empty{
-      padding:13px 14px;
+      padding:12px 14px;
       border-radius:16px;
       background:#fff;
       color:#667085;
@@ -134,18 +145,18 @@
     }
 
     .info-box{
-      padding:12px 14px;
+      padding:10px 12px;
       border-radius:16px;
       background:#fff;
       color:#102033;
-      font-size:14px;
+      font-size:13px;
       font-weight:900;
-      line-height:1.4;
+      line-height:1.35;
       box-shadow:0 6px 14px rgba(16,24,40,.08);
     }
 
     @media(min-width:760px){
-      main{padding-top:18px;}
+      main{padding-top:14px;}
       .ranking-list{grid-template-columns:1fr 1fr;}
     }
   </style>
@@ -163,25 +174,15 @@
 <main class="container">
 
   <section class="section">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h1 class="summer-panel-title">Classement</h1>
-          <p class="summer-panel-text">
-            Classement individuel de l’Americano, calculé automatiquement depuis les matchs validés.
-          </p>
-        </div>
-        <div class="summer-pill">Top 5 résultats</div>
-      </div>
-
+    <div class="summer-panel compact-panel">
       <div class="info-box">
-        Victoire : 2 points match • Défaite : 1 point match • Départage : différence points marqués / encaissés.
+        Victoire : 2 pts match • Défaite : 1 pt match • Bonus : +2 pts jeu par tour actif • Classement sur les 5 meilleurs résultats.
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="summer-panel">
+    <div class="summer-panel compact-panel">
       <div id="rankingList" class="ranking-list">
         <div class="empty">Chargement du classement…</div>
       </div>
@@ -191,9 +192,10 @@
 </main>
 
 <script type="module" src="../assets/js/header-etape.js"></script>
+<script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=public-ranking-americano-1";
+  import { db } from "../assets/js/firebase.js?v=public-ranking-americano-2";
 
   import {
     collection,
@@ -255,6 +257,7 @@
         scoredTotal:0,
         concededTotal:0,
         gameDiffTotal:0,
+        activeTurns:0,
         bonusGamePoints:0,
         rankingMatchPoints:0,
         rankingScored:0,
@@ -280,6 +283,7 @@
       activeInRound.forEach(id => {
         const row = stats.get(id);
         if(row){
+          row.activeTurns += 1;
           row.bonusGamePoints += 2;
         }
       });
@@ -358,7 +362,11 @@
         .slice(0,5);
 
       row.rankingMatchPoints = bestFive.reduce((sum,r) => sum + r.matchPoints, 0);
-      row.rankingScored = bestFive.reduce((sum,r) => sum + r.scored, 0) + row.bonusGamePoints;
+
+      row.rankingScored =
+        bestFive.reduce((sum,r) => sum + r.scored, 0)
+        + row.bonusGamePoints;
+
       row.rankingConceded = bestFive.reduce((sum,r) => sum + r.conceded, 0);
       row.rankingDiff = row.rankingScored - row.rankingConceded;
     });
@@ -392,7 +400,7 @@
           <div>
             <div class="rank-name">${esc(row.nickname)}</div>
             <div class="rank-sub">
-              ${row.matches} match(s) joué(s) • ${row.results.length > 5 ? "5 meilleurs résultats retenus" : "Tous les résultats retenus"}
+              ${row.matches} match(s) • ${row.activeTurns} tour(s) actif(s) • bonus +${row.bonusGamePoints}
             </div>
           </div>
 
@@ -411,6 +419,11 @@
           <div class="mini-stat">
             <strong>${row.losses}</strong>
             <span>D</span>
+          </div>
+
+          <div class="mini-stat bonus">
+            <strong>${row.bonusGamePoints}</strong>
+            <span>Bonus</span>
           </div>
 
           <div class="mini-stat">
@@ -449,11 +462,32 @@
             <div class="rank-pos">${index + 1}</div>
             <div>
               <div class="rank-name">${esc(row.nickname)}</div>
-              <div class="rank-sub">En attente des premiers résultats.</div>
+              <div class="rank-sub">
+                ${row.activeTurns} tour(s) actif(s) • bonus +${row.bonusGamePoints}
+              </div>
             </div>
             <div class="rank-points">
               <strong>0</strong>
               <span>pts match</span>
+            </div>
+          </div>
+
+          <div class="rank-stats">
+            <div class="mini-stat bonus">
+              <strong>${row.bonusGamePoints}</strong>
+              <span>Bonus</span>
+            </div>
+            <div class="mini-stat">
+              <strong>${row.rankingScored}</strong>
+              <span>+</span>
+            </div>
+            <div class="mini-stat">
+              <strong>${row.rankingConceded}</strong>
+              <span>-</span>
+            </div>
+            <div class="mini-stat">
+              <strong>${row.rankingDiff}</strong>
+              <span>Diff</span>
             </div>
           </div>
         </div>
