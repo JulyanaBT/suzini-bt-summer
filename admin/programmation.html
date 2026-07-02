@@ -8,11 +8,7 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
 
   <style>
-    main{
-      padding-top:8px;
-      padding-bottom:24px;
-    }
-
+    main{padding-top:8px;padding-bottom:24px;}
     .section{margin-top:8px;}
     .compact-panel{padding:12px;}
 
@@ -49,6 +45,7 @@
     .admin-btn.green{background:#0b7a3b;}
     .admin-btn.yellow{background:#ffd84d;color:#102033;}
     .admin-btn.red{background:#9b1c1c;}
+    .admin-btn.blue{background:#063b72;}
     .admin-btn:disabled{opacity:.55;cursor:not-allowed;}
 
     .section-title{
@@ -59,10 +56,7 @@
       letter-spacing:-.03em;
     }
 
-    .rounds-list{
-      display:grid;
-      gap:8px;
-    }
+    .rounds-list{display:grid;gap:8px;}
 
     .round-card{
       background:#fff;
@@ -90,20 +84,13 @@
       border:1px solid rgba(16,24,40,.08);
     }
 
-    .court-lisa{
-      background:#ffeef2;
-      border-color:rgba(255,0,60,.20);
-    }
-
-    .court-manon{
-      background:#fff8dd;
-      border-color:rgba(255,196,0,.35);
-    }
+    .court-lisa{background:#ffeef2;border-color:rgba(255,0,60,.20);}
+    .court-manon{background:#fff8dd;border-color:rgba(255,196,0,.35);}
 
     .court-head{
       display:grid;
-      grid-template-columns:1fr auto;
-      gap:8px;
+      grid-template-columns:1fr auto auto;
+      gap:6px;
       align-items:center;
     }
 
@@ -114,6 +101,19 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
+    }
+
+    .edit-btn{
+      width:26px;
+      height:26px;
+      border:0;
+      border-radius:999px;
+      background:#fff;
+      color:#063b72;
+      font-size:14px;
+      font-weight:1000;
+      cursor:pointer;
+      box-shadow:0 4px 10px rgba(16,24,40,.12);
     }
 
     .match-pill{
@@ -127,15 +127,8 @@
       white-space:nowrap;
     }
 
-    .match-pill.current{
-      background:#d9fbe8;
-      color:#087a35;
-    }
-
-    .match-pill.done{
-      background:#e6f7ee;
-      color:#087a35;
-    }
+    .match-pill.current{background:#d9fbe8;color:#087a35;}
+    .match-pill.done{background:#e6f7ee;color:#087a35;}
 
     .team-row{
       display:grid;
@@ -171,10 +164,7 @@
       background:#fff;
     }
 
-    .score-input:disabled{
-      background:#f8fafc;
-      color:#667085;
-    }
+    .score-input:disabled{background:#f8fafc;color:#667085;}
 
     .empty{
       padding:12px 14px;
@@ -186,15 +176,85 @@
       text-align:center;
     }
 
-    .round-actions{
+    .round-actions{display:grid;gap:6px;margin-top:2px;}
+
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(16,24,40,.52);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:9999;
+    }
+
+    .modal-backdrop.show{display:flex;}
+
+    .modal{
+      width:min(520px,100%);
+      background:#fff;
+      border-radius:24px;
+      padding:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.28);
+      color:#102033;
+    }
+
+    .modal-title{
+      margin:0;
+      color:#063b72;
+      font-size:22px;
+      font-weight:1000;
+      letter-spacing:-.03em;
+    }
+
+    .modal-sub{
+      margin:6px 0 14px;
+      color:#667085;
+      font-size:13px;
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    .edit-grid{
       display:grid;
-      gap:6px;
-      margin-top:2px;
+      gap:10px;
+    }
+
+    .edit-field{
+      display:grid;
+      gap:5px;
+    }
+
+    .edit-field label{
+      font-size:12px;
+      font-weight:1000;
+      color:#063b72;
+      text-transform:uppercase;
+    }
+
+    .edit-select{
+      width:100%;
+      min-height:42px;
+      border-radius:14px;
+      border:1px solid rgba(16,24,40,.14);
+      padding:8px 10px;
+      font-size:15px;
+      font-weight:900;
+      background:#f8fafc;
+      color:#102033;
+    }
+
+    .modal-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:14px;
     }
 
     @media(min-width:760px){
       main{padding-top:14px;}
-      .actions-grid{grid-template-columns:1fr 1fr;}
+      .actions-grid{grid-template-columns:1fr 1fr 1fr;}
       .rounds-list{grid-template-columns:1fr 1fr;}
     }
   </style>
@@ -218,26 +278,18 @@
       <div class="summer-panel-head">
         <div>
           <h1 class="summer-panel-title">Programmation</h1>
-          <p class="summer-panel-text">
-            Génère les tours, saisis les scores et valide les matchs.
-          </p>
+          <p class="summer-panel-text">Génère les tours, modifie les joueurs et valide les matchs.</p>
         </div>
         <div class="summer-pill">Étape 1</div>
       </div>
 
       <div class="actions-grid">
-        <button class="admin-btn green" id="btnInitial" type="button">
-          🚀 Générer les 2 premiers tours
-        </button>
-
-        <button class="admin-btn yellow" id="btnNext" type="button">
-          ➕ Générer un nouveau tour
-        </button>
+        <button class="admin-btn green" id="btnInitial" type="button">🚀 Générer les 2 premiers tours</button>
+        <button class="admin-btn yellow" id="btnNext" type="button">➕ Générer un nouveau tour</button>
+        <button class="admin-btn red" id="btnReset" type="button">♻️ Réinitialiser</button>
       </div>
 
-      <div class="admin-status" id="statusMsg" style="margin-top:10px;">
-        Chargement…
-      </div>
+      <div class="admin-status" id="statusMsg" style="margin-top:10px;">Chargement…</div>
     </div>
   </section>
 
@@ -257,15 +309,29 @@
 
 </main>
 
+<div id="editModal" class="modal-backdrop">
+  <div class="modal">
+    <h2 class="modal-title">Modifier le match</h2>
+    <p class="modal-sub">
+      Le joueur remplacé prend automatiquement la place du joueur sélectionné.
+    </p>
+
+    <div id="editFields" class="edit-grid"></div>
+
+    <div class="modal-actions">
+      <button id="btnCancelEdit" class="admin-btn yellow" type="button">Annuler</button>
+      <button id="btnSaveEdit" class="admin-btn green" type="button">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
 <script type="module" src="../assets/js/header-admin.js"></script>
 
 <script type="module">
-  import { auth, db } from "../assets/js/firebase.js?v=admin-prog-americano-2";
-  import { getRoleByUid } from "../assets/js/session.js?v=admin-prog-americano-2";
+  import { auth, db } from "../assets/js/firebase.js?v=admin-prog-americano-3";
+  import { getRoleByUid } from "../assets/js/session.js?v=admin-prog-americano-3";
 
-  import {
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
   import {
     collection,
@@ -274,14 +340,15 @@
     onSnapshot,
     setDoc,
     updateDoc,
+    deleteDoc,
     query,
     orderBy,
-    serverTimestamp
+    serverTimestamp,
+    writeBatch
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   const EVENT_ID = "suzini-summer-tour-2026";
   const STEP_ID = "etape-1";
-
   const COURTS = ["Lisa de Los Pimentos", "Manon Queen Bee"];
 
   const accessDenied = document.getElementById("accessDenied");
@@ -292,9 +359,15 @@
   const statusMsg = document.getElementById("statusMsg");
   const btnInitial = document.getElementById("btnInitial");
   const btnNext = document.getElementById("btnNext");
+  const btnReset = document.getElementById("btnReset");
 
   const currentList = document.getElementById("currentList");
   const doneList = document.getElementById("doneList");
+
+  const editModal = document.getElementById("editModal");
+  const editFields = document.getElementById("editFields");
+  const btnCancelEdit = document.getElementById("btnCancelEdit");
+  const btnSaveEdit = document.getElementById("btnSaveEdit");
 
   const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
   const roundsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "rounds");
@@ -306,6 +379,7 @@
   let unsubPlayers = null;
   let unsubRounds = null;
   let unsubConfig = null;
+  let editing = null;
 
   function esc(value){
     return String(value || "")
@@ -323,6 +397,12 @@
   function playerName(id){
     const p = players.find(x => x.id === id);
     return p?.nickname || "Joueur";
+  }
+
+  function activePlayers(){
+    return players
+      .filter(p => p.active)
+      .sort((a,b) => a.nickname.localeCompare(b.nickname, "fr", { sensitivity:"base", numeric:true }));
   }
 
   function teamName(team){
@@ -417,13 +497,12 @@
     return [...array].sort(() => Math.random() - .5);
   }
 
-  function choosePlayersForRound(activePlayers){
+  function choosePlayersForRound(activePlayersList){
     const stats = updateStatsFromRounds();
 
-    const ranked = [...activePlayers].sort((a,b) => {
+    const ranked = [...activePlayersList].sort((a,b) => {
       const sa = stats.get(a.id) || {};
       const sb = stats.get(b.id) || {};
-
       const ratioA = (sa.played || 0) / Math.max(1, (sa.activeTurns || 0));
       const ratioB = (sb.played || 0) / Math.max(1, (sb.activeTurns || 0));
 
@@ -433,18 +512,15 @@
     });
 
     const playingCount = ranked.length >= 8 ? 8 : ranked.length >= 4 ? 4 : 0;
-    const selected = ranked.slice(0, playingCount);
-    const bench = ranked.slice(playingCount).map(p => p.id);
-
-    return { selected, bench };
+    return {
+      selected: ranked.slice(0, playingCount),
+      bench: ranked.slice(playingCount).map(p => p.id)
+    };
   }
 
   function scoreArrangement(ids){
     const stats = updateStatsFromRounds();
-
-    const matches = [
-      { teamA:[ids[0], ids[1]], teamB:[ids[2], ids[3]] }
-    ];
+    const matches = [{ teamA:[ids[0], ids[1]], teamB:[ids[2], ids[3]] }];
 
     if(ids.length >= 8){
       matches.push({ teamA:[ids[4], ids[5]], teamB:[ids[6], ids[7]] });
@@ -469,8 +545,8 @@
     return score;
   }
 
-  function buildRound(activePlayers){
-    const { selected, bench } = choosePlayersForRound(activePlayers);
+  function buildRound(activePlayersList){
+    const { selected, bench } = choosePlayersForRound(activePlayersList);
 
     if(selected.length < 4){
       throw new Error("Il faut au moins 4 joueurs actifs pour générer un tour.");
@@ -489,17 +565,15 @@
       }
     }
 
-    const matches = [
-      {
-        matchIndex:0,
-        court:COURTS[0],
-        teamA:[best[0], best[1]],
-        teamB:[best[2], best[3]],
-        scoreA:null,
-        scoreB:null,
-        status:"pending"
-      }
-    ];
+    const matches = [{
+      matchIndex:0,
+      court:COURTS[0],
+      teamA:[best[0], best[1]],
+      teamB:[best[2], best[3]],
+      scoreA:null,
+      scoreB:null,
+      status:"pending"
+    }];
 
     if(best.length >= 8){
       matches.push({
@@ -517,13 +591,13 @@
   }
 
   async function generateOneRound(){
-    const activePlayers = players.filter(p => p.active);
+    const activePlayersList = players.filter(p => p.active);
 
     const roundNumber = rounds.length
       ? Math.max(...rounds.map(r => Number(r.roundNumber || 0))) + 1
       : 1;
 
-    const round = buildRound(activePlayers);
+    const round = buildRound(activePlayersList);
     const roundRef = doc(roundsRef);
 
     await setDoc(roundRef, {
@@ -593,14 +667,41 @@
     }
   }
 
+  async function resetProgrammation(){
+    const ok1 = confirm("Réinitialiser toute la programmation ? Les statistiques et le classement repartiront à zéro.");
+    if(!ok1) return;
+
+    const ok2 = confirm("Confirmation définitive : supprimer tous les tours et résultats ?");
+    if(!ok2) return;
+
+    btnReset.disabled = true;
+    statusMsg.textContent = "Réinitialisation…";
+
+    try{
+      const snap = await getDocs(roundsRef);
+      const batch = writeBatch(db);
+
+      snap.forEach(d => batch.delete(d.ref));
+      batch.delete(configRef);
+
+      await batch.commit();
+
+      statusMsg.textContent = "✅ Programmation réinitialisée.";
+    }catch(error){
+      console.error(error);
+      alert("Réinitialisation impossible.");
+      statusMsg.textContent = "Erreur de réinitialisation.";
+    }finally{
+      btnReset.disabled = false;
+    }
+  }
+
   async function refreshRoundsOnce(){
     const snap = await getDocs(query(roundsRef, orderBy("roundNumber", "asc")));
     rounds = snap.docs.map(d => ({ id:d.id, ...d.data() }));
   }
 
-  function isCompleted(match){
-    return match?.status === "completed";
-  }
+  function isCompleted(match){ return match?.status === "completed"; }
 
   function roundCompleted(round){
     const matches = round.matches || [];
@@ -650,37 +751,30 @@
       <div class="court-block ${esc(cls)}">
         <div class="court-head">
           <div class="court-name">${esc(match.court || "Terrain")}</div>
+
+          <button
+            class="edit-btn"
+            type="button"
+            data-action="edit-match"
+            data-round="${esc(roundId)}"
+            data-index="${esc(match.matchIndex)}"
+            title="Modifier les joueurs">
+            ⚙️
+          </button>
+
           <div class="match-pill ${matchPillClass(match)}">${esc(matchState(match))}</div>
         </div>
 
         <div class="team-row">
           <div class="team-name">${esc(teamName(match.teamA))}</div>
-          <input
-            class="score-input"
-            type="number"
-            min="0"
-            max="99"
-            inputmode="numeric"
-            value="${match.scoreA ?? ""}"
-            data-score="A"
-            data-round="${roundId}"
-            data-index="${match.matchIndex}"
-            ${done ? "disabled" : ""}>
+          <input class="score-input" type="number" min="0" max="99" inputmode="numeric"
+            value="${match.scoreA ?? ""}" data-score="A" data-round="${roundId}" data-index="${match.matchIndex}" ${done ? "disabled" : ""}>
         </div>
 
         <div class="team-row">
           <div class="team-name">${esc(teamName(match.teamB))}</div>
-          <input
-            class="score-input"
-            type="number"
-            min="0"
-            max="99"
-            inputmode="numeric"
-            value="${match.scoreB ?? ""}"
-            data-score="B"
-            data-round="${roundId}"
-            data-index="${match.matchIndex}"
-            ${done ? "disabled" : ""}>
+          <input class="score-input" type="number" min="0" max="99" inputmode="numeric"
+            value="${match.scoreB ?? ""}" data-score="B" data-round="${roundId}" data-index="${match.matchIndex}" ${done ? "disabled" : ""}>
         </div>
 
         ${
@@ -774,24 +868,163 @@
     });
   }
 
+  function openEditModal(roundId, matchIndex){
+    const round = rounds.find(r => r.id === roundId);
+    if(!round) return;
+
+    const match = (round.matches || []).find(m => Number(m.matchIndex) === Number(matchIndex));
+    if(!match) return;
+
+    editing = {
+      roundId,
+      matchIndex:Number(matchIndex),
+      original:[
+        match.teamA[0],
+        match.teamA[1],
+        match.teamB[0],
+        match.teamB[1]
+      ]
+    };
+
+    const options = activePlayers().map(p => `
+      <option value="${esc(p.id)}">${esc(p.nickname)}</option>
+    `).join("");
+
+    const labels = [
+      "Équipe A — Joueur 1",
+      "Équipe A — Joueur 2",
+      "Équipe B — Joueur 1",
+      "Équipe B — Joueur 2"
+    ];
+
+    editFields.innerHTML = editing.original.map((id, index) => `
+      <div class="edit-field">
+        <label>${esc(labels[index])}</label>
+        <select class="edit-select" data-edit-slot="${index}">
+          ${options}
+        </select>
+      </div>
+    `).join("");
+
+    editFields.querySelectorAll("[data-edit-slot]").forEach(select => {
+      const index = Number(select.dataset.editSlot);
+      select.value = editing.original[index];
+    });
+
+    editModal.classList.add("show");
+  }
+
+  function closeEditModal(){
+    editModal.classList.remove("show");
+    editing = null;
+    editFields.innerHTML = "";
+  }
+
+  function swapPlayerInRound(round, oldId, newId){
+    const matches = (round.matches || []).map(match => {
+      const teamA = [...(match.teamA || [])];
+      const teamB = [...(match.teamB || [])];
+
+      for(let i = 0; i < teamA.length; i++){
+        if(teamA[i] === newId) teamA[i] = oldId;
+      }
+
+      for(let i = 0; i < teamB.length; i++){
+        if(teamB[i] === newId) teamB[i] = oldId;
+      }
+
+      return { ...match, teamA, teamB };
+    });
+
+    const bench = [...(round.bench || [])].map(id => id === newId ? oldId : id);
+
+    return { matches, bench };
+  }
+
+  async function saveEditModal(){
+    if(!editing) return;
+
+    const round = rounds.find(r => r.id === editing.roundId);
+    if(!round) return;
+
+    let matches = (round.matches || []).map(m => ({
+      ...m,
+      teamA:[...(m.teamA || [])],
+      teamB:[...(m.teamB || [])]
+    }));
+
+    let bench = [...(round.bench || [])];
+
+    const idx = matches.findIndex(m => Number(m.matchIndex) === Number(editing.matchIndex));
+    if(idx < 0) return;
+
+    const selected = Array.from(editFields.querySelectorAll("[data-edit-slot]"))
+      .sort((a,b) => Number(a.dataset.editSlot) - Number(b.dataset.editSlot))
+      .map(select => select.value);
+
+    if(new Set(selected).size !== selected.length){
+      alert("Un même joueur ne peut pas être sélectionné plusieurs fois dans le match.");
+      return;
+    }
+
+    for(let slot = 0; slot < 4; slot++){
+      const oldId = editing.original[slot];
+      const newId = selected[slot];
+
+      if(oldId === newId) continue;
+
+      const tempRound = { matches, bench };
+      const swapped = swapPlayerInRound(tempRound, oldId, newId);
+      matches = swapped.matches;
+      bench = swapped.bench;
+
+      if(slot === 0) matches[idx].teamA[0] = newId;
+      if(slot === 1) matches[idx].teamA[1] = newId;
+      if(slot === 2) matches[idx].teamB[0] = newId;
+      if(slot === 3) matches[idx].teamB[1] = newId;
+    }
+
+    await updateDoc(doc(db, "events", EVENT_ID, "steps", STEP_ID, "rounds", editing.roundId), {
+      matches,
+      bench,
+      updatedAt: serverTimestamp()
+    });
+
+    closeEditModal();
+  }
+
   document.addEventListener("click", async (event) => {
-    const btn = event.target.closest("[data-action='validate']");
-    if(!btn) return;
+    const validateBtn = event.target.closest("[data-action='validate']");
+    if(validateBtn){
+      validateBtn.disabled = true;
 
-    btn.disabled = true;
+      try{
+        await validateMatch(validateBtn.dataset.round, validateBtn.dataset.index);
+      }catch(error){
+        console.error(error);
+        alert("Validation impossible.");
+      }finally{
+        validateBtn.disabled = false;
+      }
 
-    try{
-      await validateMatch(btn.dataset.round, btn.dataset.index);
-    }catch(error){
-      console.error(error);
-      alert("Validation impossible.");
-    }finally{
-      btn.disabled = false;
+      return;
+    }
+
+    const editBtn = event.target.closest("[data-action='edit-match']");
+    if(editBtn){
+      openEditModal(editBtn.dataset.round, editBtn.dataset.index);
     }
   });
 
   btnInitial.onclick = generateInitial;
   btnNext.onclick = generateNext;
+  btnReset.onclick = resetProgrammation;
+  btnCancelEdit.onclick = closeEditModal;
+  btnSaveEdit.onclick = saveEditModal;
+
+  editModal.addEventListener("click", (event) => {
+    if(event.target === editModal) closeEditModal();
+  });
 
   function startListeners(){
     unsubPlayers = onSnapshot(query(playersRef, orderBy("createdAt", "asc")), (snap) => {
