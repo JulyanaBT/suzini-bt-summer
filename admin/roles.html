@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Rôles — Summer Tour</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    main{padding-top:8px;padding-bottom:24px;}
+    .section{margin-top:8px;}
+    .compact-panel{padding:12px;}
+
+    .grid{display:grid;gap:10px;}
+    .field{display:grid;gap:7px;}
+    .field label{font-weight:1000;color:#063b72;font-size:14px;}
+
+    input{
+      width:100%;
+      border-radius:16px;
+      border:1px solid rgba(16,24,40,.10);
+      background:#fff;
+      padding:12px 14px;
+      font-size:15px;
+      font-weight:800;
+      color:#17212b;
+      outline:none;
+      font-family:inherit;
+    }
+
+    .admin-btn{
+      min-height:42px;
+      border:0;
+      border-radius:14px;
+      padding:9px 11px;
+      font-size:13px;
+      font-weight:1000;
+      cursor:pointer;
+      background:#063b72;
+      color:#fff;
+      font-family:inherit;
+    }
+
+    .admin-btn.green{background:#0b7a3b;}
+    .admin-btn.yellow{background:#ffd84d;color:#102033;}
+    .admin-btn.red{background:#9b1c1c;}
+    .admin-btn.whatsapp{background:#25D366;color:#fff;}
+    .admin-btn:disabled{opacity:.55;cursor:not-allowed;}
+
+    .admin-status{
+      padding:10px 12px;
+      border-radius:16px;
+      background:#fff;
+      color:#102033;
+      font-size:13px;
+      font-weight:1000;
+      line-height:1.35;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
+    }
+
+    .sep{
+      border:0;
+      border-top:1px solid rgba(16,24,40,.10);
+      margin:16px 0;
+    }
+
+    .section-title{
+      margin:0 0 8px;
+      font-size:20px;
+      color:#063b72;
+      font-weight:1000;
+      letter-spacing:-.03em;
+    }
+
+    .role-card,
+    .invite-card{
+      background:#fff;
+      color:#102033;
+      border-radius:18px;
+      padding:12px;
+      display:grid;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+      border:1px solid rgba(16,24,40,.08);
+    }
+
+    .role-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .role-name{
+      font-size:17px;
+      font-weight:1000;
+      color:#063b72;
+      line-height:1.1;
+    }
+
+    .role-email{
+      margin-top:4px;
+      color:#667085;
+      font-size:13px;
+      font-weight:800;
+      word-break:break-word;
+    }
+
+    .role-uid{
+      margin-top:4px;
+      color:#667085;
+      font-size:11px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      word-break:break-all;
+    }
+
+    .badge{
+      flex-shrink:0;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      background:#d9fbe8;
+      color:#087a35;
+    }
+
+    .badge.pending{
+      background:#fff7d6;
+      color:#9a5b00;
+      border:1px solid #ffd37a;
+    }
+
+    .role-actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+    }
+
+    details{
+      border-top:1px solid rgba(16,24,40,.08);
+      padding-top:8px;
+    }
+
+    details summary{
+      cursor:pointer;
+      font-weight:1000;
+      color:#063b72;
+      list-style:none;
+    }
+
+    details summary::-webkit-details-marker{display:none;}
+
+    @media(min-width:760px){
+      main{padding-top:14px;}
+      .grid.two{grid-template-columns:1fr 1fr;}
+      .role-actions{grid-template-columns:1fr 1fr 1fr;}
+    }
+  </style>
+</head>
+
+<body data-page="roles" data-step="etape-1">
+
+<div id="adminHeader"></div>
+
+<main class="container">
+
+  <section class="section" id="accessDenied" style="display:none;">
+    <div class="summer-panel compact-panel">
+      <h1 class="summer-panel-title">⛔ Accès refusé</h1>
+      <p class="summer-panel-text">Cette page est réservée aux administrateurs.</p>
+    </div>
+  </section>
+
+  <section class="section" id="pageContent" style="display:none;">
+    <div class="summer-panel compact-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h1 class="summer-panel-title">🔐 Rôles admin</h1>
+          <p class="summer-panel-text">
+            Crée des invitations et gère les accès administrateurs du Summer Tour.
+          </p>
+        </div>
+        <div class="summer-pill">Admin</div>
+      </div>
+
+      <div id="adminStatus" class="admin-status">
+        Connexion administrateur vérifiée.
+      </div>
+
+      <hr class="sep">
+
+      <h2 class="section-title">➕ Créer une invitation admin</h2>
+
+      <form id="inviteForm" class="grid" autocomplete="off">
+        <div class="grid two">
+          <div class="field">
+            <label for="label">Nom / label *</label>
+            <input id="label" name="label" type="text" required placeholder="Ex : Jules, Quentin, Mélanie…">
+          </div>
+
+          <div class="field">
+            <label for="inviteCode">Code invitation</label>
+            <input id="inviteCode" name="inviteCode" type="text" value="SUMMER2026" readonly>
+          </div>
+        </div>
+
+        <button class="admin-btn green" id="createInviteBtn" type="submit">
+          ✅ Créer l’invitation admin
+        </button>
+
+        <div id="inviteStatus" class="admin-status">
+          Prêt.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" id="invitesSection" style="display:none;">
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">📨 Invitations en attente</h2>
+      <div id="invitesCount" class="admin-status">Chargement…</div>
+      <div id="invitesList" class="grid" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+  <section class="section" id="rolesSection" style="display:none;">
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">👥 Administrateurs actifs</h2>
+      <div id="rolesCount" class="admin-status">Chargement…</div>
+      <div id="rolesList" class="grid" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+</main>
+
+<script type="module" src="../assets/js/header-admin.js"></script>
+
+<script type="module">
+  import { auth, db } from "../assets/js/firebase.js?v=summer-roles-admin-1";
+  import { getRoleByUid } from "../assets/js/session.js?v=summer-roles-admin-1";
+
+  import {
+    sendPasswordResetEmail,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  import {
+    collection,
+    doc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp,
+    query,
+    orderBy,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const GENERIC_INVITE_CODE = "SUMMER2026";
+  const EVENT_ID = "suzini-summer-tour-2026";
+
+  const accessDenied = document.getElementById("accessDenied");
+  const pageContent = document.getElementById("pageContent");
+  const invitesSection = document.getElementById("invitesSection");
+  const rolesSection = document.getElementById("rolesSection");
+
+  const adminStatus = document.getElementById("adminStatus");
+  const inviteForm = document.getElementById("inviteForm");
+  const createInviteBtn = document.getElementById("createInviteBtn");
+  const inviteStatus = document.getElementById("inviteStatus");
+
+  const invitesCount = document.getElementById("invitesCount");
+  const invitesList = document.getElementById("invitesList");
+  const rolesCount = document.getElementById("rolesCount");
+  const rolesList = document.getElementById("rolesList");
+
+  let unsubscribeRoles = null;
+  let unsubscribeInvites = null;
+
+  function esc(value){
+    return String(value || "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function makeInviteId(){
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let out = "";
+    for(let i = 0; i < 8; i++){
+      out += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return out;
+  }
+
+  function joinUrl(inviteId){
+    const base = location.href.split("/admin/")[0] + "/";
+    return `${base}join.html?invite=${encodeURIComponent(inviteId)}`;
+  }
+
+  function whatsappText(invite){
+    const url = joinUrl(invite.id);
+
+    return [
+      "Bonjour 👋",
+      "",
+      "Ton accès administrateur pour le Suzini BT Summer Tour est prêt ✅",
+      "",
+      `Nom : ${invite.label}`,
+      "Rôle : Admin",
+      "",
+      "Pour activer ton accès :",
+      "1️⃣ Clique sur le lien ci-dessous",
+      "2️⃣ Renseigne ton email",
+      "3️⃣ Choisis ton mot de passe",
+      "4️⃣ Valide ton accès",
+      "",
+      url,
+      "",
+      `Code invitation : ${GENERIC_INVITE_CODE}`,
+      "",
+      "Support technique : Jul’Yana BT"
+    ].join("\n");
+  }
+
+  function whatsappHref(invite){
+    return `https://wa.me/?text=${encodeURIComponent(whatsappText(invite))}`;
+  }
+
+  function stopRoles(){
+    if(unsubscribeRoles){
+      unsubscribeRoles();
+      unsubscribeRoles = null;
+    }
+  }
+
+  function stopInvites(){
+    if(unsubscribeInvites){
+      unsubscribeInvites();
+      unsubscribeInvites = null;
+    }
+  }
+
+  function startInvites(){
+    stopInvites();
+
+    invitesCount.textContent = "Chargement…";
+    invitesList.innerHTML = "";
+
+    const q = query(collection(db, "invites"), orderBy("createdAt", "desc"));
+
+    unsubscribeInvites = onSnapshot(q, (snap) => {
+      const items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+      const pending = items.filter(i =>
+        (i.status || "pending") === "pending" &&
+        (i.eventId || "") === EVENT_ID &&
+        (i.role || "") === "admin"
+      );
+
+      invitesCount.textContent = `📌 ${pending.length} invitation${pending.length > 1 ? "s" : ""} admin en attente`;
+
+      if(pending.length === 0){
+        invitesList.innerHTML = `<div class="empty">Aucune invitation en attente.</div>`;
+        return;
+      }
+
+      invitesList.innerHTML = pending.map(invite => `
+        <div class="invite-card" data-id="${esc(invite.id)}">
+          <div class="role-top">
+            <div>
+              <div class="role-name">${esc(invite.label || "Invitation")}</div>
+              <div class="role-email">Code : ${esc(GENERIC_INVITE_CODE)}</div>
+              <div class="role-uid">${esc(joinUrl(invite.id))}</div>
+            </div>
+            <span class="badge pending">Admin</span>
+          </div>
+
+          <div class="role-actions">
+            <a class="admin-btn whatsapp" href="${esc(whatsappHref(invite))}" target="_blank" rel="noopener">💬 WhatsApp</a>
+            <button class="admin-btn yellow btn-copy" type="button">📋 Copier lien</button>
+            <button class="admin-btn red btn-delete-invite" type="button">🗑️ Supprimer</button>
+          </div>
+        </div>
+      `).join("");
+
+      invitesList.querySelectorAll(".invite-card").forEach(card => {
+        const id = card.dataset.id;
+
+        card.querySelector(".btn-copy").onclick = async () => {
+          try{
+            await navigator.clipboard.writeText(joinUrl(id));
+            alert("Lien copié ✅");
+          }catch(error){
+            alert(joinUrl(id));
+          }
+        };
+
+        card.querySelector(".btn-delete-invite").onclick = async () => {
+          const ok = confirm("Supprimer cette invitation ?");
+          if(!ok) return;
+          await deleteDoc(doc(db, "invites", id));
+        };
+      });
+
+    }, (error) => {
+      console.error(error);
+      invitesCount.textContent = "❌ Impossible de charger les invitations.";
+    });
+  }
+
+  function startRoles(){
+    stopRoles();
+
+    rolesCount.textContent = "Chargement…";
+    rolesList.innerHTML = "";
+
+    const q = query(collection(db, "users"), orderBy("role", "asc"));
+
+    unsubscribeRoles = onSnapshot(q, (snap) => {
+      const items = snap.docs
+        .map(d => ({ uid:d.id, ...d.data() }))
+        .filter(item => item.role === "admin");
+
+      rolesCount.textContent = `📌 ${items.length} administrateur${items.length > 1 ? "s" : ""}`;
+
+      if(items.length === 0){
+        rolesList.innerHTML = `<div class="empty">Aucun admin pour le moment.</div>`;
+        return;
+      }
+
+      rolesList.innerHTML = items.map(item => {
+        const email = item.email || "";
+        const label = item.label || email || item.uid;
+        const active = item.active === true;
+
+        return `
+          <div class="role-card" data-uid="${esc(item.uid)}">
+            <div class="role-top">
+              <div>
+                <div class="role-name">${esc(label)}</div>
+                <div class="role-email">${esc(email || "Email non renseigné")}</div>
+                <div class="role-uid">${esc(item.uid)}</div>
+              </div>
+              <span class="badge">${active ? "Admin actif" : "Admin inactif"}</span>
+            </div>
+
+            <details>
+              <summary>⚙️ Modifier / détails</summary>
+
+              <div class="grid two" style="margin-top:10px;">
+                <div class="field">
+                  <label>Label</label>
+                  <input class="label-input" type="text" value="${esc(item.label || "")}" placeholder="Nom / fonction">
+                </div>
+
+                <div class="field">
+                  <label>Email affiché</label>
+                  <input class="email-input" type="email" value="${esc(email)}" placeholder="email@exemple.com">
+                </div>
+              </div>
+
+              <div class="role-actions" style="margin-top:10px;">
+                <button class="admin-btn green btn-save" type="button">💾 Enregistrer</button>
+                <button class="admin-btn yellow btn-reset" type="button">🔑 Reset password</button>
+                <button class="admin-btn red btn-delete" type="button">🗑️ Désactiver</button>
+              </div>
+            </details>
+          </div>
+        `;
+      }).join("");
+
+      rolesList.querySelectorAll(".role-card").forEach(card => {
+        const uid = card.dataset.uid;
+        const labelInput = card.querySelector(".label-input");
+        const emailInput = card.querySelector(".email-input");
+        const btnSave = card.querySelector(".btn-save");
+        const btnDelete = card.querySelector(".btn-delete");
+        const btnReset = card.querySelector(".btn-reset");
+
+        btnSave.onclick = async () => {
+          btnSave.disabled = true;
+
+          try{
+            await updateDoc(doc(db, "users", uid), {
+              role:"admin",
+              active:true,
+              label:labelInput.value.trim(),
+              email:emailInput.value.trim(),
+              updatedAt:serverTimestamp(),
+              updatedBy:auth.currentUser?.uid || null
+            });
+          }catch(error){
+            console.error(error);
+            alert("Modification impossible.");
+          }finally{
+            btnSave.disabled = false;
+          }
+        };
+
+        btnDelete.onclick = async () => {
+          const ok = confirm("Désactiver cet accès admin ?");
+          if(!ok) return;
+
+          await updateDoc(doc(db, "users", uid), {
+            active:false,
+            updatedAt:serverTimestamp(),
+            updatedBy:auth.currentUser?.uid || null
+          });
+        };
+
+        btnReset.onclick = async () => {
+          const email = emailInput.value.trim();
+
+          if(!email){
+            alert("Aucun email renseigné.");
+            return;
+          }
+
+          try{
+            await sendPasswordResetEmail(auth, email);
+            alert("Mail de réinitialisation envoyé ✅");
+          }catch(error){
+            console.error(error);
+            alert("Envoi impossible.");
+          }
+        };
+      });
+
+    }, (error) => {
+      console.error(error);
+      rolesCount.textContent = "❌ Impossible de charger les rôles.";
+    });
+  }
+
+  inviteForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    createInviteBtn.disabled = true;
+    inviteStatus.textContent = "Création de l’invitation…";
+
+    try{
+      const label = inviteForm.label.value.trim();
+
+      if(!label){
+        throw new Error("Nom / label obligatoire.");
+      }
+
+      const inviteId = makeInviteId();
+
+      await setDoc(doc(db, "invites", inviteId), {
+        label,
+        role:"admin",
+        code:GENERIC_INVITE_CODE,
+        status:"pending",
+        eventId:EVENT_ID,
+        createdAt:serverTimestamp(),
+        updatedAt:serverTimestamp(),
+        createdBy:auth.currentUser?.uid || null
+      });
+
+      inviteForm.reset();
+      inviteForm.inviteCode.value = GENERIC_INVITE_CODE;
+      inviteStatus.textContent = `✅ Invitation admin créée pour ${label}.`;
+
+    }catch(error){
+      console.error(error);
+      inviteStatus.textContent = "❌ " + (error?.message || "Impossible de créer l’invitation.");
+    }finally{
+      createInviteBtn.disabled = false;
+    }
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    accessDenied.style.display = "none";
+    pageContent.style.display = "none";
+    invitesSection.style.display = "none";
+    rolesSection.style.display = "none";
+    stopRoles();
+    stopInvites();
+
+    if(!user){
+      accessDenied.style.display = "block";
+      return;
+    }
+
+    try{
+      const role = await getRoleByUid(user.uid);
+
+      if(role !== "admin"){
+        accessDenied.style.display = "block";
+        return;
+      }
+
+      adminStatus.textContent = `✅ Connecté admin : ${user.email}`;
+      pageContent.style.display = "block";
+      invitesSection.style.display = "block";
+      rolesSection.style.display = "block";
+
+      startInvites();
+      startRoles();
+
+    }catch(error){
+      console.error(error);
+      accessDenied.style.display = "block";
+    }
+  });
+</script>
+
+</body>
+</html>
