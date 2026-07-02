@@ -6,83 +6,448 @@
   <title>Statistiques — Étape 1 Americano</title>
 
   <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    main{padding-top:12px;}
+
+    .stats-grid{
+      display:grid;
+      gap:10px;
+    }
+
+    .stat-card{
+      background:#fff;
+      color:#102033;
+      border-radius:18px;
+      padding:13px;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+    }
+
+    .stat-label{
+      color:#667085;
+      font-size:12px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .stat-value{
+      margin-top:5px;
+      font-size:28px;
+      font-weight:1000;
+      color:#063b72;
+      line-height:1;
+    }
+
+    .player-select{
+      width:100%;
+      min-height:48px;
+      border:0;
+      border-radius:16px;
+      padding:10px 12px;
+      background:#fff;
+      color:#102033;
+      font-size:16px;
+      font-weight:900;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
+    }
+
+    .relation-list{
+      display:grid;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .relation-row{
+      background:#fff;
+      color:#102033;
+      border-radius:16px;
+      padding:11px 12px;
+      display:grid;
+      grid-template-columns:1fr 52px 52px;
+      gap:8px;
+      align-items:center;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
+    }
+
+    .relation-name{
+      font-weight:1000;
+      color:#063b72;
+      line-height:1.15;
+    }
+
+    .relation-num{
+      min-height:36px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1000;
+      background:#fff7d6;
+      color:#102033;
+    }
+
+    .relation-num.vs{
+      background:#ffeef2;
+    }
+
+    .empty{
+      padding:13px 14px;
+      border-radius:16px;
+      background:#fff;
+      color:#667085;
+      font-size:14px;
+      font-weight:900;
+      text-align:center;
+    }
+
+    .legend{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .legend-item{
+      padding:10px 12px;
+      border-radius:16px;
+      background:#fff;
+      color:#102033;
+      font-size:13px;
+      font-weight:900;
+      text-align:center;
+    }
+
+    @media(min-width:760px){
+      main{padding-top:18px;}
+      .stats-grid{grid-template-columns:repeat(4,1fr);}
+    }
+  </style>
 </head>
 
 <body
-data-page="statistiques"
-data-type="americano"
-data-title="Étape 1 - Americano"
-data-date="02 juillet 2026">
+  data-page="statistiques"
+  data-type="americano"
+  data-title="Étape 1 - Americano"
+  data-date="02 juillet 2026"
+>
 
 <div id="siteHeaderEtape"></div>
 
 <main class="container">
 
-<section class="section">
+  <section class="section">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h1 class="summer-panel-title">Statistiques</h1>
+          <p class="summer-panel-text">
+            Sélectionne un joueur pour voir ses partenaires, adversaires et temps de jeu.
+          </p>
+        </div>
+        <div class="summer-pill">Americano</div>
+      </div>
 
-<div class="hero">
-<div class="hero-inner">
+      <select id="playerSelect" class="player-select">
+        <option value="">Chargement…</option>
+      </select>
+    </div>
+  </section>
 
-<div class="hero-pills">
-<span class="pill">Statistiques</span>
-<span class="pill">Americano</span>
-</div>
+  <section class="section">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h2 class="summer-panel-title" id="selectedName">Vue joueur</h2>
+          <p class="summer-panel-text">
+            Données calculées depuis les tours générés.
+          </p>
+        </div>
+      </div>
 
-<div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Tours actifs</div>
+          <div class="stat-value" id="activeTurns">0</div>
+        </div>
 
-<h1 class="hero-title">
-Statistiques<br>
-<span class="summer">de l'étape</span>
-</h1>
+        <div class="stat-card">
+          <div class="stat-label">Matchs joués</div>
+          <div class="stat-value" id="playedMatches">0</div>
+        </div>
 
-<div class="hero-slogan">
-Toutes les statistiques seront publiées ici.
-</div>
+        <div class="stat-card">
+          <div class="stat-label">Tours banc</div>
+          <div class="stat-value" id="benchTurns">0</div>
+        </div>
 
-</div>
+        <div class="stat-card">
+          <div class="stat-label">% joué</div>
+          <div class="stat-value" id="playedRatio">0%</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</div>
-</div>
+  <section class="section">
+    <div class="summer-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h2 class="summer-panel-title">Avec / Contre</h2>
+          <p class="summer-panel-text">
+            Nombre de fois où le joueur a joué avec ou contre chaque participant.
+          </p>
+        </div>
+      </div>
 
-</section>
+      <div class="legend">
+        <div class="legend-item">🤝 Avec</div>
+        <div class="legend-item">⚔️ Contre</div>
+      </div>
 
-<section class="section">
-
-<div class="summer-panel">
-
-<div class="summer-panel-head">
-
-<div>
-
-<h2 class="summer-panel-title">
-Statistiques
-</h2>
-
-<p class="summer-panel-text">
-Participation, matchs joués, points et classements.
-</p>
-
-</div>
-
-<div class="summer-pill">
-À venir
-</div>
-
-</div>
-
-<div class="summer-note">
-
-Cette page sera alimentée automatiquement après le tournoi.
-
-</div>
-
-</div>
-
-</section>
+      <div id="relationsList" class="relation-list">
+        <div class="empty">Sélectionne un joueur.</div>
+      </div>
+    </div>
+  </section>
 
 </main>
 
 <script type="module" src="../assets/js/header-etape.js"></script>
+
+<script type="module">
+  import { db } from "../assets/js/firebase.js?v=public-stats-americano-1";
+
+  import {
+    collection,
+    onSnapshot,
+    query,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const EVENT_ID = "suzini-summer-tour-2026";
+  const STEP_ID = "etape-1";
+
+  const playerSelect = document.getElementById("playerSelect");
+  const selectedName = document.getElementById("selectedName");
+  const activeTurns = document.getElementById("activeTurns");
+  const playedMatches = document.getElementById("playedMatches");
+  const benchTurns = document.getElementById("benchTurns");
+  const playedRatio = document.getElementById("playedRatio");
+  const relationsList = document.getElementById("relationsList");
+
+  const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
+  const roundsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "rounds");
+
+  let players = [];
+  let rounds = [];
+  let selectedId = "";
+
+  function esc(value){
+    return String(value || "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function playerName(id){
+    return players.find(p => p.id === id)?.nickname || "Joueur";
+  }
+
+  function sortPlayers(a,b){
+    return a.nickname.localeCompare(b.nickname, "fr", {
+      sensitivity:"base",
+      numeric:true
+    });
+  }
+
+  function addMap(map, key, inc = 1){
+    map.set(key, (map.get(key) || 0) + inc);
+  }
+
+  function computeStats(){
+    const stats = new Map();
+
+    players.forEach(player => {
+      stats.set(player.id, {
+        id:player.id,
+        nickname:player.nickname,
+        activeTurns:0,
+        played:0,
+        bench:0,
+        partners:new Map(),
+        opponents:new Map()
+      });
+    });
+
+    rounds.forEach(round => {
+      const playersInRound = new Set();
+
+      (round.matches || []).forEach(match => {
+        [...(match.teamA || []), ...(match.teamB || [])].forEach(id => playersInRound.add(id));
+      });
+
+      (round.bench || []).forEach(id => playersInRound.add(id));
+
+      playersInRound.forEach(id => {
+        if(stats.has(id)) stats.get(id).activeTurns++;
+      });
+
+      (round.bench || []).forEach(id => {
+        if(stats.has(id)) stats.get(id).bench++;
+      });
+
+      (round.matches || []).forEach(match => {
+        const teamA = match.teamA || [];
+        const teamB = match.teamB || [];
+
+        [...teamA, ...teamB].forEach(id => {
+          if(stats.has(id)) stats.get(id).played++;
+        });
+
+        if(teamA.length >= 2){
+          addMap(stats.get(teamA[0])?.partners, teamA[1]);
+          addMap(stats.get(teamA[1])?.partners, teamA[0]);
+        }
+
+        if(teamB.length >= 2){
+          addMap(stats.get(teamB[0])?.partners, teamB[1]);
+          addMap(stats.get(teamB[1])?.partners, teamB[0]);
+        }
+
+        teamA.forEach(a => {
+          teamB.forEach(b => {
+            addMap(stats.get(a)?.opponents, b);
+            addMap(stats.get(b)?.opponents, a);
+          });
+        });
+      });
+    });
+
+    return stats;
+  }
+
+  function renderSelect(){
+    const previous = selectedId;
+
+    const sorted = [...players].sort(sortPlayers);
+
+    playerSelect.innerHTML = `
+      <option value="">Choisir un joueur</option>
+      ${sorted.map(p => `
+        <option value="${esc(p.id)}">${esc(p.nickname)}</option>
+      `).join("")}
+    `;
+
+    if(previous && players.some(p => p.id === previous)){
+      selectedId = previous;
+    }else if(sorted.length){
+      selectedId = sorted[0].id;
+    }else{
+      selectedId = "";
+    }
+
+    playerSelect.value = selectedId;
+  }
+
+  function empty(text){
+    relationsList.innerHTML = `<div class="empty">${esc(text)}</div>`;
+  }
+
+  function render(){
+    renderSelect();
+
+    if(!selectedId){
+      selectedName.textContent = "Vue joueur";
+      activeTurns.textContent = "0";
+      playedMatches.textContent = "0";
+      benchTurns.textContent = "0";
+      playedRatio.textContent = "0%";
+      empty("Aucun joueur disponible.");
+      return;
+    }
+
+    const stats = computeStats();
+    const selected = stats.get(selectedId);
+
+    if(!selected){
+      empty("Statistiques indisponibles.");
+      return;
+    }
+
+    const ratio = selected.activeTurns > 0
+      ? Math.round((selected.played / selected.activeTurns) * 100)
+      : 0;
+
+    selectedName.textContent = selected.nickname;
+    activeTurns.textContent = String(selected.activeTurns);
+    playedMatches.textContent = String(selected.played);
+    benchTurns.textContent = String(selected.bench);
+    playedRatio.textContent = `${ratio}%`;
+
+    const rows = [...players]
+      .filter(p => p.id !== selectedId)
+      .sort(sortPlayers)
+      .map(p => {
+        return {
+          id:p.id,
+          nickname:p.nickname,
+          partners:selected.partners.get(p.id) || 0,
+          opponents:selected.opponents.get(p.id) || 0
+        };
+      });
+
+    if(rows.length === 0){
+      empty("Aucune relation à afficher.");
+      return;
+    }
+
+    relationsList.innerHTML = rows.map(row => `
+      <div class="relation-row">
+        <div class="relation-name">${esc(row.nickname)}</div>
+        <div class="relation-num">${row.partners}</div>
+        <div class="relation-num vs">${row.opponents}</div>
+      </div>
+    `).join("");
+  }
+
+  playerSelect.addEventListener("change", () => {
+    selectedId = playerSelect.value;
+    render();
+  });
+
+  onSnapshot(query(playersRef, orderBy("createdAt", "asc")), (snap) => {
+    players = snap.docs.map(d => {
+      const data = d.data() || {};
+
+      return {
+        id:d.id,
+        nickname:data.surnom || data.nickname || "Sans surnom"
+      };
+    });
+
+    render();
+
+  }, (error) => {
+    console.error(error);
+    playerSelect.innerHTML = `<option value="">Erreur de chargement</option>`;
+  });
+
+  onSnapshot(query(roundsRef, orderBy("roundNumber", "asc")), (snap) => {
+    rounds = snap.docs.map(d => ({
+      id:d.id,
+      ...d.data()
+    }));
+
+    render();
+
+  }, (error) => {
+    console.error(error);
+    empty("Impossible de charger les statistiques.");
+  });
+</script>
 
 </body>
 </html>
