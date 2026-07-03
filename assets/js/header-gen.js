@@ -19,7 +19,7 @@ const currentPage =
   (path.split("/").pop() || "index.html");
 
 header.innerHTML = `
-<header class="site-header" id="realSiteHeader">
+<header class="site-header">
 
   <div class="header-main">
 
@@ -30,7 +30,7 @@ header.innerHTML = `
 
     <div class="header-title">
       <div class="header-name">
-        <span class="title-white">SUZINI BT ' SUMMER TOUR</span>
+        <span class="title-white">SUZINI BT SUMMER TOUR</span>
       </div>
     </div>
 
@@ -65,22 +65,10 @@ header.innerHTML = `
 </header>
 `;
 
-const realSiteHeader = document.getElementById("realSiteHeader");
 const headerNav = document.getElementById("headerNav");
 const navHintLeft = document.getElementById("navHintLeft");
 const navHintRight = document.getElementById("navHintRight");
 const julyanaSwitch = document.getElementById("julyanaSwitch");
-
-function updateHeaderHeight(){
-  if(!realSiteHeader) return;
-
-  const height = Math.ceil(realSiteHeader.getBoundingClientRect().height);
-
-  document.documentElement.style.setProperty(
-    "--public-total-top",
-    `${height}px`
-  );
-}
 
 async function canSwitchToAdmin(){
   if(!auth.currentUser) return false;
@@ -132,23 +120,19 @@ function centerActiveTab(){
   });
 }
 
-function refreshHeader(){
-  updateHeaderHeight();
+function refreshHeaderNav(){
   centerActiveTab();
   updateNavHints();
 }
 
 headerNav.addEventListener("scroll", updateNavHints);
 
-window.addEventListener("resize", refreshHeader);
-window.addEventListener("orientationchange", refreshHeader);
+window.addEventListener("resize", refreshHeaderNav);
+window.addEventListener("orientationchange", refreshHeaderNav);
 
 window.addEventListener("load", () => {
-  refreshHeader();
-  setTimeout(refreshHeader, 150);
-  setTimeout(refreshHeader, 500);
+  refreshHeaderNav();
+  setTimeout(refreshHeaderNav, 150);
 });
 
-setTimeout(refreshHeader, 50);
-setTimeout(refreshHeader, 150);
-setTimeout(refreshHeader, 500);
+setTimeout(refreshHeaderNav, 100);
