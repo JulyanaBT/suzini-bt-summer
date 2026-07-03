@@ -9,170 +9,226 @@
 
   <style>
     main{
-      padding-top:calc(var(--public-total-top, 150px) + 10px);
+      padding-top:calc(var(--public-total-top, 150px) + 8px);
       padding-bottom:24px;
     }
 
     .section{margin-top:10px;}
+    .compact-panel{padding:12px;border-radius:22px;}
 
-    .hero{
+    .home-hero{
       border-radius:24px;
-      padding:18px 14px;
+      padding:16px 14px;
+      color:#fff;
+      background:linear-gradient(135deg,#10bfd0,#0b9e70);
+      box-shadow:0 12px 28px rgba(16,24,40,.14);
+      border:2px solid rgba(255,255,255,.55);
     }
 
-    .hero-inner{gap:10px;}
-
-    .hero-title{
-      font-size:clamp(34px,10vw,62px);
+    .home-title{
+      margin:0;
+      font-size:34px;
       line-height:.9;
+      letter-spacing:-.05em;
+      font-weight:1000;
+      text-transform:uppercase;
     }
 
-    .hero-slogan{
-      margin-top:8px;
-      padding:10px 12px;
-      border-radius:16px;
-      font-size:14px;
-      line-height:1.25;
-    }
-
-    .hero-actions{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:8px;
-    }
-
-    .hero-btn{
-      min-height:46px;
-      border-radius:16px;
-      font-size:14px;
-      padding:10px 12px;
-    }
-
-    .summer-panel{
-      border-radius:24px;
-      padding:14px;
-    }
-
-    .summer-panel-head{
-      gap:8px;
-      margin-bottom:10px;
-    }
-
-    .summer-panel-title{
-      font-size:clamp(28px,8vw,44px);
-      line-height:.95;
-    }
-
-    .summer-panel-text{
-      font-size:14px;
-      line-height:1.3;
-    }
-
-    .summer-card{
-      border-radius:20px;
-      min-height:auto;
-      padding:16px;
-    }
-
-    .summer-date{
-      font-size:clamp(44px,13vw,64px);
-      line-height:.85;
-    }
-
-    .summer-title{
-      font-size:clamp(26px,7vw,38px);
-      line-height:.95;
-    }
-
-    .summer-text{
+    .home-sub{
+      margin:8px 0 0;
       font-size:15px;
       line-height:1.25;
+      font-weight:900;
     }
 
-    .summer-link{
-      margin-top:10px;
-      min-height:36px;
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:13px;
-      width:max-content;
-    }
-
-    .summer-grid,
-    .summer-grid-2,
-    .summer-grid-4{
+    .next-card{
+      display:grid;
       gap:10px;
+      border-radius:22px;
+      padding:16px;
+      background:#ff3e8a;
+      color:#fff;
+      box-shadow:0 10px 22px rgba(16,24,40,.12);
     }
 
-    .summer-note{
-      margin-top:10px;
-      border-radius:16px;
-      padding:10px 12px;
+    .next-top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .next-date{
+      font-size:52px;
+      line-height:.82;
+      font-weight:1000;
+      letter-spacing:-.06em;
+    }
+
+    .next-badge{
+      padding:7px 11px;
+      border-radius:999px;
+      background:#fff;
+      color:#063b72;
+      font-size:12px;
+      font-weight:1000;
+      white-space:nowrap;
+    }
+
+    .next-kicker{
       font-size:13px;
-      line-height:1.3;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
     }
 
-    .mini-link{
-      min-height:42px;
+    .next-title{
+      margin:0;
+      font-size:32px;
+      line-height:.95;
+      font-weight:1000;
+      letter-spacing:-.04em;
+    }
+
+    .next-text{
+      font-size:15px;
+      line-height:1.25;
+      font-weight:900;
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .action-btn{
+      min-height:46px;
       border-radius:16px;
       padding:10px 12px;
+      background:#fff;
+      color:#063b72;
       font-size:14px;
       font-weight:1000;
-      display:inline-flex;
+      text-align:center;
+      display:flex;
       align-items:center;
       justify-content:center;
-      background:#fff;
-      color:#102033;
       text-decoration:none;
+    }
+
+    .action-btn.primary{
+      background:linear-gradient(180deg,#ffd84d,#f3b800);
+      color:#102033;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .mini-card{
+      border-radius:18px;
+      padding:12px;
+      min-height:86px;
+      color:#fff;
+      display:grid;
+      align-content:center;
+      gap:4px;
+      text-decoration:none;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+    }
+
+    .mini-card.blue{background:#063b72;}
+    .mini-card.pink{background:#ff3e8a;}
+    .mini-card.yellow{background:#ffd84d;color:#102033;}
+    .mini-card.green{background:#0b7a3b;}
+
+    .mini-kicker{
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      opacity:.9;
+    }
+
+    .mini-title{
+      font-size:20px;
+      line-height:1;
+      font-weight:1000;
+    }
+
+    .mini-text{
+      font-size:12px;
+      line-height:1.2;
+      font-weight:900;
+      opacity:.95;
+    }
+
+    .section-title{
+      margin:0 0 8px;
+      font-size:24px;
+      line-height:.95;
+      color:#fff;
+      font-weight:1000;
+      letter-spacing:-.04em;
+      text-transform:uppercase;
+    }
+
+    .admin-row{
+      display:grid;
+      gap:8px;
+    }
+
+    .status-line{
+      border-radius:16px;
+      padding:10px 12px;
+      background:#ff3e8a;
+      color:#fff;
+      font-size:13px;
+      font-weight:1000;
+      line-height:1.3;
     }
 
     .role-badge{
       display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      margin-left:8px;
-      padding:5px 10px;
+      margin-left:6px;
+      padding:5px 9px;
       border-radius:999px;
       font-size:11px;
       font-weight:1000;
-      background:#e6f7ee;
-      color:#087a35;
-    }
-
-    .role-badge.none{
-      background:#f2f4f7;
-      color:#667085;
-    }
-
-    .role-badge.admin{
       background:#0b7a3b;
       color:#fff;
     }
 
+    .role-badge.none{
+      background:#fff;
+      color:#667085;
+    }
+
+    .logout-link{
+      width:max-content;
+      min-height:40px;
+      border-radius:16px;
+      padding:9px 13px;
+      background:#fff;
+      color:#102033;
+      font-size:14px;
+      font-weight:1000;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+
     @media(min-width:760px){
-      main{
-        padding-top:calc(var(--public-total-top, 150px) + 18px);
-      }
-
-      .hero{
-        padding:28px;
-      }
-
-      .hero-actions{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .summer-panel{
-        padding:22px;
-      }
-
-      .summer-grid-2{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .summer-grid-4{
-        grid-template-columns:repeat(4,1fr);
-      }
+      main{padding-top:calc(var(--public-total-top, 150px) + 16px);}
+      .compact-panel{padding:18px;}
+      .home-title{font-size:54px;}
+      .next-card{grid-template-columns:1.2fr .8fr;align-items:center;}
+      .action-grid{grid-template-columns:1fr 1fr;}
+      .mini-grid{grid-template-columns:repeat(4,1fr);}
     }
   </style>
 </head>
@@ -184,179 +240,114 @@
 <main class="container">
 
   <section class="section">
-    <div class="hero">
-      <div class="hero-inner">
+    <div class="home-hero">
+      <h1 class="home-title">Suzini BT<br>Summer Tour</h1>
+      <p class="home-sub">Prochaine étape : double mixte BT250, jeudi 09 juillet.</p>
+    </div>
+  </section>
 
-        <div class="hero-pills">
-          <span class="pill">Tennis Club de Suzini</span>
-          <span class="pill">Été 2026</span>
-        </div>
-
-        <div>
-          <h1 class="hero-title">
-            Suzini BT<br>
-            <span class="summer">Summer Tour</span>
-          </h1>
-
-          <div class="hero-slogan">
-            Le beach tennis ne part pas en vacances :
-            <strong>il explose !</strong>
+  <section class="section">
+    <div class="next-card">
+      <div>
+        <div class="next-top">
+          <div>
+            <div class="next-date">09/07</div>
+            <div class="next-kicker">Étape 2</div>
           </div>
+          <div class="next-badge">BT250</div>
         </div>
 
-        <div class="hero-actions">
-          <a class="hero-btn hero-btn-primary" href="etape-2/">
-            🎾 Double mixte 09/07
-          </a>
+        <h2 class="next-title">Double mixte</h2>
+        <div class="next-text">Licenciés FFT uniquement • 10 € / joueur • inscriptions ouvertes.</div>
+      </div>
 
-          <a class="hero-btn hero-btn-secondary" href="evenements.html">
-            📅 Tous les événements
-          </a>
-        </div>
-
+      <div class="action-grid">
+        <a class="action-btn primary" href="etape-2/inscriptions.html">📝 S’inscrire</a>
+        <a class="action-btn" href="etape-2/participants.html">👥 Participants</a>
+        <a class="action-btn" href="etape-2/programmation.html">📅 Planning</a>
+        <a class="action-btn" href="etape-2/">🎾 Voir l’étape</a>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Événement à venir</h2>
-          <p class="summer-panel-text">
-            Étape 2 du Summer Tour : double mixte BT250 réservé aux joueurs licenciés FFT.
-          </p>
-        </div>
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">Accès utiles</h2>
 
-        <div class="summer-pill">09/07</div>
-      </div>
-
-      <a class="summer-card summer-card-pink" href="etape-2/">
-        <span class="summer-badge">À venir</span>
-        <div class="summer-date">09/07</div>
-        <div class="summer-kicker">Étape 2</div>
-        <h3 class="summer-title">Double mixte</h3>
-        <div class="summer-text">
-          BT250 — licenciés uniquement. Inscriptions ouvertes.
-        </div>
-        <span class="summer-link">Voir l’étape</span>
-      </a>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Accès rapide</h2>
-          <p class="summer-panel-text">
-            Les pages utiles pour participer et suivre l’étape 2.
-          </p>
-        </div>
-
-        <div class="summer-pill">Étape 2</div>
-      </div>
-
-      <div class="summer-grid summer-grid-4">
-        <a class="summer-card summer-card-blue" href="etape-2/inscriptions.html">
-          <div class="summer-kicker">Participer</div>
-          <h3 class="summer-title">Inscriptions</h3>
-          <div class="summer-text">S’inscrire au double mixte BT250.</div>
+      <div class="mini-grid">
+        <a class="mini-card blue" href="reglement.html">
+          <div class="mini-kicker">Compétition</div>
+          <div class="mini-title">Règlement</div>
+          <div class="mini-text">Formats et conditions.</div>
         </a>
 
-        <a class="summer-card summer-card-pink" href="etape-2/participants.html">
-          <div class="summer-kicker">Joueurs</div>
-          <h3 class="summer-title">Participants</h3>
-          <div class="summer-text">Voir les équipes inscrites.</div>
+        <a class="mini-card green" href="restauration.html">
+          <div class="mini-kicker">Sur place</div>
+          <div class="mini-title">Restauration</div>
+          <div class="mini-text">Repas et boissons.</div>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="etape-2/programmation.html">
-          <div class="summer-kicker">Planning</div>
-          <h3 class="summer-title">Programmation</h3>
-          <div class="summer-text">Horaires, tableaux et terrains.</div>
+        <a class="mini-card yellow" href="infos.html">
+          <div class="mini-kicker">Pratique</div>
+          <div class="mini-title">Infos</div>
+          <div class="mini-text">Accès, contacts, détails.</div>
         </a>
 
-        <a class="summer-card summer-card-green" href="reglement.html">
-          <div class="summer-kicker">Pratique</div>
-          <h3 class="summer-title">Règlement</h3>
-          <div class="summer-text">Règles, formats et infos utiles.</div>
+        <a class="mini-card pink" href="evenements.html">
+          <div class="mini-kicker">Calendrier</div>
+          <div class="mini-title">Événements</div>
+          <div class="mini-text">Toutes les étapes.</div>
         </a>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Les étapes</h2>
-          <p class="summer-panel-text">
-            Le Summer Tour continue avec deux soirées double mixte BT250.
-          </p>
-        </div>
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">Autres étapes</h2>
 
-        <div class="summer-pill">BT250</div>
-      </div>
-
-      <div class="summer-grid summer-grid-2">
-        <a class="summer-card summer-card-blue" href="etape-1/">
-          <div class="summer-date">02/07</div>
-          <div class="summer-kicker">Étape 1</div>
-          <h3 class="summer-title">Americano</h3>
-          <div class="summer-text">Étape terminée — ouverte à tous.</div>
-          <span class="summer-link">Voir l’étape</span>
+      <div class="mini-grid">
+        <a class="mini-card blue" href="etape-1/">
+          <div class="mini-kicker">02/07</div>
+          <div class="mini-title">Americano</div>
+          <div class="mini-text">Étape terminée.</div>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="etape-3/">
-          <div class="summer-date">16/07</div>
-          <div class="summer-kicker">Étape 3</div>
-          <h3 class="summer-title">Double mixte</h3>
-          <div class="summer-text">BT250 — licenciés uniquement.</div>
-          <span class="summer-link">Voir l’étape</span>
+        <a class="mini-card yellow" href="etape-3/">
+          <div class="mini-kicker">16/07</div>
+          <div class="mini-title">Double mixte</div>
+          <div class="mini-text">BT250 licenciés FFT.</div>
         </a>
-      </div>
-
-      <div class="summer-note">
-        Étape 2 : inscriptions ouvertes. Les doubles mixtes BT250 sont réservés aux joueurs licenciés FFT.
       </div>
     </div>
   </section>
 
   <section class="section" id="orga">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Administration</h2>
-          <p class="summer-panel-text">
-            Accès sécurisé pour gérer les inscriptions, participants et programmations.
-          </p>
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">Administration</h2>
+
+      <div class="admin-row">
+        <div class="mini-grid">
+          <a class="mini-card blue" href="#" id="btnAdmin">
+            <div class="mini-kicker">Gestion</div>
+            <div class="mini-title">Admin</div>
+            <div class="mini-text">Gestion du Summer Tour.</div>
+          </a>
+
+          <a class="mini-card green" href="etape-2/participants.html">
+            <div class="mini-kicker">Lecture</div>
+            <div class="mini-title">Public</div>
+            <div class="mini-text">Inscrits étape 2.</div>
+          </a>
         </div>
 
-        <div class="summer-pill">Sécurisé</div>
-      </div>
+        <div class="status-line">
+          Statut :
+          <span id="authHint">Vérification…</span>
+          <span id="roleBadge" class="role-badge none" style="display:none;"></span>
+        </div>
 
-      <div class="summer-grid summer-grid-2">
-        <a class="summer-card summer-card-blue" href="#" id="btnAdmin">
-          <div class="summer-kicker">Gestion</div>
-          <h3 class="summer-title">Admin</h3>
-          <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
-        </a>
-
-        <a class="summer-card summer-card-green" href="etape-2/participants.html">
-          <div class="summer-kicker">Lecture</div>
-          <h3 class="summer-title">Vue publique</h3>
-          <div class="summer-text">Voir les inscrits de l’étape 2.</div>
-        </a>
-      </div>
-
-      <div class="summer-note">
-        <strong>Statut :</strong>
-        <span id="authHint">Vérification de la connexion…</span>
-        <span id="roleBadge" class="role-badge none" style="display:none;"></span>
-      </div>
-
-      <div style="margin-top:10px;">
-        <a class="mini-link" href="#" id="btnLogout">🚪 Déconnexion</a>
+        <a class="logout-link" href="#" id="btnLogout">🚪 Déconnexion</a>
       </div>
     </div>
   </section>
@@ -367,12 +358,12 @@
 <script type="module" src="assets/js/maintenance-guard.js"></script>
 
 <script type="module">
-  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-etape2-1";
+  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-etape2-mobile-1";
   import {
     login,
     logout,
     getRoleByUid
-  } from "./assets/js/session.js?v=suzini-summer-index-etape2-1";
+  } from "./assets/js/session.js?v=suzini-summer-index-etape2-mobile-1";
 
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
