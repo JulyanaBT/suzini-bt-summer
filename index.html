@@ -9,36 +9,45 @@
 
   <style>
     main{
-      padding-top:calc(var(--public-total-top, 150px) + 8px);
+      padding-top:var(--public-total-top, 150px);
       padding-bottom:24px;
     }
 
     .section{margin-top:10px;}
+    .section:first-child{margin-top:0;}
+
     .compact-panel{padding:12px;border-radius:22px;}
 
     .home-hero{
-      border-radius:24px;
-      padding:16px 14px;
+      border-radius:0 0 24px 24px;
+      padding:12px 14px;
       color:#fff;
       background:linear-gradient(135deg,#10bfd0,#0b9e70);
       box-shadow:0 12px 28px rgba(16,24,40,.14);
       border:2px solid rgba(255,255,255,.55);
-    }
-
-    .home-title{
-      margin:0;
-      font-size:34px;
-      line-height:.9;
-      letter-spacing:-.05em;
-      font-weight:1000;
-      text-transform:uppercase;
+      border-top:0;
+      text-align:center;
     }
 
     .home-sub{
-      margin:8px 0 0;
+      margin:0;
       font-size:15px;
       line-height:1.25;
       font-weight:900;
+      font-style:italic;
+    }
+
+    .version-pill{
+      display:inline-flex;
+      margin-top:8px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.22);
+      color:#fff;
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
     }
 
     .next-card{
@@ -223,11 +232,10 @@
     }
 
     @media(min-width:760px){
-      main{padding-top:calc(var(--public-total-top, 150px) + 16px);}
       .compact-panel{padding:18px;}
-      .home-title{font-size:54px;}
+      .home-hero{padding:16px 18px;}
+      .home-sub{font-size:18px;}
       .next-card{grid-template-columns:1.2fr .8fr;align-items:center;}
-      .action-grid{grid-template-columns:1fr 1fr;}
       .mini-grid{grid-template-columns:repeat(4,1fr);}
     }
   </style>
@@ -241,8 +249,10 @@
 
   <section class="section">
     <div class="home-hero">
-      <h1 class="home-title">Suzini BT<br>Summer Tour Tour</h1>
-      <p class="home-sub">Prochaine étape : double mixte BT250, jeudi 09 juillet.</p>
+      <p class="home-sub">
+        ☀️ <em>Cet été, le beach tennis ne part pas en vacances, il explose !</em> 💥
+      </p>
+      <span class="version-pill">v1</span>
     </div>
   </section>
 
@@ -358,12 +368,12 @@
 <script type="module" src="assets/js/maintenance-guard.js"></script>
 
 <script type="module">
-  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-etape2-mobile-1";
+  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-v1";
   import {
     login,
     logout,
     getRoleByUid
-  } from "./assets/js/session.js?v=suzini-summer-index-etape2-mobile-1";
+  } from "./assets/js/session.js?v=suzini-summer-index-v1";
 
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
