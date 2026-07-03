@@ -5,7 +5,7 @@ const header = document.getElementById("siteHeader");
 
 const navItems = [
   { label: "Accueil", href: "index.html", icon: "🏠" },
-  { label: "Americano 02/07", href: "etape-1/", icon: "☀️" },
+  { label: "Double mixte 09/07", href: "etape-2/", icon: "🎾" },
   { label: "Tous les événements", href: "evenements.html", icon: "📅" },
   { label: "Infos", href: "infos.html", icon: "ℹ️" }
 ];
@@ -74,7 +74,7 @@ async function canSwitchToAdmin(){
   if(!auth.currentUser) return false;
 
   const role = await getRoleByUid(auth.currentUser.uid);
-  return ["admin", "jat", "arbitre"].includes(role);
+  return role === "admin";
 }
 
 julyanaSwitch.addEventListener("click", async (event) => {
@@ -82,16 +82,16 @@ julyanaSwitch.addEventListener("click", async (event) => {
 
   if(!(await canSwitchToAdmin())) return;
 
-  window.location.href = "admin/index.html?step=etape-1";
+  window.location.href = "admin/index.html?step=etape-2";
 });
 
-function updateNavHints() {
-  if (!headerNav || !navHintLeft || !navHintRight) return;
+function updateNavHints(){
+  if(!headerNav || !navHintLeft || !navHintRight) return;
 
   const maxScroll = headerNav.scrollWidth - headerNav.clientWidth;
   const currentScroll = headerNav.scrollLeft;
 
-  if (maxScroll <= 4) {
+  if(maxScroll <= 4){
     navHintLeft.style.opacity = "0";
     navHintRight.style.opacity = "0";
     return;
@@ -101,9 +101,9 @@ function updateNavHints() {
   navHintRight.style.opacity = currentScroll < maxScroll - 6 ? "1" : "0";
 }
 
-function centerActiveTab() {
+function centerActiveTab(){
   const active = headerNav.querySelector("a.active");
-  if (!active) return;
+  if(!active) return;
 
   const target =
     active.offsetLeft
@@ -113,8 +113,8 @@ function centerActiveTab() {
   const maxScroll = headerNav.scrollWidth - headerNav.clientWidth;
 
   headerNav.scrollTo({
-    left: Math.max(0, Math.min(target, maxScroll)),
-    behavior: "instant"
+    left:Math.max(0, Math.min(target, maxScroll)),
+    behavior:"instant"
   });
 }
 
