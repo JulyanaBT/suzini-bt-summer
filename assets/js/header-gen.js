@@ -19,7 +19,7 @@ const currentPage =
   (path.split("/").pop() || "index.html");
 
 header.innerHTML = `
-<header class="site-header">
+<header class="site-header" id="realSiteHeader">
 
   <div class="header-main">
 
@@ -65,10 +65,22 @@ header.innerHTML = `
 </header>
 `;
 
+const realSiteHeader = document.getElementById("realSiteHeader");
 const headerNav = document.getElementById("headerNav");
 const navHintLeft = document.getElementById("navHintLeft");
 const navHintRight = document.getElementById("navHintRight");
 const julyanaSwitch = document.getElementById("julyanaSwitch");
+
+function updateHeaderHeight(){
+  if(!realSiteHeader) return;
+
+  const height = Math.ceil(realSiteHeader.getBoundingClientRect().height);
+
+  document.documentElement.style.setProperty(
+    "--public-total-top",
+    `${height}px`
+  );
+}
 
 async function canSwitchToAdmin(){
   if(!auth.currentUser) return false;
@@ -102,6 +114,8 @@ function updateNavHints(){
 }
 
 function centerActiveTab(){
+  if(!headerNav) return;
+
   const active = headerNav.querySelector("a.active");
   if(!active) return;
 
@@ -118,19 +132,23 @@ function centerActiveTab(){
   });
 }
 
+function refreshHeader(){
+  updateHeaderHeight();
+  centerActiveTab();
+  updateNavHints();
+}
+
 headerNav.addEventListener("scroll", updateNavHints);
 
-window.addEventListener("resize", () => {
-  centerActiveTab();
-  updateNavHints();
-});
+window.addEventListener("resize", refreshHeader);
+window.addEventListener("orientationchange", refreshHeader);
 
 window.addEventListener("load", () => {
-  centerActiveTab();
-  updateNavHints();
+  refreshHeader();
+  setTimeout(refreshHeader, 150);
+  setTimeout(refreshHeader, 500);
 });
 
-setTimeout(() => {
-  centerActiveTab();
-  updateNavHints();
-}, 100);
+setTimeout(refreshHeader, 50);
+setTimeout(refreshHeader, 150);
+setTimeout(refreshHeader, 500);
