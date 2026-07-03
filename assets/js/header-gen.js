@@ -30,7 +30,7 @@ header.innerHTML = `
 
     <div class="header-title">
       <div class="header-name">
-        <span class="title-white">SUZINI BT SUMMER TOUR</span>
+        <span class="title-white">SUZINI BT ' SUMMER TOUR</span>
       </div>
     </div>
 
