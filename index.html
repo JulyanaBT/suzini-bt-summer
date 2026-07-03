@@ -6,6 +6,175 @@
   <title>Suzini BT Summer Tour</title>
 
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    main{
+      padding-top:calc(var(--public-total-top, 150px) + 10px);
+      padding-bottom:24px;
+    }
+
+    .section{margin-top:10px;}
+
+    .hero{
+      border-radius:24px;
+      padding:18px 14px;
+    }
+
+    .hero-inner{gap:10px;}
+
+    .hero-title{
+      font-size:clamp(34px,10vw,62px);
+      line-height:.9;
+    }
+
+    .hero-slogan{
+      margin-top:8px;
+      padding:10px 12px;
+      border-radius:16px;
+      font-size:14px;
+      line-height:1.25;
+    }
+
+    .hero-actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+    }
+
+    .hero-btn{
+      min-height:46px;
+      border-radius:16px;
+      font-size:14px;
+      padding:10px 12px;
+    }
+
+    .summer-panel{
+      border-radius:24px;
+      padding:14px;
+    }
+
+    .summer-panel-head{
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .summer-panel-title{
+      font-size:clamp(28px,8vw,44px);
+      line-height:.95;
+    }
+
+    .summer-panel-text{
+      font-size:14px;
+      line-height:1.3;
+    }
+
+    .summer-card{
+      border-radius:20px;
+      min-height:auto;
+      padding:16px;
+    }
+
+    .summer-date{
+      font-size:clamp(44px,13vw,64px);
+      line-height:.85;
+    }
+
+    .summer-title{
+      font-size:clamp(26px,7vw,38px);
+      line-height:.95;
+    }
+
+    .summer-text{
+      font-size:15px;
+      line-height:1.25;
+    }
+
+    .summer-link{
+      margin-top:10px;
+      min-height:36px;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      width:max-content;
+    }
+
+    .summer-grid,
+    .summer-grid-2,
+    .summer-grid-4{
+      gap:10px;
+    }
+
+    .summer-note{
+      margin-top:10px;
+      border-radius:16px;
+      padding:10px 12px;
+      font-size:13px;
+      line-height:1.3;
+    }
+
+    .mini-link{
+      min-height:42px;
+      border-radius:16px;
+      padding:10px 12px;
+      font-size:14px;
+      font-weight:1000;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+      color:#102033;
+      text-decoration:none;
+    }
+
+    .role-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-left:8px;
+      padding:5px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:1000;
+      background:#e6f7ee;
+      color:#087a35;
+    }
+
+    .role-badge.none{
+      background:#f2f4f7;
+      color:#667085;
+    }
+
+    .role-badge.admin{
+      background:#0b7a3b;
+      color:#fff;
+    }
+
+    @media(min-width:760px){
+      main{
+        padding-top:calc(var(--public-total-top, 150px) + 18px);
+      }
+
+      .hero{
+        padding:28px;
+      }
+
+      .hero-actions{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .summer-panel{
+        padding:22px;
+      }
+
+      .summer-grid-2{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .summer-grid-4{
+        grid-template-columns:repeat(4,1fr);
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -36,8 +205,8 @@
         </div>
 
         <div class="hero-actions">
-          <a class="hero-btn hero-btn-primary" href="etape-1/">
-            ☀️ Americano 02/07
+          <a class="hero-btn hero-btn-primary" href="etape-2/">
+            🎾 Double mixte 09/07
           </a>
 
           <a class="hero-btn hero-btn-secondary" href="evenements.html">
@@ -55,20 +224,20 @@
         <div>
           <h2 class="summer-panel-title">Événement à venir</h2>
           <p class="summer-panel-text">
-            Première étape du Summer Tour : ouverte à tous, licenciés et non licenciés.
+            Étape 2 du Summer Tour : double mixte BT250 réservé aux joueurs licenciés FFT.
           </p>
         </div>
 
-        <div class="summer-pill">02/07</div>
+        <div class="summer-pill">09/07</div>
       </div>
 
-      <a class="summer-card summer-card-blue" href="etape-1/">
+      <a class="summer-card summer-card-pink" href="etape-2/">
         <span class="summer-badge">À venir</span>
-        <div class="summer-date">02/07</div>
-        <div class="summer-kicker">Étape 1</div>
-        <h3 class="summer-title">Americano</h3>
+        <div class="summer-date">09/07</div>
+        <div class="summer-kicker">Étape 2</div>
+        <h3 class="summer-title">Double mixte</h3>
         <div class="summer-text">
-          Format convivial, équipes tournantes et bonne ambiance.
+          BT250 — licenciés uniquement. Inscriptions ouvertes.
         </div>
         <span class="summer-link">Voir l’étape</span>
       </a>
@@ -81,36 +250,36 @@
         <div>
           <h2 class="summer-panel-title">Accès rapide</h2>
           <p class="summer-panel-text">
-            Les pages utiles pour participer et suivre le Summer Tour.
+            Les pages utiles pour participer et suivre l’étape 2.
           </p>
         </div>
 
-        <div class="summer-pill">Mini-site</div>
+        <div class="summer-pill">Étape 2</div>
       </div>
 
       <div class="summer-grid summer-grid-4">
-        <a class="summer-card summer-card-blue" href="etape-1/inscriptions.html">
+        <a class="summer-card summer-card-blue" href="etape-2/inscriptions.html">
           <div class="summer-kicker">Participer</div>
           <h3 class="summer-title">Inscriptions</h3>
-          <div class="summer-text">S’inscrire à l’Americano.</div>
+          <div class="summer-text">S’inscrire au double mixte BT250.</div>
         </a>
 
-        <a class="summer-card summer-card-pink" href="etape-1/participants.html">
+        <a class="summer-card summer-card-pink" href="etape-2/participants.html">
           <div class="summer-kicker">Joueurs</div>
           <h3 class="summer-title">Participants</h3>
-          <div class="summer-text">Voir les inscrits de l’étape 1.</div>
+          <div class="summer-text">Voir les équipes inscrites.</div>
         </a>
 
-        <a class="summer-card summer-card-yellow" href="etape-1/programmation.html">
+        <a class="summer-card summer-card-yellow" href="etape-2/programmation.html">
           <div class="summer-kicker">Planning</div>
           <h3 class="summer-title">Programmation</h3>
-          <div class="summer-text">Horaires, rotations et terrains.</div>
+          <div class="summer-text">Horaires, tableaux et terrains.</div>
         </a>
 
-        <a class="summer-card summer-card-green" href="infos.html">
+        <a class="summer-card summer-card-green" href="reglement.html">
           <div class="summer-kicker">Pratique</div>
-          <h3 class="summer-title">Infos</h3>
-          <div class="summer-text">Accès, restauration, règlement…</div>
+          <h3 class="summer-title">Règlement</h3>
+          <div class="summer-text">Règles, formats et infos utiles.</div>
         </a>
       </div>
     </div>
@@ -120,9 +289,9 @@
     <div class="summer-panel">
       <div class="summer-panel-head">
         <div>
-          <h2 class="summer-panel-title">Autres étapes</h2>
+          <h2 class="summer-panel-title">Les étapes</h2>
           <p class="summer-panel-text">
-            Deux soirées double mixte BT250 réservées aux joueurs licenciés FFT.
+            Le Summer Tour continue avec deux soirées double mixte BT250.
           </p>
         </div>
 
@@ -130,11 +299,11 @@
       </div>
 
       <div class="summer-grid summer-grid-2">
-        <a class="summer-card summer-card-pink" href="etape-2/">
-          <div class="summer-date">09/07</div>
-          <div class="summer-kicker">Étape 2</div>
-          <h3 class="summer-title">Double mixte</h3>
-          <div class="summer-text">BT250 — licenciés uniquement.</div>
+        <a class="summer-card summer-card-blue" href="etape-1/">
+          <div class="summer-date">02/07</div>
+          <div class="summer-kicker">Étape 1</div>
+          <h3 class="summer-title">Americano</h3>
+          <div class="summer-text">Étape terminée — ouverte à tous.</div>
           <span class="summer-link">Voir l’étape</span>
         </a>
 
@@ -148,7 +317,7 @@
       </div>
 
       <div class="summer-note">
-        Les Americanos sont accessibles aux non licenciés. Les doubles mixtes BT250 sont réservés aux joueurs licenciés FFT.
+        Étape 2 : inscriptions ouvertes. Les doubles mixtes BT250 sont réservés aux joueurs licenciés FFT.
       </div>
     </div>
   </section>
@@ -173,20 +342,20 @@
           <div class="summer-text">Connexion organisateur et gestion du Summer Tour.</div>
         </a>
 
-        <a class="summer-card summer-card-green" href="etape-1/participants.html">
+        <a class="summer-card summer-card-green" href="etape-2/participants.html">
           <div class="summer-kicker">Lecture</div>
           <h3 class="summer-title">Vue publique</h3>
-          <div class="summer-text">Voir les inscrits de l’étape 1.</div>
+          <div class="summer-text">Voir les inscrits de l’étape 2.</div>
         </a>
       </div>
 
-      <div class="summer-note" style="margin-top:14px;">
+      <div class="summer-note">
         <strong>Statut :</strong>
         <span id="authHint">Vérification de la connexion…</span>
         <span id="roleBadge" class="role-badge none" style="display:none;"></span>
       </div>
 
-      <div style="margin-top:12px;">
+      <div style="margin-top:10px;">
         <a class="mini-link" href="#" id="btnLogout">🚪 Déconnexion</a>
       </div>
     </div>
@@ -195,14 +364,15 @@
 </main>
 
 <script type="module" src="assets/js/header-gen.js"></script>
+<script type="module" src="assets/js/maintenance-guard.js"></script>
 
 <script type="module">
-  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index2";
+  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-etape2-1";
   import {
     login,
     logout,
     getRoleByUid
-  } from "./assets/js/session.js?v=suzini-summer-index2";
+  } from "./assets/js/session.js?v=suzini-summer-index-etape2-1";
 
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
@@ -218,18 +388,6 @@
     if(role === "admin"){
       roleBadge.textContent = "ADMIN";
       roleBadge.classList.add("admin");
-      return;
-    }
-
-    if(role === "jat"){
-      roleBadge.textContent = "JAT";
-      roleBadge.classList.add("jat");
-      return;
-    }
-
-    if(role === "arbitre"){
-      roleBadge.textContent = "ARBITRE";
-      roleBadge.classList.add("arbitre");
       return;
     }
 
@@ -277,12 +435,12 @@
     const ctx = await getCurrentRole();
     if(!ctx) return;
 
-    if(ctx.role !== "admin" && ctx.role !== "jat" && ctx.role !== "arbitre"){
-      alert("Accès réservé aux organisateurs.");
+    if(ctx.role !== "admin"){
+      alert("Accès réservé aux administrateurs.");
       return;
     }
 
-    window.location.href = "admin/index.html?step=etape-1";
+    window.location.href = "admin/index.html?step=etape-2";
   };
 
   btnLogout.onclick = async (event) => {
