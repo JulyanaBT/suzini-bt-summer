@@ -1,138 +1,498 @@
-import { auth } from "./firebase.js";
-import { getRoleByUid } from "./session.js";
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suzini BT Summer Tour</title>
 
-const header = document.getElementById("siteHeader");
+  <link rel="stylesheet" href="assets/css/style.css" />
 
-const navItems = [
-  { label: "Accueil", href: "index.html", icon: "🏠" },
-  { label: "Double mixte 09/07", href: "etape-2/", icon: "🎾" },
-  { label: "Tous les événements", href: "evenements.html", icon: "📅" },
-  { label: "Infos", href: "infos.html", icon: "ℹ️" }
-];
+  <style>
+    main{
+      padding-top:0;
+      padding-bottom:24px;
+    }
 
-const path = window.location.pathname;
+    .section{
+      margin-top:10px;
+    }
 
-const currentPage =
-  path.endsWith("/etape-1/") ? "etape-1/" :
-  path.endsWith("/etape-2/") ? "etape-2/" :
-  path.endsWith("/etape-3/") ? "etape-3/" :
-  (path.split("/").pop() || "index.html");
+    .section:first-child{
+      margin-top:0;
+    }
 
-header.innerHTML = `
-<header class="site-header">
+    .compact-panel{
+      padding:12px;
+      border-radius:22px;
+    }
 
-  <div class="header-main">
+    .home-hero{
+      border-radius:0 0 24px 24px;
+      padding:12px 14px;
+      color:#fff;
+      background:linear-gradient(135deg,#10bfd0,#0b9e70);
+      box-shadow:0 12px 28px rgba(16,24,40,.14);
+      border:2px solid rgba(255,255,255,.55);
+      border-top:0;
+      text-align:center;
+    }
 
-    <img
-      class="header-logo"
-      src="assets/img/blason-suzini.png"
-      alt="Logo Tennis Club de Suzini">
+    .home-sub{
+      margin:0;
+      font-size:15px;
+      line-height:1.25;
+      font-weight:900;
+      font-style:italic;
+    }
 
-    <div class="header-title">
-      <div class="header-name">
-        <span class="title-white">SUZINI BT SUMMER TOUR</span>
+    .version-pill{
+      display:inline-flex;
+      margin-top:8px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.22);
+      color:#fff;
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .next-card{
+      display:grid;
+      gap:10px;
+      border-radius:22px;
+      padding:16px;
+      background:#ff3e8a;
+      color:#fff;
+      box-shadow:0 10px 22px rgba(16,24,40,.12);
+    }
+
+    .next-top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .next-date{
+      font-size:52px;
+      line-height:.82;
+      font-weight:1000;
+      letter-spacing:-.06em;
+    }
+
+    .next-badge{
+      padding:7px 11px;
+      border-radius:999px;
+      background:#fff;
+      color:#063b72;
+      font-size:12px;
+      font-weight:1000;
+      white-space:nowrap;
+    }
+
+    .next-kicker{
+      font-size:13px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .next-title{
+      margin:0;
+      font-size:32px;
+      line-height:.95;
+      font-weight:1000;
+      letter-spacing:-.04em;
+    }
+
+    .next-text{
+      font-size:15px;
+      line-height:1.25;
+      font-weight:900;
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .action-btn{
+      min-height:46px;
+      border-radius:16px;
+      padding:10px 12px;
+      background:#fff;
+      color:#063b72;
+      font-size:14px;
+      font-weight:1000;
+      text-align:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+
+    .action-btn.primary{
+      background:linear-gradient(180deg,#ffd84d,#f3b800);
+      color:#102033;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .mini-card{
+      border-radius:18px;
+      padding:12px;
+      min-height:86px;
+      color:#fff;
+      display:grid;
+      align-content:center;
+      gap:4px;
+      text-decoration:none;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+    }
+
+    .mini-card.blue{background:#063b72;}
+    .mini-card.pink{background:#ff3e8a;}
+    .mini-card.yellow{background:#ffd84d;color:#102033;}
+    .mini-card.green{background:#0b7a3b;}
+
+    .mini-kicker{
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      opacity:.9;
+    }
+
+    .mini-title{
+      font-size:20px;
+      line-height:1;
+      font-weight:1000;
+    }
+
+    .mini-text{
+      font-size:12px;
+      line-height:1.2;
+      font-weight:900;
+      opacity:.95;
+    }
+
+    .section-title{
+      margin:0 0 8px;
+      font-size:24px;
+      line-height:.95;
+      color:#fff;
+      font-weight:1000;
+      letter-spacing:-.04em;
+      text-transform:uppercase;
+    }
+
+    .admin-row{
+      display:grid;
+      gap:8px;
+    }
+
+    .status-line{
+      border-radius:16px;
+      padding:10px 12px;
+      background:#ff3e8a;
+      color:#fff;
+      font-size:13px;
+      font-weight:1000;
+      line-height:1.3;
+    }
+
+    .role-badge{
+      display:inline-flex;
+      margin-left:6px;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:1000;
+      background:#0b7a3b;
+      color:#fff;
+    }
+
+    .role-badge.none{
+      background:#fff;
+      color:#667085;
+    }
+
+    .logout-link{
+      width:max-content;
+      min-height:40px;
+      border-radius:16px;
+      padding:9px 13px;
+      background:#fff;
+      color:#102033;
+      font-size:14px;
+      font-weight:1000;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+
+    @media(min-width:760px){
+      .compact-panel{
+        padding:18px;
+      }
+
+      .home-hero{
+        padding:16px 18px;
+      }
+
+      .home-sub{
+        font-size:18px;
+      }
+
+      .next-card{
+        grid-template-columns:1.2fr .8fr;
+        align-items:center;
+      }
+
+      .mini-grid{
+        grid-template-columns:repeat(4,1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="siteHeader"></div>
+
+<main class="container">
+
+  <section class="section">
+    <div class="home-hero">
+      <p class="home-sub">
+        ☀️ <em>Cet été, le beach tennis ne part pas en vacances, il explose !</em> 💥
+      </p>
+      <span class="version-pill">v1</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="next-card">
+      <div>
+        <div class="next-top">
+          <div>
+            <div class="next-date">09/07</div>
+            <div class="next-kicker">Étape 2</div>
+          </div>
+          <div class="next-badge">BT250</div>
+        </div>
+
+        <h2 class="next-title">Double mixte</h2>
+        <div class="next-text">
+          Licenciés FFT uniquement • 10 € / joueur • inscriptions ouvertes.
+        </div>
+      </div>
+
+      <div class="action-grid">
+        <a class="action-btn primary" href="etape-2/inscriptions.html">📝 S’inscrire</a>
+        <a class="action-btn" href="etape-2/participants.html">👥 Participants</a>
+        <a class="action-btn" href="etape-2/programmation.html">📅 Planning</a>
+        <a class="action-btn" href="etape-2/">🎾 Voir l’étape</a>
       </div>
     </div>
+  </section>
 
-    <a href="#" id="julyanaSwitch" aria-label="Basculer vers l'administration">
-      <img
-        class="header-logo"
-        src="assets/img/logo-julyana-bt.png"
-        alt="Logo Jul'Yana Beach Tennis">
-    </a>
+  <section class="section">
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">Accès utiles</h2>
 
-  </div>
-
-  <div class="header-nav-wrap">
-
-    <span class="header-scroll-hint left" id="navHintLeft">‹</span>
-
-    <nav class="header-nav" id="headerNav" aria-label="Navigation principale">
-      ${navItems.map(item => `
-        <a
-          href="${item.href}"
-          class="${currentPage === item.href ? "active" : ""}">
-          <span>${item.icon}</span>
-          <strong>${item.label}</strong>
+      <div class="mini-grid">
+        <a class="mini-card blue" href="reglement.html">
+          <div class="mini-kicker">Compétition</div>
+          <div class="mini-title">Règlement</div>
+          <div class="mini-text">Formats et conditions.</div>
         </a>
-      `).join("")}
-    </nav>
 
-    <span class="header-scroll-hint right" id="navHintRight">›</span>
+        <a class="mini-card green" href="restauration.html">
+          <div class="mini-kicker">Sur place</div>
+          <div class="mini-title">Restauration</div>
+          <div class="mini-text">Repas et boissons.</div>
+        </a>
 
-  </div>
+        <a class="mini-card yellow" href="infos.html">
+          <div class="mini-kicker">Pratique</div>
+          <div class="mini-title">Infos</div>
+          <div class="mini-text">Accès, contacts, détails.</div>
+        </a>
 
-</header>
-`;
+        <a class="mini-card pink" href="evenements.html">
+          <div class="mini-kicker">Calendrier</div>
+          <div class="mini-title">Événements</div>
+          <div class="mini-text">Toutes les étapes.</div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-const headerNav = document.getElementById("headerNav");
-const navHintLeft = document.getElementById("navHintLeft");
-const navHintRight = document.getElementById("navHintRight");
-const julyanaSwitch = document.getElementById("julyanaSwitch");
+  <section class="section">
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">Autres étapes</h2>
 
-async function canSwitchToAdmin(){
-  if(!auth.currentUser) return false;
+      <div class="mini-grid">
+        <a class="mini-card blue" href="etape-1/">
+          <div class="mini-kicker">02/07</div>
+          <div class="mini-title">Americano</div>
+          <div class="mini-text">Étape terminée.</div>
+        </a>
 
-  const role = await getRoleByUid(auth.currentUser.uid);
-  return role === "admin";
-}
+        <a class="mini-card yellow" href="etape-3/">
+          <div class="mini-kicker">16/07</div>
+          <div class="mini-title">Double mixte</div>
+          <div class="mini-text">BT250 licenciés FFT.</div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-julyanaSwitch.addEventListener("click", async (event) => {
-  event.preventDefault();
+  <section class="section" id="orga">
+    <div class="summer-panel compact-panel">
+      <h2 class="section-title">Administration</h2>
 
-  if(!(await canSwitchToAdmin())) return;
+      <div class="admin-row">
+        <div class="mini-grid">
+          <a class="mini-card blue" href="#" id="btnAdmin">
+            <div class="mini-kicker">Gestion</div>
+            <div class="mini-title">Admin</div>
+            <div class="mini-text">Gestion du Summer Tour.</div>
+          </a>
 
-  window.location.href = "admin/index.html?step=etape-2";
-});
+          <a class="mini-card green" href="etape-2/participants.html">
+            <div class="mini-kicker">Lecture</div>
+            <div class="mini-title">Public</div>
+            <div class="mini-text">Inscrits étape 2.</div>
+          </a>
+        </div>
 
-function updateNavHints(){
-  if(!headerNav || !navHintLeft || !navHintRight) return;
+        <div class="status-line">
+          Statut :
+          <span id="authHint">Vérification…</span>
+          <span id="roleBadge" class="role-badge none" style="display:none;"></span>
+        </div>
 
-  const maxScroll = headerNav.scrollWidth - headerNav.clientWidth;
-  const currentScroll = headerNav.scrollLeft;
+        <a class="logout-link" href="#" id="btnLogout">🚪 Déconnexion</a>
+      </div>
+    </div>
+  </section>
 
-  if(maxScroll <= 4){
-    navHintLeft.style.opacity = "0";
-    navHintRight.style.opacity = "0";
-    return;
+</main>
+
+<script type="module" src="assets/js/header-gen.js"></script>
+<script type="module" src="assets/js/maintenance-guard.js"></script>
+
+<script type="module">
+  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-v1";
+  import {
+    login,
+    logout,
+    getRoleByUid
+  } from "./assets/js/session.js?v=suzini-summer-index-v1";
+
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  const btnAdmin = document.getElementById("btnAdmin");
+  const btnLogout = document.getElementById("btnLogout");
+  const hint = document.getElementById("authHint");
+  const roleBadge = document.getElementById("roleBadge");
+
+  function setRoleBadge(role){
+    roleBadge.style.display = "inline-flex";
+    roleBadge.className = "role-badge";
+
+    if(role === "admin"){
+      roleBadge.textContent = "ADMIN";
+      roleBadge.classList.add("admin");
+      return;
+    }
+
+    roleBadge.textContent = "AUCUN RÔLE";
+    roleBadge.classList.add("none");
   }
 
-  navHintLeft.style.opacity = currentScroll > 6 ? "1" : "0";
-  navHintRight.style.opacity = currentScroll < maxScroll - 6 ? "1" : "0";
-}
+  function clearRoleBadge(){
+    roleBadge.textContent = "";
+    roleBadge.style.display = "none";
+    roleBadge.className = "role-badge none";
+  }
 
-function centerActiveTab(){
-  if(!headerNav) return;
+  async function askLogin(){
+    const email = prompt("Email organisateur ?");
+    if(!email) return null;
 
-  const active = headerNav.querySelector("a.active");
-  if(!active) return;
+    const password = prompt("Mot de passe ?");
+    if(!password) return null;
 
-  const target =
-    active.offsetLeft
-    - (headerNav.clientWidth / 2)
-    + (active.clientWidth / 2);
+    try{
+      return await login(email.trim(), password);
+    }catch(error){
+      alert("Connexion impossible : " + (error?.message || "Erreur inconnue"));
+      return null;
+    }
+  }
 
-  const maxScroll = headerNav.scrollWidth - headerNav.clientWidth;
+  async function ensureUser(){
+    if(auth.currentUser) return auth.currentUser;
+    return await askLogin();
+  }
 
-  headerNav.scrollTo({
-    left:Math.max(0, Math.min(target, maxScroll)),
-    behavior:"instant"
+  async function getCurrentRole(){
+    const user = await ensureUser();
+    if(!user) return null;
+
+    const role = await getRoleByUid(user.uid);
+    return { user, role };
+  }
+
+  btnAdmin.onclick = async (event) => {
+    event.preventDefault();
+
+    const ctx = await getCurrentRole();
+    if(!ctx) return;
+
+    if(ctx.role !== "admin"){
+      alert("Accès réservé aux administrateurs.");
+      return;
+    }
+
+    window.location.href = "admin/index.html?step=etape-2";
+  };
+
+  btnLogout.onclick = async (event) => {
+    event.preventDefault();
+    await logout();
+    hint.textContent = "Non connecté.";
+    clearRoleBadge();
+  };
+
+  onAuthStateChanged(auth, async (user) => {
+    if(!user){
+      hint.textContent = "Non connecté.";
+      clearRoleBadge();
+      return;
+    }
+
+    try{
+      const role = await getRoleByUid(user.uid);
+      hint.textContent = `Connecté : ${user.email}`;
+      setRoleBadge(role);
+    }catch(error){
+      hint.textContent = `Connecté : ${user.email} — rôle non trouvé`;
+      setRoleBadge(null);
+    }
   });
-}
+</script>
 
-function refreshHeaderNav(){
-  centerActiveTab();
-  updateNavHints();
-}
-
-headerNav.addEventListener("scroll", updateNavHints);
-
-window.addEventListener("resize", refreshHeaderNav);
-window.addEventListener("orientationchange", refreshHeaderNav);
-
-window.addEventListener("load", () => {
-  refreshHeaderNav();
-  setTimeout(refreshHeaderNav, 150);
-});
-
-setTimeout(refreshHeaderNav, 100);
+</body>
+</html>
