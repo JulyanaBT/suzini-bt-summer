@@ -9,14 +9,22 @@
 
   <style>
     main{
-      padding-top:var(--public-total-top, 150px);
+      padding-top:0;
       padding-bottom:24px;
     }
 
-    .section{margin-top:10px;}
-    .section:first-child{margin-top:0;}
+    .section{
+      margin-top:10px;
+    }
 
-    .compact-panel{padding:12px;border-radius:22px;}
+    .section:first-child{
+      margin-top:0;
+    }
+
+    .compact-panel{
+      padding:12px;
+      border-radius:22px;
+    }
 
     .home-hero{
       border-radius:0 0 24px 24px;
@@ -232,11 +240,26 @@
     }
 
     @media(min-width:760px){
-      .compact-panel{padding:18px;}
-      .home-hero{padding:16px 18px;}
-      .home-sub{font-size:18px;}
-      .next-card{grid-template-columns:1.2fr .8fr;align-items:center;}
-      .mini-grid{grid-template-columns:repeat(4,1fr);}
+      .compact-panel{
+        padding:18px;
+      }
+
+      .home-hero{
+        padding:16px 18px;
+      }
+
+      .home-sub{
+        font-size:18px;
+      }
+
+      .next-card{
+        grid-template-columns:1.2fr .8fr;
+        align-items:center;
+      }
+
+      .mini-grid{
+        grid-template-columns:repeat(4,1fr);
+      }
     }
   </style>
 </head>
@@ -268,7 +291,9 @@
         </div>
 
         <h2 class="next-title">Double mixte</h2>
-        <div class="next-text">Licenciés FFT uniquement • 10 € / joueur • inscriptions ouvertes.</div>
+        <div class="next-text">
+          Licenciés FFT uniquement • 10 € / joueur • inscriptions ouvertes.
+        </div>
       </div>
 
       <div class="action-grid">
