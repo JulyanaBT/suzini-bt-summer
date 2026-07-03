@@ -6,6 +6,193 @@
   <title>Étape 2 — Double Mixte BT250</title>
 
   <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    main{padding-top:0;padding-bottom:24px;}
+    .section{margin-top:10px;}
+    .section:first-child{margin-top:0;}
+
+    .top-strip{
+      border-radius:0 0 24px 24px;
+      padding:12px 14px;
+      text-align:center;
+      color:#fff;
+      background:linear-gradient(135deg,#ff3e8a,#063b72);
+      box-shadow:0 12px 28px rgba(16,24,40,.14);
+    }
+
+    .top-title{
+      margin:0;
+      font-size:20px;
+      font-weight:1000;
+      line-height:1;
+      text-transform:uppercase;
+    }
+
+    .top-sub{
+      margin:6px 0 0;
+      font-size:14px;
+      font-weight:900;
+      font-style:italic;
+    }
+
+    .main-card{
+      display:grid;
+      gap:10px;
+      border-radius:22px;
+      padding:16px;
+      background:#ff3e8a;
+      color:#fff;
+      box-shadow:0 10px 22px rgba(16,24,40,.12);
+    }
+
+    .main-card.live{background:#ffd84d;color:#102033;}
+    .main-card.finished{background:#063b72;color:#fff;}
+
+    .card-top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .big-date{
+      font-size:52px;
+      line-height:.82;
+      font-weight:1000;
+      letter-spacing:-.06em;
+    }
+
+    .status-pill{
+      padding:7px 11px;
+      border-radius:999px;
+      background:#0b7a3b;
+      color:#fff;
+      font-size:12px;
+      font-weight:1000;
+      white-space:nowrap;
+    }
+
+    .status-pill.live{background:#102033;color:#ffd84d;}
+    .status-pill.finished{background:#fff;color:#063b72;}
+
+    .kicker{
+      font-size:13px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .main-title{
+      margin:0;
+      font-size:32px;
+      line-height:.95;
+      font-weight:1000;
+      letter-spacing:-.04em;
+    }
+
+    .main-text{
+      font-size:15px;
+      line-height:1.25;
+      font-weight:900;
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .action-btn{
+      min-height:46px;
+      border-radius:16px;
+      padding:10px 12px;
+      background:#fff;
+      color:#063b72;
+      font-size:14px;
+      font-weight:1000;
+      text-align:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+
+    .action-btn.primary{
+      background:linear-gradient(180deg,#ffd84d,#f3b800);
+      color:#102033;
+    }
+
+    .live .action-btn.primary{
+      background:#063b72;
+      color:#fff;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .mini-card{
+      border-radius:18px;
+      padding:12px;
+      min-height:86px;
+      color:#fff;
+      display:grid;
+      align-content:center;
+      gap:4px;
+      text-decoration:none;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+    }
+
+    .mini-card.blue{background:#063b72;}
+    .mini-card.pink{background:#ff3e8a;}
+    .mini-card.yellow{background:#ffd84d;color:#102033;}
+    .mini-card.green{background:#0b7a3b;}
+
+    .mini-kicker{
+      font-size:11px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      opacity:.9;
+    }
+
+    .mini-title{
+      font-size:20px;
+      line-height:1;
+      font-weight:1000;
+    }
+
+    .mini-text{
+      font-size:12px;
+      line-height:1.2;
+      font-weight:900;
+      opacity:.95;
+    }
+
+    .compact-panel{
+      padding:12px;
+      border-radius:22px;
+    }
+
+    .section-title{
+      margin:0 0 8px;
+      font-size:24px;
+      line-height:.95;
+      color:#fff;
+      font-weight:1000;
+      letter-spacing:-.04em;
+      text-transform:uppercase;
+    }
+
+    @media(min-width:760px){
+      .top-strip{padding:16px 18px;}
+      .main-card{grid-template-columns:1.2fr .8fr;align-items:center;}
+      .mini-grid{grid-template-columns:repeat(2,1fr);}
+    }
+  </style>
 </head>
 
 <body
@@ -20,62 +207,200 @@
 <main class="container">
 
   <section class="section">
-    <div class="hero">
-      <div class="hero-inner">
-
-        <div class="hero-pills">
-          <span class="pill">Étape 2</span>
-          <span class="pill">Double Mixte BT250</span>
-          <span class="pill">Licenciés FFT</span>
-        </div>
-
-        <div>
-          <h1 class="hero-title">
-            Double Mixte<br>
-            <span class="summer">09 juillet</span>
-          </h1>
-
-          <div class="hero-slogan">
-            Prochaine étape officielle :
-            <strong>BT250 mixte !</strong>
-          </div>
-        </div>
-
-      </div>
+    <div class="top-strip">
+      <h1 class="top-title">🎾 Étape 2 — BT250 Double Mixte</h1>
+      <p class="top-sub">☀️ Place au premier BT250 du Summer Tour ! 🏆</p>
     </div>
   </section>
 
   <section class="section">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Événement à venir</h2>
-          <p class="summer-panel-text">
-            Cette page sera ouverte prochainement avec les inscriptions, les participants et la programmation.
-          </p>
+    <div id="mainCard" class="main-card">
+      <div>
+        <div class="card-top">
+          <div>
+            <div class="big-date">09/07</div>
+            <div class="kicker">Étape 2</div>
+          </div>
+          <div id="statusPill" class="status-pill">Inscriptions ouvertes</div>
         </div>
 
-        <div class="summer-pill">09/07</div>
-      </div>
+        <h2 id="mainTitle" class="main-title">Double mixte BT250</h2>
 
-      <div class="summer-card summer-card-pink">
-        <div class="summer-date">09/07</div>
-        <div class="summer-kicker">Étape 2</div>
-        <h3 class="summer-title">Double Mixte BT250</h3>
-        <div class="summer-text">
-          Épreuve réservée aux joueurs licenciés FFT.
+        <div id="mainText" class="main-text">
+          TC Suzini • Début 18h00 • 10 € / joueur • <span id="teamCount">0</span>/12 équipes.
         </div>
       </div>
 
-      <div class="summer-note">
-        Les informations détaillées seront publiées après l’ouverture de l’étape 1.
-      </div>
+      <div id="mainActions" class="action-grid"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="summer-panel compact-panel">
+      <h2 id="secondaryTitle" class="section-title">Suivre l’étape</h2>
+
+      <div id="secondaryGrid" class="mini-grid"></div>
     </div>
   </section>
 
 </main>
 
 <script type="module" src="../assets/js/header-etape.js"></script>
+<script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
+
+<script type="module">
+  import { db } from "../assets/js/firebase.js?v=etape2-index-1";
+
+  import {
+    doc,
+    collection,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const EVENT_ID = "suzini-summer-tour-2026";
+  const STEP_ID = "etape-2";
+  const MAX_TEAMS = 12;
+
+  const mainCard = document.getElementById("mainCard");
+  const statusPill = document.getElementById("statusPill");
+  const mainTitle = document.getElementById("mainTitle");
+  const mainText = document.getElementById("mainText");
+  const teamCount = document.getElementById("teamCount");
+  const mainActions = document.getElementById("mainActions");
+  const secondaryTitle = document.getElementById("secondaryTitle");
+  const secondaryGrid = document.getElementById("secondaryGrid");
+
+  const teamsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "teams");
+  const statusRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "config", "status");
+  const programmationRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "config", "programmation");
+
+  let teamsCountValue = 0;
+  let manualState = null;
+  let programmationVisible = false;
+
+  function currentState(){
+    if(manualState === "finished") return "finished";
+    if(manualState === "live") return "live";
+    if(programmationVisible) return "live";
+    return "registration";
+  }
+
+  function render(){
+    const state = currentState();
+
+    teamCount.textContent = String(teamsCountValue);
+
+    mainCard.className = "main-card";
+    statusPill.className = "status-pill";
+
+    if(state === "registration"){
+      statusPill.textContent = "🟢 Inscriptions ouvertes";
+      mainTitle.textContent = "Double mixte BT250";
+      mainText.innerHTML = `TC Suzini • Début 18h00 • 10 € / joueur • ${teamsCountValue}/${MAX_TEAMS} équipes.`;
+
+      mainActions.innerHTML = `
+        <a class="action-btn primary" href="inscriptions.html">📝 S’inscrire</a>
+        <a class="action-btn" href="participants.html">👥 Équipes</a>
+        <a class="action-btn" href="reglement.html">📖 Règlement</a>
+        <a class="action-btn" href="paiement.html">💳 Paiement</a>
+      `;
+
+      secondaryTitle.textContent = "Suivre l’étape";
+      secondaryGrid.innerHTML = `
+        <a class="mini-card blue" href="programmation.html">
+          <div class="mini-kicker">À venir</div>
+          <div class="mini-title">Programmation</div>
+          <div class="mini-text">Publication après clôture.</div>
+        </a>
+
+        <a class="mini-card yellow" href="classement.html">
+          <div class="mini-kicker">Résultats</div>
+          <div class="mini-title">Classement</div>
+          <div class="mini-text">Disponible pendant le tournoi.</div>
+        </a>
+      `;
+      return;
+    }
+
+    if(state === "live"){
+      mainCard.classList.add("live");
+      statusPill.classList.add("live");
+      statusPill.textContent = "🟡 Tournoi en cours";
+      mainTitle.textContent = "Suivre les matchs";
+      mainText.innerHTML = `${teamsCountValue}/${MAX_TEAMS} équipes • programmation publiée • résultats en direct.`;
+
+      mainActions.innerHTML = `
+        <a class="action-btn primary" href="programmation.html">📅 Programmation</a>
+        <a class="action-btn" href="classement.html">🏆 Classement</a>
+        <a class="action-btn" href="participants.html">👥 Équipes</a>
+        <a class="action-btn" href="reglement.html">📖 Règlement</a>
+      `;
+
+      secondaryTitle.textContent = "Infos utiles";
+      secondaryGrid.innerHTML = `
+        <a class="mini-card green" href="paiement.html">
+          <div class="mini-kicker">Paiement</div>
+          <div class="mini-title">Inscriptions</div>
+          <div class="mini-text">Régulariser si besoin.</div>
+        </a>
+
+        <a class="mini-card pink" href="../restauration.html">
+          <div class="mini-kicker">Sur place</div>
+          <div class="mini-title">Restauration</div>
+          <div class="mini-text">Repas et boissons.</div>
+        </a>
+      `;
+      return;
+    }
+
+    mainCard.classList.add("finished");
+    statusPill.classList.add("finished");
+    statusPill.textContent = "🔵 Tournoi terminé";
+    mainTitle.textContent = "Classement final";
+    mainText.innerHTML = `${teamsCountValue}/${MAX_TEAMS} équipes • merci à tous les participants.`;
+
+    mainActions.innerHTML = `
+      <a class="action-btn primary" href="classement.html">🏆 Classement final</a>
+      <a class="action-btn" href="programmation.html">📅 Résultats</a>
+      <a class="action-btn" href="participants.html">👥 Équipes</a>
+      <a class="action-btn" href="reglement.html">📖 Règlement</a>
+    `;
+
+    secondaryTitle.textContent = "Autres informations";
+    secondaryGrid.innerHTML = `
+      <a class="mini-card green" href="../restauration.html">
+        <div class="mini-kicker">Sur place</div>
+        <div class="mini-title">Restauration</div>
+        <div class="mini-text">Infos pratiques.</div>
+      </a>
+
+      <a class="mini-card blue" href="../evenements.html">
+        <div class="mini-kicker">Summer Tour</div>
+        <div class="mini-title">Étapes</div>
+        <div class="mini-text">Voir les autres événements.</div>
+      </a>
+    `;
+  }
+
+  onSnapshot(teamsRef, (snap) => {
+    teamsCountValue = snap.size;
+    render();
+  }, () => render());
+
+  onSnapshot(statusRef, (snap) => {
+    const data = snap.exists() ? snap.data() : {};
+    manualState = data.state || null;
+    render();
+  }, () => render());
+
+  onSnapshot(programmationRef, (snap) => {
+    const data = snap.exists() ? snap.data() : {};
+    programmationVisible = data.publicVisible === true;
+    render();
+  }, () => render());
+
+  render();
+</script>
 
 </body>
 </html>
