@@ -8,24 +8,25 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
 
   <style>
-    main{
-      padding-top:12px;
-    }
+    main{padding-top:0;padding-bottom:24px;}
+    .section{margin-top:10px;}
+    .section:first-child{margin-top:0;}
+    .compact-panel{padding:12px;border-radius:22px;}
 
     .admin-status{
-      margin-top:10px;
-      padding:12px 14px;
+      padding:10px 12px;
       border-radius:16px;
       background:#fff;
       color:#102033;
-      font-size:14px;
+      font-size:13px;
       font-weight:900;
       line-height:1.35;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
     }
 
     .summary-grid{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
+      grid-template-columns:repeat(4,1fr);
       gap:8px;
     }
 
@@ -33,153 +34,157 @@
       background:#fff;
       color:#063b72;
       border-radius:16px;
-      padding:12px;
+      padding:10px 6px;
       text-align:center;
       font-weight:1000;
     }
 
     .summary-box strong{
       display:block;
-      font-size:26px;
+      font-size:22px;
       line-height:1;
     }
 
     .summary-box span{
       display:block;
       margin-top:4px;
-      font-size:11px;
+      font-size:9px;
       color:#667085;
       text-transform:uppercase;
     }
 
-    .admin-lists-grid{
+    .actions-row{
       display:grid;
-      gap:14px;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:10px;
     }
 
-    .list-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
-    }
-
-    .list-title{
-      margin:0;
-      font-size:21px;
-      line-height:1.05;
-      letter-spacing:-.03em;
-      color:#063b72;
-      font-weight:1000;
-    }
-
-    .list-sub{
-      margin:4px 0 0;
-      color:#667085;
+    .btn{
+      min-height:40px;
+      border:0;
+      border-radius:14px;
+      padding:9px 11px;
       font-size:13px;
-      font-weight:800;
-      line-height:1.3;
+      font-weight:1000;
+      cursor:pointer;
+      background:#063b72;
+      color:#fff;
+      font-family:inherit;
     }
 
-    .players-admin-list{
+    .btn.green{background:#0b7a3b;}
+    .btn.pink{background:#ff3e8a;}
+    .btn.yellow{background:#ffd84d;color:#102033;}
+    .btn.red{background:#9b1c1c;}
+
+    .cards-list{
       display:grid;
       gap:10px;
     }
 
-    .player-admin-card{
+    .item-card{
       background:#fff;
       color:#102033;
       border-radius:18px;
-      padding:13px;
+      padding:12px;
       display:grid;
-      gap:10px;
+      gap:8px;
       box-shadow:0 8px 18px rgba(16,24,40,.10);
+      border:1px solid rgba(16,24,40,.08);
     }
 
-    .player-top{
+    .item-head{
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
       gap:10px;
     }
 
-    .player-name{
-      font-size:20px;
+    .item-title{
+      font-size:19px;
       font-weight:1000;
       color:#063b72;
-      line-height:1.1;
+      line-height:1.05;
     }
 
-    .player-meta{
-      margin-top:3px;
-      font-size:13px;
-      font-weight:800;
+    .item-sub{
+      margin-top:4px;
+      font-size:12px;
       color:#667085;
-      line-height:1.3;
+      font-weight:900;
+      line-height:1.25;
     }
 
-    .status-pill{
+    .pill{
       flex-shrink:0;
       padding:6px 10px;
       border-radius:999px;
-      font-size:11px;
+      font-size:10px;
       font-weight:1000;
       text-transform:uppercase;
       background:#fff7d6;
       color:#102033;
+      white-space:nowrap;
     }
 
-    .status-pill.active{
-      background:#d9fbe8;
-      color:#087a35;
-    }
+    .pill.confirmed{background:#d9fbe8;color:#087a35;}
+    .pill.stby{background:#ffeef2;color:#9b1733;}
+    .pill.wait{background:#f1f5f9;color:#475467;}
 
-    .player-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-
-    .admin-btn{
-      min-height:42px;
-      border:0;
+    .player-line{
+      min-height:34px;
       border-radius:14px;
-      padding:9px 10px;
+      padding:8px 10px;
+      background:#f8fafc;
       font-size:13px;
-      font-weight:1000;
-      cursor:pointer;
-      background:#063b72;
-      color:#fff;
-    }
-
-    .admin-btn.green{background:#0b7a3b;}
-    .admin-btn.yellow{background:#ffd84d;color:#102033;}
-    .admin-btn.red{background:#9b1c1c;}
-
-    .admin-btn:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-    }
-
-    .empty{
-      padding:13px 14px;
-      border-radius:16px;
-      background:#fff;
-      color:#667085;
-      font-size:14px;
       font-weight:900;
-      text-align:center;
+      line-height:1.2;
     }
+
+    .player-line strong{color:#063b72;}
+
+    details{
+      border-top:1px solid rgba(16,24,40,.08);
+      padding-top:8px;
+    }
+
+    details summary{
+      cursor:pointer;
+      list-style:none;
+      font-weight:1000;
+      color:#063b72;
+    }
+
+    details summary::-webkit-details-marker{display:none;}
+
+    .mini-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .mini-btn{
+      border:0;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:1000;
+      background:#ff3e8a;
+      color:#fff;
+      cursor:pointer;
+      font-family:inherit;
+    }
+
+    .mini-btn.green{background:#0b7a3b;}
+    .mini-btn.yellow{background:#ffd84d;color:#102033;}
+    .mini-btn.blue{background:#063b72;}
+    .mini-btn.red{background:#9b1c1c;}
 
     @media(min-width:760px){
-      main{
-        padding-top:18px;
-      }
-
-      .admin-lists-grid{
-        grid-template-columns:1fr 1fr;
-      }
+      .cards-list{grid-template-columns:1fr 1fr;}
+      .actions-row{grid-template-columns:repeat(3,1fr);}
     }
   </style>
 </head>
@@ -191,80 +196,44 @@
 <main class="container">
 
   <section class="section" id="accessDenied" style="display:none;">
-    <div class="summer-panel">
+    <div class="summer-panel compact-panel">
       <h1 class="summer-panel-title">⛔ Accès refusé</h1>
-      <p class="summer-panel-text">Cette page est réservée aux organisateurs.</p>
+      <p class="summer-panel-text">Cette page est réservée aux administrateurs.</p>
     </div>
   </section>
 
   <section class="section" id="pageContent" style="display:none;">
-    <div class="summer-panel">
+    <div class="summer-panel compact-panel">
       <div class="summer-panel-head">
         <div>
-          <h1 class="summer-panel-title">Participants</h1>
-          <p class="summer-panel-text">
-            Gère les joueurs actifs et les joueurs en attente pour la programmation.
-          </p>
+          <h1 class="summer-panel-title" id="pageTitle">Participants</h1>
+          <p class="summer-panel-text" id="pageText">Gestion des inscrits.</p>
         </div>
-        <div class="summer-pill" id="stepLabel">Étape 1</div>
+        <div class="summer-pill" id="stepLabel">Étape</div>
       </div>
 
       <div class="summary-grid">
-        <div class="summary-box">
-          <strong id="countTotal">0</strong>
-          <span>Total</span>
-        </div>
-        <div class="summary-box">
-          <strong id="countActive">0</strong>
-          <span>Actifs</span>
-        </div>
-        <div class="summary-box">
-          <strong id="countWaiting">0</strong>
-          <span>Attente</span>
-        </div>
+        <div class="summary-box"><strong id="countTotal">0</strong><span>Total</span></div>
+        <div class="summary-box"><strong id="countMain">0</strong><span>Liste</span></div>
+        <div class="summary-box"><strong id="countWait">0</strong><span>Attente</span></div>
+        <div class="summary-box"><strong id="countConfirmed">0</strong><span>Confirmés</span></div>
       </div>
 
-      <div id="statusMsg" class="admin-status">
-        Chargement des participants…
+      <div class="actions-row">
+        <button class="btn" id="btnRefresh" type="button">🔄 Rafraîchir</button>
+        <button class="btn yellow" id="btnExpand" type="button">🧩 Développer</button>
+        <button class="btn pink" id="btnCollapse" type="button">🧊 Réduire</button>
       </div>
+
+      <div class="admin-status" id="statusMsg" style="margin-top:10px;">Chargement…</div>
     </div>
   </section>
 
-  <section class="section" id="playersSection" style="display:none;">
-    <div class="summer-panel">
-
-      <div class="admin-lists-grid">
-
-        <div>
-          <div class="list-head">
-            <div>
-              <h2 class="list-title">✅ Actifs</h2>
-              <p class="list-sub">Utilisés pour générer les rotations.</p>
-            </div>
-            <div class="summer-pill"><span id="countActiveTop">0</span></div>
-          </div>
-
-          <div id="activePlayersList" class="players-admin-list">
-            <div class="empty">Chargement…</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="list-head">
-            <div>
-              <h2 class="list-title">⏳ En attente</h2>
-              <p class="list-sub">Non validés, absents, partis ou non disponibles.</p>
-            </div>
-            <div class="summer-pill"><span id="countWaitingTop">0</span></div>
-          </div>
-
-          <div id="waitingPlayersList" class="players-admin-list">
-            <div class="empty">Chargement…</div>
-          </div>
-        </div>
-
+  <section class="section" id="listSection" style="display:none;">
+    <div class="summer-panel compact-panel">
+      <div id="cardsList" class="cards-list">
+        <div class="admin-status">Chargement…</div>
       </div>
-
     </div>
   </section>
 
@@ -273,8 +242,8 @@
 <script type="module" src="../assets/js/header-admin.js"></script>
 
 <script type="module">
-  import { auth, db } from "../assets/js/firebase.js?v=admin-participants-2";
-  import { getRoleByUid } from "../assets/js/session.js?v=admin-participants-2";
+  import { auth, db } from "../assets/js/firebase.js?v=admin-participants-summer-3";
+  import { getRoleByUid } from "../assets/js/session.js?v=admin-participants-summer-3";
 
   import {
     onAuthStateChanged
@@ -297,231 +266,380 @@
   const STEP_ID = params.get("step") || "etape-1";
   document.body.dataset.step = STEP_ID;
 
-  const stepLabels = {
-    "etape-1": "Étape 1 — Americano",
-    "etape-2": "Étape 2 — Mixte",
-    "etape-3": "Étape 3 — Mixte"
+  const isAmericano = STEP_ID === "etape-1";
+  const collectionName = isAmericano ? "players" : "teams";
+
+  const stepNames = {
+    "etape-1":"Étape 1 — Americano",
+    "etape-2":"Étape 2 — Double mixte",
+    "etape-3":"Étape 3 — Double mixte"
   };
 
   const accessDenied = document.getElementById("accessDenied");
   const pageContent = document.getElementById("pageContent");
-  const playersSection = document.getElementById("playersSection");
+  const listSection = document.getElementById("listSection");
 
+  const pageTitle = document.getElementById("pageTitle");
+  const pageText = document.getElementById("pageText");
   const stepLabel = document.getElementById("stepLabel");
   const statusMsg = document.getElementById("statusMsg");
 
-  const activePlayersList = document.getElementById("activePlayersList");
-  const waitingPlayersList = document.getElementById("waitingPlayersList");
-
   const countTotal = document.getElementById("countTotal");
-  const countActive = document.getElementById("countActive");
-  const countWaiting = document.getElementById("countWaiting");
-  const countActiveTop = document.getElementById("countActiveTop");
-  const countWaitingTop = document.getElementById("countWaitingTop");
+  const countMain = document.getElementById("countMain");
+  const countWait = document.getElementById("countWait");
+  const countConfirmed = document.getElementById("countConfirmed");
 
-  stepLabel.textContent = stepLabels[STEP_ID] || STEP_ID;
+  const cardsList = document.getElementById("cardsList");
 
-  const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
-  const q = query(playersRef, orderBy("createdAt", "asc"));
+  const btnRefresh = document.getElementById("btnRefresh");
+  const btnExpand = document.getElementById("btnExpand");
+  const btnCollapse = document.getElementById("btnCollapse");
 
-  let unsubscribePlayers = null;
+  const itemsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, collectionName);
 
-  function isActivePlayer(data){
-    return data.publicList === "active" || data.status === "active";
-  }
+  let unsubscribeItems = null;
+  let rows = [];
 
-  function statusLabel(data){
-    return isActivePlayer(data) ? "Actif" : "En attente";
-  }
+  stepLabel.textContent = stepNames[STEP_ID] || STEP_ID;
+  pageTitle.textContent = isAmericano ? "Joueurs" : "Équipes";
+  pageText.textContent = isAmericano
+    ? "Gestion des joueurs de l’Americano."
+    : "Gestion des équipes de double mixte.";
 
-  function escapeHtml(value){
+  function esc(value){
     return String(value || "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
   }
 
-  function getNickname(data){
-    return (data.surnom || data.nickname || "Sans surnom").trim();
+  function fmt(value){
+    const v = String(value || "").trim();
+    return v || "—";
   }
 
-  function sortByNickname(a, b){
-    return a.nickname.localeCompare(b.nickname, "fr", {
-      sensitivity: "base",
-      numeric: true
-    });
+  function toNum(value){
+    if(value === null || value === undefined || value === "") return null;
+    const n = Number(String(value).replace(",", ".").trim());
+    return Number.isFinite(n) ? n : null;
   }
 
-  function renderPlayer(player){
-    const active = player.active;
-    const nextAction = active ? "waiting" : "active";
-    const nextLabel = active ? "⏳ Passer en attente" : "✅ Passer actif";
-    const nextClass = active ? "yellow" : "green";
+  function itemRef(id){
+    return doc(db, "events", EVENT_ID, "steps", STEP_ID, collectionName, id);
+  }
+
+  function isWait(row){
+    return row.list === "wait" || row.publicList === "waiting" || row.status === "waiting";
+  }
+
+  function isStby(row){
+    return row.stby === true || row.status === "stby";
+  }
+
+  function isConfirmed(row){
+    return row.status === "confirmed";
+  }
+
+  function statusPill(row){
+    if(isStby(row)) return `<span class="pill stby">STBY</span>`;
+    if(isWait(row)) return `<span class="pill wait">Attente</span>`;
+    if(isConfirmed(row)) return `<span class="pill confirmed">Confirmé</span>`;
+    return `<span class="pill">Inscrit</span>`;
+  }
+
+  function fullName(player){
+    return `${player?.prenom || ""} ${player?.nom || ""}`.trim() || "—";
+  }
+
+  function rankingValue(row){
+    const woman = row.woman || row.player1 || {};
+    const man = row.man || row.player2 || {};
+    const a = toNum(woman.rank ?? row.p1Rank);
+    const b = toNum(man.rank ?? row.p2Rank);
+    if(a === null || b === null) return null;
+    return a + b;
+  }
+
+  function playerCard(row, index){
+    const nickname = row.surnom || row.nickname || "Sans surnom";
 
     return `
-      <div class="player-admin-card">
-        <div class="player-top">
+      <div class="item-card" data-id="${esc(row.id)}">
+        <div class="item-head">
           <div>
-            <div class="player-name">${escapeHtml(player.nickname)}</div>
-            <div class="player-meta">${escapeHtml(player.prenom)} ${escapeHtml(player.nom)}</div>
+            <div class="item-title">#${index + 1} — ${esc(nickname)}</div>
+            <div class="item-sub">${esc(fullName(row))}</div>
           </div>
-
-          <div class="status-pill ${active ? "active" : ""}">
-            ${statusLabel(player.raw)}
-          </div>
+          ${statusPill(row)}
         </div>
 
-        <div class="player-actions">
-          <button class="admin-btn ${nextClass}" data-action="${nextAction}" data-id="${player.id}">
-            ${nextLabel}
-          </button>
-
-          <button class="admin-btn red" data-action="delete" data-id="${player.id}" data-key="${escapeHtml(player.nicknameKey)}">
-            🗑️ Supprimer
-          </button>
+        <div class="player-line">
+          <strong>Nom :</strong> ${esc(row.prenom || "")} ${esc(row.nom || "")}<br>
+          <strong>Statut :</strong> ${esc(row.status || "registered")}
         </div>
+
+        <details>
+          <summary>⚙️ Actions</summary>
+          <div class="mini-actions">
+            <button class="mini-btn green" data-action="confirm" data-id="${esc(row.id)}">Confirmer</button>
+            <button class="mini-btn yellow" data-action="main" data-id="${esc(row.id)}">Actif / liste</button>
+            <button class="mini-btn blue" data-action="wait" data-id="${esc(row.id)}">Attente</button>
+            <button class="mini-btn red" data-action="delete" data-id="${esc(row.id)}" data-key="${esc(row.nicknameKey || "")}">Supprimer</button>
+          </div>
+        </details>
       </div>
     `;
   }
 
-  function empty(text){
-    return `<div class="empty">${escapeHtml(text)}</div>`;
+  function teamCard(row, index){
+    const woman = row.woman || row.player1 || {};
+    const man = row.man || row.player2 || {};
+    const teamName = row.teamName || `${woman.prenom || "Joueuse"} & ${man.prenom || "Joueur"}`;
+    const rank = rankingValue(row);
+
+    return `
+      <div class="item-card" data-id="${esc(row.id)}">
+        <div class="item-head">
+          <div>
+            <div class="item-title">#${index + 1} — ${esc(teamName)}</div>
+            <div class="item-sub">
+              ID : ${esc(row.id)}
+              ${rank === null ? "" : ` • Rang équipe : ${esc(rank)}`}
+            </div>
+          </div>
+          ${statusPill(row)}
+        </div>
+
+        <div class="player-line">
+          👩 <strong>Joueuse :</strong> ${esc(fullName(woman))}<br>
+          Licence : ${esc(fmt(woman.licence))} • Classement BT : ${esc(fmt(woman.rank ?? row.p1Rank))}
+        </div>
+
+        <div class="player-line">
+          👨 <strong>Joueur :</strong> ${esc(fullName(man))}<br>
+          Licence : ${esc(fmt(man.licence))} • Classement BT : ${esc(fmt(man.rank ?? row.p2Rank))}
+        </div>
+
+        <details>
+          <summary>⚙️ Actions / Modifier</summary>
+
+          <div class="mini-actions">
+            <button class="mini-btn green" data-action="confirm" data-id="${esc(row.id)}">Confirmer</button>
+            <button class="mini-btn yellow" data-action="main" data-id="${esc(row.id)}">Liste principale</button>
+            <button class="mini-btn blue" data-action="wait" data-id="${esc(row.id)}">Liste attente</button>
+            <button class="mini-btn" data-action="stby" data-id="${esc(row.id)}">${isStby(row) ? "Réactiver" : "STBY"}</button>
+          </div>
+
+          <div class="mini-actions">
+            <button class="mini-btn blue" data-action="edit" data-id="${esc(row.id)}">Modifier équipe</button>
+            <button class="mini-btn yellow" data-action="rank" data-id="${esc(row.id)}">Classements BT</button>
+            <button class="mini-btn red" data-action="delete" data-id="${esc(row.id)}">Supprimer</button>
+          </div>
+        </details>
+      </div>
+    `;
   }
 
-  function startPlayersListener(){
-    if(unsubscribePlayers) unsubscribePlayers();
+  function render(){
+    let main = 0;
+    let wait = 0;
+    let confirmed = 0;
 
-    unsubscribePlayers = onSnapshot(q, (snap) => {
-      const activePlayers = [];
-      const waitingPlayers = [];
+    rows.forEach(row => {
+      if(isWait(row)) wait++;
+      else main++;
 
-      activePlayersList.innerHTML = "";
-      waitingPlayersList.innerHTML = "";
+      if(isConfirmed(row)) confirmed++;
+    });
 
-      snap.forEach(docSnap => {
-        const data = docSnap.data() || {};
-        const active = isActivePlayer(data);
+    countTotal.textContent = String(rows.length);
+    countMain.textContent = String(main);
+    countWait.textContent = String(wait);
+    countConfirmed.textContent = String(confirmed);
 
-        const player = {
-          id: docSnap.id,
-          raw: data,
-          active,
-          nickname: getNickname(data),
-          prenom: data.prenom || "",
-          nom: data.nom || "",
-          nicknameKey: data.nicknameKey || ""
-        };
+    cardsList.innerHTML = rows.length
+      ? rows.map((row, index) => isAmericano ? playerCard(row, index) : teamCard(row, index)).join("")
+      : `<div class="admin-status">Aucune inscription pour le moment.</div>`;
 
-        if(active) activePlayers.push(player);
-        else waitingPlayers.push(player);
-      });
+    statusMsg.textContent = `✅ ${rows.length} élément(s) chargé(s).`;
+  }
 
-      activePlayers.sort(sortByNickname);
-      waitingPlayers.sort(sortByNickname);
+  function startListener(){
+    if(unsubscribeItems) unsubscribeItems();
 
-      if(activePlayers.length === 0){
-        activePlayersList.innerHTML = empty("Aucun joueur actif.");
-      }else{
-        activePlayersList.innerHTML = activePlayers.map(renderPlayer).join("");
+    unsubscribeItems = onSnapshot(
+      query(itemsRef, orderBy("createdAt", "asc")),
+      (snap) => {
+        rows = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+        render();
+      },
+      (error) => {
+        console.error(error);
+        statusMsg.textContent = "❌ Impossible de charger.";
       }
+    );
+  }
 
-      if(waitingPlayers.length === 0){
-        waitingPlayersList.innerHTML = empty("Aucun joueur en attente.");
-      }else{
-        waitingPlayersList.innerHTML = waitingPlayers.map(renderPlayer).join("");
-      }
+  function stopListener(){
+    if(unsubscribeItems){
+      unsubscribeItems();
+      unsubscribeItems = null;
+    }
+  }
 
-      countTotal.textContent = String(activePlayers.length + waitingPlayers.length);
-      countActive.textContent = String(activePlayers.length);
-      countWaiting.textContent = String(waitingPlayers.length);
-      countActiveTop.textContent = String(activePlayers.length);
-      countWaitingTop.textContent = String(waitingPlayers.length);
-
-      statusMsg.textContent = "Liste à jour.";
-
-    }, (error) => {
-      console.error(error);
-
-      activePlayersList.innerHTML = empty("Impossible de charger les joueurs actifs.");
-      waitingPlayersList.innerHTML = empty("Impossible de charger les joueurs en attente.");
-      statusMsg.textContent = "Impossible de charger les participants.";
-
-      countTotal.textContent = "0";
-      countActive.textContent = "0";
-      countWaiting.textContent = "0";
-      countActiveTop.textContent = "0";
-      countWaitingTop.textContent = "0";
+  async function patchItem(id, patch){
+    await updateDoc(itemRef(id), {
+      ...patch,
+      updatedAt:serverTimestamp(),
+      updatedBy:auth.currentUser?.uid || null
     });
   }
 
-  async function handleAction(button){
-    const id = button.dataset.id;
-    const action = button.dataset.action;
-    const nicknameKey = button.dataset.key;
+  async function editTeam(row){
+    const woman = row.woman || row.player1 || {};
+    const man = row.man || row.player2 || {};
 
-    if(!id || !action) return;
+    const wPrenom = prompt("Joueuse — Prénom :", woman.prenom || "");
+    if(wPrenom === null) return;
 
-    const playerRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "players", id);
+    const wNom = prompt("Joueuse — Nom :", woman.nom || "");
+    if(wNom === null) return;
 
-    button.disabled = true;
+    const wLicence = prompt("Joueuse — Licence :", woman.licence || "");
+    if(wLicence === null) return;
+
+    const mPrenom = prompt("Joueur — Prénom :", man.prenom || "");
+    if(mPrenom === null) return;
+
+    const mNom = prompt("Joueur — Nom :", man.nom || "");
+    if(mNom === null) return;
+
+    const mLicence = prompt("Joueur — Licence :", man.licence || "");
+    if(mLicence === null) return;
+
+    const newWoman = {
+      ...woman,
+      prenom:wPrenom.trim(),
+      nom:wNom.trim(),
+      licence:wLicence.trim(),
+      sexe:"F"
+    };
+
+    const newMan = {
+      ...man,
+      prenom:mPrenom.trim(),
+      nom:mNom.trim(),
+      licence:mLicence.trim(),
+      sexe:"M"
+    };
+
+    await patchItem(row.id, {
+      teamName:`${newWoman.prenom} & ${newMan.prenom}`,
+      woman:newWoman,
+      man:newMan,
+      player1:newWoman,
+      player2:newMan
+    });
+  }
+
+  async function editRanks(row){
+    const woman = row.woman || row.player1 || {};
+    const man = row.man || row.player2 || {};
+
+    const wr = prompt("Classement BT joueuse :", woman.rank ?? row.p1Rank ?? "");
+    if(wr === null) return;
+
+    const mr = prompt("Classement BT joueur :", man.rank ?? row.p2Rank ?? "");
+    if(mr === null) return;
+
+    const wRank = wr.trim() === "" ? null : toNum(wr);
+    const mRank = mr.trim() === "" ? null : toNum(mr);
+
+    if(wr.trim() !== "" && wRank === null) return alert("Classement joueuse invalide.");
+    if(mr.trim() !== "" && mRank === null) return alert("Classement joueur invalide.");
+
+    const newWoman = { ...woman, rank:wRank };
+    const newMan = { ...man, rank:mRank };
+
+    await patchItem(row.id, {
+      woman:newWoman,
+      man:newMan,
+      player1:newWoman,
+      player2:newMan,
+      p1Rank:wRank,
+      p2Rank:mRank
+    });
+  }
+
+  cardsList.addEventListener("click", async (event) => {
+    const btn = event.target.closest("button[data-action]");
+    if(!btn) return;
+
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+    const row = rows.find(r => r.id === id);
+    if(!row) return;
 
     try{
-      if(action === "active"){
-        await updateDoc(playerRef, {
-          publicList: "active",
-          status: "active",
-          updatedAt: serverTimestamp()
-        });
+      if(action === "confirm"){
+        await patchItem(id, { status:"confirmed" });
       }
 
-      if(action === "waiting"){
-        await updateDoc(playerRef, {
-          publicList: "waiting",
-          status: "waiting",
-          updatedAt: serverTimestamp()
-        });
+      if(action === "main"){
+        await patchItem(id, isAmericano
+          ? { publicList:"active", status:"active" }
+          : { list:"main", stby:false, status:row.status === "confirmed" ? "confirmed" : "registered" }
+        );
+      }
+
+      if(action === "wait"){
+        await patchItem(id, isAmericano
+          ? { publicList:"waiting", status:"waiting" }
+          : { list:"wait", stby:false }
+        );
+      }
+
+      if(action === "stby"){
+        await patchItem(id, { stby:!isStby(row) });
+      }
+
+      if(action === "edit"){
+        await editTeam(row);
+      }
+
+      if(action === "rank"){
+        await editRanks(row);
       }
 
       if(action === "delete"){
-        const ok = confirm("Supprimer cette inscription ? Le surnom sera libéré.");
+        const ok = confirm("Supprimer cette inscription ?");
         if(!ok) return;
 
-        await deleteDoc(playerRef);
+        await deleteDoc(itemRef(id));
 
-        if(nicknameKey){
-          await deleteDoc(doc(db, "summerTourNicknames", nicknameKey));
+        if(isAmericano && btn.dataset.key){
+          await deleteDoc(doc(db, "summerTourNicknames", btn.dataset.key));
         }
       }
 
     }catch(error){
       console.error(error);
       alert("Action impossible.");
-    }finally{
-      button.disabled = false;
     }
-  }
-
-  document.addEventListener("click", async (event) => {
-    const button = event.target.closest("button[data-action]");
-    if(!button) return;
-
-    await handleAction(button);
   });
 
-  function stopListeners(){
-    if(unsubscribePlayers){
-      unsubscribePlayers();
-      unsubscribePlayers = null;
-    }
-  }
+  btnRefresh.onclick = render;
+  btnExpand.onclick = () => document.querySelectorAll("details").forEach(d => d.open = true);
+  btnCollapse.onclick = () => document.querySelectorAll("details").forEach(d => d.open = false);
 
   onAuthStateChanged(auth, async (user) => {
+    stopListener();
+
     accessDenied.style.display = "none";
     pageContent.style.display = "none";
-    playersSection.style.display = "none";
-    stopListeners();
+    listSection.style.display = "none";
 
     if(!user){
       accessDenied.style.display = "block";
@@ -531,14 +649,14 @@
     try{
       const role = await getRoleByUid(user.uid);
 
-      if(!["admin", "jat", "arbitre"].includes(role)){
+      if(role !== "admin"){
         accessDenied.style.display = "block";
         return;
       }
 
       pageContent.style.display = "block";
-      playersSection.style.display = "block";
-      startPlayersListener();
+      listSection.style.display = "block";
+      startListener();
 
     }catch(error){
       console.error(error);
