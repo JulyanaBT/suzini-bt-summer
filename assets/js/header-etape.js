@@ -24,11 +24,10 @@ const navAmericano = [
 const navDoubleMixte = [
   { key:"accueil",       label:"Accueil",       href:"index.html",          icon:"🏠" },
   { key:"inscription",   label:"Inscription",   href:"inscriptions.html",   icon:"📝" },
-  { key:"participants",  label:"Participants",  href:"participants.html",   icon:"👥" },
-  { key:"tirage",        label:"Tirage",        href:"tirage.html",         icon:"🎲" },
+  { key:"participants",  label:"Équipes",       href:"participants.html",   icon:"👥" },
   { key:"programmation", label:"Programmation", href:"programmation.html",  icon:"📋" },
-  { key:"live",          label:"Matchs",        href:"matchs-direct.html",  icon:"📺" },
-  { key:"classement",    label:"Classement",    href:"classement.html",     icon:"🏆" }
+  { key:"classement",    label:"Classement",    href:"classement.html",     icon:"🏆" },
+  { key:"tirage",        label:"Tirage",        href:"tirage.html",         icon:"🎲" }
 ];
 
 const navItems = type === "americano"
@@ -84,7 +83,7 @@ header.innerHTML = `
 
       ${navItems.map(item => `
         <a
-          class="${page===item.key ? "active":""}"
+          class="${page === item.key ? "active" : ""}"
           href="${item.href}">
           ${item.icon}
           <strong>${item.label}</strong>
@@ -116,14 +115,13 @@ function adminTargetForPage(){
   const step = currentStepFromPath();
 
   const adminPages = {
-    accueil: "index.html",
-    inscription: "inscriptions.html",
-    participants: "participants.html",
-    programmation: "programmation.html",
-    classement: "classement.html",
-    statistiques: "statistiques.html",
-    tirage: "tirage.html",
-    live: "programmation.html"
+    accueil:"index.html",
+    inscription:"inscriptions.html",
+    participants:"participants.html",
+    programmation:"programmation.html",
+    classement:"classement.html",
+    statistiques:"statistiques.html",
+    tirage:"tirage.html"
   };
 
   const target = adminPages[page] || "index.html";
@@ -140,6 +138,8 @@ julyanaSwitch.addEventListener("click", async (event) => {
 });
 
 function updateHints(){
+  if(!nav || !left || !right) return;
+
   const max = nav.scrollWidth - nav.clientWidth;
 
   if(max < 5){
@@ -152,7 +152,40 @@ function updateHints(){
   right.style.opacity = nav.scrollLeft < max - 5 ? 1 : 0;
 }
 
-nav.addEventListener("scroll", updateHints);
-window.addEventListener("resize", updateHints);
+function centerActiveTab(){
+  if(!nav) return;
 
-setTimeout(updateHints, 100);
+  const active = nav.querySelector("a.active");
+  if(!active) return;
+
+  const target =
+    active.offsetLeft
+    - (nav.clientWidth / 2)
+    + (active.clientWidth / 2);
+
+  const max = nav.scrollWidth - nav.clientWidth;
+
+  nav.scrollTo({
+    left:Math.max(0, Math.min(target, max)),
+    behavior:"instant"
+  });
+}
+
+function refreshNav(){
+  centerActiveTab();
+  updateHints();
+}
+
+nav.addEventListener("scroll", updateHints);
+
+window.addEventListener("resize", refreshNav);
+window.addEventListener("orientationchange", refreshNav);
+
+window.addEventListener("load", () => {
+  refreshNav();
+  setTimeout(refreshNav, 150);
+});
+
+setTimeout(refreshNav, 50);
+setTimeout(refreshNav, 150);
+setTimeout(refreshNav, 400);
