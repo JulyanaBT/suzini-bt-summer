@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscriptions — Étape 2 BT250</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    main{padding-top:0;padding-bottom:24px;}
+    .section{margin-top:10px;}
+    .section:first-child{margin-top:0;}
+    .compact-panel{padding:12px;border-radius:22px;}
+
+    .subtabs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      padding:10px;
+      border-radius:0 0 22px 22px;
+      background:#ff3e8a;
+      box-shadow:0 10px 22px rgba(16,24,40,.12);
+    }
+
+    .subtab{
+      min-height:42px;
+      border:0;
+      border-radius:16px;
+      background:rgba(255,255,255,.18);
+      color:#fff;
+      font-size:13px;
+      font-weight:1000;
+      cursor:pointer;
+    }
+
+    .subtab.active{
+      background:#fff;
+      color:#063b72;
+    }
+
+    .form-grid{
+      display:grid;
+      gap:10px;
+    }
+
+    .field{
+      display:grid;
+      gap:6px;
+    }
+
+    .field label{
+      color:#063b72;
+      font-size:13px;
+      font-weight:1000;
+    }
+
+    input, textarea{
+      width:100%;
+      border:1px solid rgba(16,24,40,.12);
+      border-radius:16px;
+      padding:12px;
+      font-size:15px;
+      font-weight:800;
+      font-family:inherit;
+      color:#102033;
+      background:#fff;
+    }
+
+    textarea{
+      min-height:96px;
+      resize:vertical;
+    }
+
+    .player-box{
+      display:grid;
+      gap:10px;
+      padding:12px;
+      border-radius:18px;
+      background:#fff;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
+    }
+
+    .box-title{
+      margin:0;
+      font-size:20px;
+      color:#063b72;
+      font-weight:1000;
+      line-height:1;
+    }
+
+    .btn{
+      min-height:46px;
+      border:0;
+      border-radius:16px;
+      padding:10px 12px;
+      font-size:14px;
+      font-weight:1000;
+      cursor:pointer;
+      font-family:inherit;
+      background:#063b72;
+      color:#fff;
+    }
+
+    .btn.primary{
+      background:linear-gradient(180deg,#ffd84d,#f3b800);
+      color:#102033;
+    }
+
+    .btn.green{background:#0b7a3b;}
+    .btn.pink{background:#ff3e8a;}
+
+    .status{
+      padding:10px 12px;
+      border-radius:16px;
+      background:#fff;
+      color:#667085;
+      font-size:13px;
+      font-weight:900;
+      line-height:1.35;
+    }
+
+    .search-list{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .search-card{
+      display:grid;
+      gap:8px;
+      border-radius:18px;
+      padding:12px;
+      background:#fff;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+      border:1px solid rgba(16,24,40,.08);
+    }
+
+    .search-name{
+      font-size:19px;
+      font-weight:1000;
+      color:#063b72;
+      line-height:1.05;
+    }
+
+    .search-meta{
+      color:#667085;
+      font-size:13px;
+      font-weight:900;
+      line-height:1.35;
+    }
+
+    .search-profile{
+      color:#102033;
+      font-size:14px;
+      font-weight:850;
+      line-height:1.35;
+    }
+
+    .empty{
+      padding:12px;
+      border-radius:16px;
+      background:#fff;
+      color:#667085;
+      font-size:14px;
+      font-weight:900;
+      text-align:center;
+    }
+
+    .hidden{display:none;}
+
+    @media(min-width:760px){
+      .form-grid.two{grid-template-columns:1fr 1fr;}
+      .search-list{grid-template-columns:1fr 1fr;}
+    }
+  </style>
+</head>
+
+<body
+  data-page="inscription"
+  data-type="double-mixte"
+  data-title="Étape 2 - Double Mixte"
+  data-date="09 juillet 2026"
+>
+
+<div id="siteHeaderEtape"></div>
+
+<main class="container">
+
+  <section class="section">
+    <div class="subtabs">
+      <button class="subtab active" id="tabRegister" type="button">📝 Inscriptions</button>
+      <button class="subtab" id="tabPartner" type="button">🔎 Recherche partenaire</button>
+    </div>
+  </section>
+
+  <section class="section" id="panelRegister">
+    <div class="summer-panel compact-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h1 class="summer-panel-title">Inscription équipe</h1>
+          <p class="summer-panel-text">Double mixte BT250 — 12 équipes maximum.</p>
+        </div>
+        <div class="summer-pill">09/07</div>
+      </div>
+
+      <form id="teamForm" class="form-grid" autocomplete="off">
+
+        <div class="player-box">
+          <h2 class="box-title">Joueur 1</h2>
+
+          <div class="form-grid two">
+            <div class="field">
+              <label for="j1Prenom">Prénom *</label>
+              <input id="j1Prenom" required>
+            </div>
+
+            <div class="field">
+              <label for="j1Nom">Nom *</label>
+              <input id="j1Nom" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="j1Licence">Numéro de licence FFT *</label>
+            <input id="j1Licence" required inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="player-box">
+          <h2 class="box-title">Joueur 2</h2>
+
+          <div class="form-grid two">
+            <div class="field">
+              <label for="j2Prenom">Prénom *</label>
+              <input id="j2Prenom" required>
+            </div>
+
+            <div class="field">
+              <label for="j2Nom">Nom *</label>
+              <input id="j2Nom" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="j2Licence">Numéro de licence FFT *</label>
+            <input id="j2Licence" required inputmode="numeric">
+          </div>
+        </div>
+
+        <button class="btn primary" type="submit" id="teamSubmit">
+          ✅ Inscrire l’équipe
+        </button>
+
+        <div id="teamStatus" class="status">
+          Les inscriptions sont réservées aux joueurs licenciés FFT.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section hidden" id="panelPartner">
+    <div class="summer-panel compact-panel">
+      <div class="summer-panel-head">
+        <div>
+          <h1 class="summer-panel-title">Recherche partenaire</h1>
+          <p class="summer-panel-text">Dépose ton profil ou contacte un joueur en recherche.</p>
+        </div>
+        <div class="summer-pill">Partenaire</div>
+      </div>
+
+      <form id="searchForm" class="form-grid" autocomplete="off">
+        <div class="form-grid two">
+          <div class="field">
+            <label for="sPrenom">Prénom *</label>
+            <input id="sPrenom" required>
+          </div>
+
+          <div class="field">
+            <label for="sNom">Nom *</label>
+            <input id="sNom" required>
+          </div>
+        </div>
+
+        <div class="form-grid two">
+          <div class="field">
+            <label for="sLicence">Licence FFT *</label>
+            <input id="sLicence" required inputmode="numeric">
+          </div>
+
+          <div class="field">
+            <label for="sPhone">WhatsApp / téléphone *</label>
+            <input id="sPhone" required inputmode="tel" placeholder="Ex : 0694...">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="sProfile">Profil recherché / niveau / disponibilité *</label>
+          <textarea id="sProfile" required placeholder="Ex : joueur 30/2, cherche partenaire motivée, disponible dès 17h45..."></textarea>
+        </div>
+
+        <button class="btn green" type="submit" id="searchSubmit">
+          🔎 Déposer ma recherche
+        </button>
+
+        <div id="searchStatus" class="status">
+          Ton numéro servira uniquement au bouton de contact WhatsApp.
+        </div>
+      </form>
+    </div>
+
+    <div class="summer-panel compact-panel" style="margin-top:10px;">
+      <h2 class="box-title">Joueurs en recherche</h2>
+      <div id="searchList" class="search-list">
+        <div class="empty">Chargement…</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script type="module" src="../assets/js/header-etape.js"></script>
+<script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
+
+<script type="module">
+  import { db } from "../assets/js/firebase.js?v=etape2-inscriptions-1";
+
+  import {
+    collection,
+    addDoc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const EVENT_ID = "suzini-summer-tour-2026";
+  const STEP_ID = "etape-2";
+
+  const tabRegister = document.getElementById("tabRegister");
+  const tabPartner = document.getElementById("tabPartner");
+  const panelRegister = document.getElementById("panelRegister");
+  const panelPartner = document.getElementById("panelPartner");
+
+  const teamForm = document.getElementById("teamForm");
+  const teamSubmit = document.getElementById("teamSubmit");
+  const teamStatus = document.getElementById("teamStatus");
+
+  const searchForm = document.getElementById("searchForm");
+  const searchSubmit = document.getElementById("searchSubmit");
+  const searchStatus = document.getElementById("searchStatus");
+  const searchList = document.getElementById("searchList");
+
+  const teamsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "teams");
+  const partnerRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "partnerSearch");
+
+  function esc(value){
+    return String(value || "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function setTab(tab){
+    const partner = tab === "partner";
+
+    tabRegister.classList.toggle("active", !partner);
+    tabPartner.classList.toggle("active", partner);
+
+    panelRegister.classList.toggle("hidden", partner);
+    panelPartner.classList.toggle("hidden", !partner);
+  }
+
+  function cleanPhone(value){
+    return String(value || "").replace(/[^\d+]/g, "");
+  }
+
+  function whatsappLink(item){
+    const phone = cleanPhone(item.phone);
+    const msg = [
+      "Bonjour,",
+      "",
+      "J’ai vu ta recherche de partenaire pour le BT250 Double Mixte du 09/07.",
+      "Est-ce que tu cherches toujours un partenaire ?"
+    ].join("\n");
+
+    return `https://wa.me/${phone.replace(/^0/, "594")}?text=${encodeURIComponent(msg)}`;
+  }
+
+  tabRegister.onclick = () => setTab("register");
+  tabPartner.onclick = () => setTab("partner");
+
+  teamForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    teamSubmit.disabled = true;
+    teamStatus.textContent = "Inscription en cours…";
+
+    try{
+      const team = {
+        eventId:EVENT_ID,
+        stepId:STEP_ID,
+        type:"double-mixte",
+        status:"registered",
+        source:"public-form",
+        player1:{
+          prenom:document.getElementById("j1Prenom").value.trim(),
+          nom:document.getElementById("j1Nom").value.trim(),
+          licence:document.getElementById("j1Licence").value.trim()
+        },
+        player2:{
+          prenom:document.getElementById("j2Prenom").value.trim(),
+          nom:document.getElementById("j2Nom").value.trim(),
+          licence:document.getElementById("j2Licence").value.trim()
+        },
+        createdAt:serverTimestamp(),
+        updatedAt:serverTimestamp()
+      };
+
+      team.teamName = `${team.player1.prenom} ${team.player1.nom} / ${team.player2.prenom} ${team.player2.nom}`;
+
+      await addDoc(teamsRef, team);
+
+      teamForm.reset();
+      teamStatus.textContent = "✅ Équipe inscrite.";
+    }catch(error){
+      console.error(error);
+      teamStatus.textContent = "❌ Inscription impossible.";
+    }finally{
+      teamSubmit.disabled = false;
+    }
+  });
+
+  searchForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    searchSubmit.disabled = true;
+    searchStatus.textContent = "Publication en cours…";
+
+    try{
+      await addDoc(partnerRef, {
+        eventId:EVENT_ID,
+        stepId:STEP_ID,
+        status:"active",
+        source:"public-form",
+        prenom:document.getElementById("sPrenom").value.trim(),
+        nom:document.getElementById("sNom").value.trim(),
+        licence:document.getElementById("sLicence").value.trim(),
+        phone:document.getElementById("sPhone").value.trim(),
+        profile:document.getElementById("sProfile").value.trim(),
+        createdAt:serverTimestamp(),
+        updatedAt:serverTimestamp()
+      });
+
+      searchForm.reset();
+      searchStatus.textContent = "✅ Recherche publiée.";
+    }catch(error){
+      console.error(error);
+      searchStatus.textContent = "❌ Publication impossible.";
+    }finally{
+      searchSubmit.disabled = false;
+    }
+  });
+
+  onSnapshot(query(partnerRef, orderBy("createdAt", "desc")), (snap) => {
+    const items = snap.docs
+      .map(d => ({ id:d.id, ...d.data() }))
+      .filter(item => item.status !== "closed");
+
+    if(items.length === 0){
+      searchList.innerHTML = `<div class="empty">Aucun joueur en recherche pour le moment.</div>`;
+      return;
+    }
+
+    searchList.innerHTML = items.map(item => `
+      <div class="search-card">
+        <div class="search-name">${esc(item.prenom)} ${esc(item.nom)}</div>
+        <div class="search-meta">Licence : ${esc(item.licence || "Non renseignée")}</div>
+        <div class="search-profile">${esc(item.profile)}</div>
+        <a class="btn pink" href="${esc(whatsappLink(item))}" target="_blank" rel="noopener">
+          💬 Contacter en privé
+        </a>
+      </div>
+    `).join("");
+
+  }, (error) => {
+    console.error(error);
+    searchList.innerHTML = `<div class="empty">Impossible de charger les recherches.</div>`;
+  });
+</script>
+
+</body>
+</html>
