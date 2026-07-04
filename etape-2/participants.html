@@ -46,47 +46,6 @@
       font-weight:1000;
     }
 
-    .signup-box{
-      margin-top:10px;
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:10px;
-      align-items:center;
-      padding:10px;
-      border-radius:18px;
-      background:rgba(255,255,255,.16);
-    }
-
-    .signup-box strong{
-      display:block;
-      font-size:15px;
-      font-weight:1000;
-      line-height:1.1;
-    }
-
-    .signup-box span{
-      display:block;
-      margin-top:3px;
-      font-size:12px;
-      font-weight:850;
-      line-height:1.25;
-    }
-
-    .signup-btn{
-      min-height:38px;
-      border-radius:999px;
-      padding:9px 12px;
-      background:#ffd84d;
-      color:#102033;
-      font-size:13px;
-      font-weight:1000;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      white-space:nowrap;
-    }
-
     .summary-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
@@ -120,84 +79,89 @@
 
     .teams-list{
       display:grid;
-      gap:10px;
+      gap:8px;
     }
 
     .team-card{
       background:#fff;
       color:#102033;
       border-radius:18px;
-      padding:12px;
+      padding:11px;
       display:grid;
-      gap:8px;
+      grid-template-columns:1fr 58px;
+      gap:10px;
+      align-items:center;
       box-shadow:0 8px 18px rgba(16,24,40,.10);
       border:1px solid rgba(16,24,40,.08);
     }
 
-    .team-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .team-name{
-      font-size:20px;
-      font-weight:1000;
-      color:#063b72;
-      line-height:1.05;
-    }
-
-    .team-num{
-      color:#667085;
-      font-size:12px;
-      font-weight:1000;
-    }
-
-    .status-pill{
-      flex-shrink:0;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:1000;
-      text-transform:uppercase;
-      background:#fff7d6;
-      color:#102033;
-    }
-
-    .status-pill.confirmed{
-      background:#d9fbe8;
-      color:#087a35;
-    }
-
-    .players{
+    .team-left{
+      min-width:0;
       display:grid;
       gap:6px;
     }
 
+    .team-name{
+      font-size:18px;
+      font-weight:1000;
+      color:#063b72;
+      line-height:1.05;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .team-num{
+      color:#667085;
+      font-size:11px;
+      font-weight:1000;
+    }
+
     .player-line{
-      min-height:34px;
-      border-radius:14px;
-      padding:8px 10px;
+      min-height:28px;
+      border-radius:13px;
+      padding:6px 8px;
       background:#f8fafc;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:8px;
       font-size:13px;
-      font-weight:900;
-      line-height:1.15;
+      font-weight:950;
+      line-height:1.1;
+      min-width:0;
     }
 
-    .player-line strong{
-      color:#063b72;
-    }
-
-    .licence{
-      color:#667085;
-      font-size:12px;
-      font-weight:900;
+    .player-name{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
       white-space:nowrap;
+    }
+
+    .rank-pill{
+      flex-shrink:0;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#fff7d6;
+      color:#102033;
+      font-size:11px;
+      font-weight:1000;
+    }
+
+    .rank-team{
+      min-width:58px;
+      min-height:58px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:linear-gradient(180deg,#ffd84d,#f3b800);
+      color:#102033;
+      font-size:20px;
+      font-weight:1000;
+      box-shadow:0 8px 16px rgba(255,216,77,.22);
     }
 
     .empty{
@@ -239,16 +203,8 @@
   <section class="section">
     <div class="top-box">
       <div class="top-row">
-        <h1 class="top-title">👥 Équipes inscrites</h1>
+        <h1 class="top-title">👥 Équipes</h1>
         <div class="top-pill">12 max</div>
-      </div>
-
-      <div class="signup-box">
-        <div>
-          <strong>Pas encore inscrit ?</strong>
-          <span>Inscris ton équipe pour le BT250 double mixte.</span>
-        </div>
-        <a class="signup-btn" href="inscriptions.html">📝 S’inscrire</a>
       </div>
     </div>
   </section>
@@ -281,7 +237,7 @@
       </div>
 
       <p class="note">
-        Les équipes affichées sont celles enregistrées pour l’étape 2. La validation définitive reste à confirmer par l’organisation.
+        Les classements affichés sont indicatifs et pourront être ajustés par l’organisation.
       </p>
     </div>
   </section>
@@ -292,7 +248,7 @@
 <script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=etape2-equipes-1";
+  import { db } from "../assets/js/firebase.js?v=etape2-equipes-public-2";
 
   import {
     collection,
@@ -320,58 +276,99 @@
       .replaceAll("'","&#039;");
   }
 
-  function fullName(player){
-    return `${player?.prenom || ""} ${player?.nom || ""}`.trim() || "Non renseigné";
+  function toNum(value){
+    if(value === null || value === undefined || value === "") return null;
+    const n = Number(String(value).replace(",", ".").trim());
+    return Number.isFinite(n) ? n : null;
   }
 
-  function statusLabel(status){
-    if(status === "confirmed") return "Confirmée";
-    return "Inscrite";
+  function fmtRank(value){
+    const n = toNum(value);
+    return n === null ? "—" : String(n);
   }
 
-  function statusClass(status){
-    return status === "confirmed" ? "confirmed" : "";
+  function playerShort(player){
+    const prenom = String(player?.prenom || "").trim() || "Joueur";
+    const nom = String(player?.nom || "").trim();
+    const initial = nom ? ` ${nom.charAt(0).toUpperCase()}.` : "";
+    return `${prenom}${initial}`;
+  }
+
+  function playerRank(player, fallback){
+    return player?.rank ?? fallback ?? null;
+  }
+
+  function teamRank(team){
+    const woman = team.woman || team.player1 || {};
+    const man = team.man || team.player2 || {};
+
+    const wRank = toNum(playerRank(woman, team.p1Rank));
+    const mRank = toNum(playerRank(man, team.p2Rank));
+
+    if(wRank === null || mRank === null) return null;
+    return wRank + mRank;
+  }
+
+  function statusOk(team){
+    return team.status !== "deleted"
+      && team.status !== "cancelled"
+      && team.status !== "refused"
+      && team.stby !== true
+      && team.list !== "wait";
   }
 
   function teamCard(team, index){
     const woman = team.woman || team.player1 || {};
     const man = team.man || team.player2 || {};
-    const status = team.status || "registered";
     const teamName = team.teamName || `${woman.prenom || "Joueuse"} & ${man.prenom || "Joueur"}`;
+
+    const wRank = playerRank(woman, team.p1Rank);
+    const mRank = playerRank(man, team.p2Rank);
+    const rank = teamRank(team);
 
     return `
       <div class="team-card">
-        <div class="team-head">
+        <div class="team-left">
           <div>
             <div class="team-num">#${index + 1}</div>
             <div class="team-name">${esc(teamName)}</div>
           </div>
 
-          <div class="status-pill ${statusClass(status)}">
-            ${esc(statusLabel(status))}
+          <div class="player-line">
+            <span class="player-name">👩 ${esc(playerShort(woman))}</span>
+            <span class="rank-pill">${esc(fmtRank(wRank))}</span>
+          </div>
+
+          <div class="player-line">
+            <span class="player-name">👨 ${esc(playerShort(man))}</span>
+            <span class="rank-pill">${esc(fmtRank(mRank))}</span>
           </div>
         </div>
 
-        <div class="players">
-          <div class="player-line">
-            <span>👩 <strong>${esc(fullName(woman))}</strong></span>
-            <span class="licence">${esc(woman.licence || "—")}</span>
-          </div>
-
-          <div class="player-line">
-            <span>👨 <strong>${esc(fullName(man))}</strong></span>
-            <span class="licence">${esc(man.licence || "—")}</span>
-          </div>
+        <div class="rank-team">
+          ${esc(fmtRank(rank))}
         </div>
       </div>
     `;
   }
 
   onSnapshot(query(teamsRef, orderBy("createdAt", "asc")), (snap) => {
-    const teams = snap.docs.map(d => ({
-      id:d.id,
-      ...d.data()
-    }));
+    const teams = snap.docs
+      .map(d => ({ id:d.id, ...d.data() }))
+      .filter(statusOk)
+      .sort((a,b) => {
+        const ar = teamRank(a);
+        const br = teamRank(b);
+
+        const av = ar === null ? Number.POSITIVE_INFINITY : ar;
+        const bv = br === null ? Number.POSITIVE_INFINITY : br;
+
+        if(av !== bv) return av - bv;
+
+        const at = a.createdAt?.seconds || 0;
+        const bt = b.createdAt?.seconds || 0;
+        return at - bt;
+      });
 
     let registered = 0;
     let confirmed = 0;
