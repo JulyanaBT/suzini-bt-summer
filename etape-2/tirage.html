@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tirage — Étape 2 BT250</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    main{padding-top:0;padding-bottom:24px;}
+    .section{margin-top:10px;}
+    .section:first-child{margin-top:0;}
+    .compact-panel{padding:12px;border-radius:22px;}
+
+    .hero-card{
+      border-radius:0 0 22px 22px;
+      padding:16px 14px;
+      background:linear-gradient(135deg,#ff3e8a,#063b72);
+      color:#fff;
+      box-shadow:0 10px 22px rgba(16,24,40,.12);
+      text-align:center;
+    }
+
+    .hero-title{
+      margin:0;
+      font-size:28px;
+      line-height:1;
+      font-weight:1000;
+      letter-spacing:-.04em;
+    }
+
+    .hero-text{
+      margin:8px 0 0;
+      font-size:14px;
+      line-height:1.35;
+      font-weight:900;
+    }
+
+    .status-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .status-item{
+      background:#fff;
+      border-radius:16px;
+      padding:10px 6px;
+      text-align:center;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
+    }
+
+    .status-item strong{
+      display:block;
+      font-size:22px;
+      line-height:1;
+      color:#063b72;
+      font-weight:1000;
+    }
+
+    .status-item span{
+      display:block;
+      margin-top:4px;
+      font-size:10px;
+      color:#667085;
+      font-weight:1000;
+      text-transform:uppercase;
+    }
+
+    .draw-card{
+      display:grid;
+      gap:8px;
+      border-radius:18px;
+      padding:14px;
+      background:#fff;
+      color:#102033;
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
+      text-align:center;
+    }
+
+    .draw-title{
+      font-size:22px;
+      font-weight:1000;
+      color:#063b72;
+      line-height:1;
+    }
+
+    .draw-date{
+      font-size:28px;
+      font-weight:1000;
+      color:#ff3e8a;
+      line-height:1;
+    }
+
+    .draw-text{
+      color:#667085;
+      font-size:14px;
+      font-weight:900;
+      line-height:1.35;
+    }
+
+    .timeline{
+      display:grid;
+      gap:8px;
+    }
+
+    .timeline-item{
+      min-height:44px;
+      border-radius:16px;
+      padding:10px 12px;
+      background:#fff;
+      color:#102033;
+      font-size:14px;
+      font-weight:1000;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .action-btn{
+      min-height:44px;
+      border-radius:16px;
+      padding:10px 12px;
+      background:#063b72;
+      color:#fff;
+      font-size:14px;
+      font-weight:1000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      text-decoration:none;
+    }
+
+    .action-btn.primary{
+      background:linear-gradient(180deg,#ffd84d,#f3b800);
+      color:#102033;
+    }
+
+    .empty{
+      padding:12px;
+      border-radius:16px;
+      background:#fff;
+      color:#667085;
+      font-size:14px;
+      font-weight:900;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body
+  data-page="tirage"
+  data-type="double-mixte"
+  data-title="Étape 2 - Double Mixte"
+  data-date="09 juillet 2026"
+>
+
+<div id="siteHeaderEtape"></div>
+
+<main class="container">
+
+  <section class="section">
+    <div class="hero-card">
+      <h1 class="hero-title">🎲 Tirage au sort</h1>
+      <p class="hero-text">
+        Les poules et les rencontres apparaîtront automatiquement dès publication officielle.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="summer-panel compact-panel">
+      <div class="status-grid">
+        <div class="status-item">
+          <strong><span id="countTeams">0</span>/12</strong>
+          <span>Équipes</span>
+        </div>
+
+        <div class="status-item">
+          <strong id="drawIcon">⏳</strong>
+          <span>Tirage</span>
+        </div>
+
+        <div class="status-item">
+          <strong id="drawStatus">Attente</strong>
+          <span>Statut</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="placeholderSection">
+    <div class="summer-panel compact-panel">
+      <div class="draw-card">
+        <div class="draw-title">Tirage prévu</div>
+        <div class="draw-date">09/07 — 17h30</div>
+        <div class="draw-text">
+          Le tirage sera effectué après la clôture des inscriptions.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="publishedSection" style="display:none;">
+    <div class="summer-panel compact-panel">
+      <div class="empty">
+        ✅ Tirage publié. Les poules seront affichées ici dès que le module de tirage sera activé.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="summer-panel compact-panel">
+      <div class="timeline">
+        <div class="timeline-item">📌 Clôture des inscriptions</div>
+        <div class="timeline-item">🎲 Tirage des poules</div>
+        <div class="timeline-item">📋 Publication de la programmation</div>
+        <div class="timeline-item">🏆 Début du tournoi</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="summer-panel compact-panel">
+      <div class="action-grid">
+        <a class="action-btn primary" href="inscriptions.html">📝 Inscriptions</a>
+        <a class="action-btn" href="participants.html">👥 Équipes</a>
+        <a class="action-btn" href="programmation.html">📋 Programmation</a>
+        <a class="action-btn" href="classement.html">🏆 Classement</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script type="module" src="../assets/js/header-etape.js"></script>
+<script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
+
+<script type="module">
+  import { db } from "../assets/js/firebase.js?v=etape2-tirage-placeholder-1";
+
+  import {
+    collection,
+    doc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const EVENT_ID = "suzini-summer-tour-2026";
+  const STEP_ID = "etape-2";
+
+  const countTeams = document.getElementById("countTeams");
+  const drawIcon = document.getElementById("drawIcon");
+  const drawStatus = document.getElementById("drawStatus");
+  const placeholderSection = document.getElementById("placeholderSection");
+  const publishedSection = document.getElementById("publishedSection");
+
+  const teamsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "teams");
+  const tirageRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "config", "tirage");
+
+  onSnapshot(teamsRef, (snap) => {
+    countTeams.textContent = String(snap.size);
+  });
+
+  onSnapshot(tirageRef, (snap) => {
+    const data = snap.exists() ? snap.data() : {};
+    const published = data.publicVisible === true || data.published === true;
+
+    if(published){
+      drawIcon.textContent = "✅";
+      drawStatus.textContent = "Publié";
+      placeholderSection.style.display = "none";
+      publishedSection.style.display = "block";
+    }else{
+      drawIcon.textContent = "⏳";
+      drawStatus.textContent = "Attente";
+      placeholderSection.style.display = "block";
+      publishedSection.style.display = "none";
+    }
+  });
+</script>
+
+</body>
+</html>
