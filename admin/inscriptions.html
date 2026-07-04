@@ -13,7 +13,7 @@
     .section:first-child{margin-top:0;}
     .compact-panel{padding:12px;border-radius:22px;}
 
-    .admin-form{display:grid;gap:10px;}
+    .admin-form,.items-list{display:grid;gap:10px;}
 
     .admin-input{
       width:100%;
@@ -34,23 +34,27 @@
       margin-top:10px;
     }
 
+    .admin-btn,.mini-btn{
+      border:0;
+      font-weight:1000;
+      cursor:pointer;
+      font-family:inherit;
+    }
+
     .admin-btn{
       min-height:42px;
-      border:0;
       border-radius:14px;
       padding:9px 11px;
       font-size:13px;
-      font-weight:1000;
       background:#063b72;
       color:#fff;
-      cursor:pointer;
     }
 
-    .admin-btn.pink{background:#ff3e8a;}
-    .admin-btn.yellow{background:#ffd84d;color:#111;}
-    .admin-btn.green{background:#0b7a3b;}
-    .admin-btn.red{background:#9b1c1c;}
-    .admin-btn:disabled{opacity:.55;cursor:not-allowed;}
+    .admin-btn.pink,.mini-btn.pink{background:#ff3e8a;color:#fff;}
+    .admin-btn.yellow,.mini-btn.yellow{background:#ffd84d;color:#102033;}
+    .admin-btn.green,.mini-btn.green{background:#0b7a3b;color:#fff;}
+    .admin-btn.red,.mini-btn.red{background:#9b1c1c;color:#fff;}
+    .admin-btn:disabled,.mini-btn:disabled{opacity:.55;cursor:not-allowed;}
 
     .admin-status{
       padding:10px 12px;
@@ -92,11 +96,6 @@
       color:#667085;
     }
 
-    .items-list{
-      display:grid;
-      gap:10px;
-    }
-
     .item-card{
       background:#fff;
       color:#102033;
@@ -128,19 +127,37 @@
     }
 
     .mini-btn{
-      border:0;
       border-radius:999px;
       padding:8px 12px;
       font-size:12px;
-      font-weight:1000;
-      background:#ff3e8a;
+      background:#063b72;
       color:#fff;
+    }
+
+    .subtabs{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .subtab{
+      min-height:40px;
+      border:0;
+      border-radius:14px;
+      background:#063b72;
+      color:#fff;
+      font-size:12px;
+      font-weight:1000;
       cursor:pointer;
     }
 
-    .mini-btn.green{background:#0b7a3b;}
-    .mini-btn.red{background:#9b1c1c;}
-    .mini-btn.yellow{background:#ffd84d;color:#102033;}
+    .subtab.active{
+      background:#ffd84d;
+      color:#102033;
+    }
+
+    .hidden{display:none!important;}
 
     @media(min-width:760px){
       .admin-actions{grid-template-columns:repeat(4,1fr);}
@@ -181,9 +198,7 @@
       <div class="summer-panel-head">
         <div>
           <h1 class="summer-panel-title">Gestion inscriptions</h1>
-          <p class="summer-panel-text" id="pageSubtitle">
-            Ouverture, suspension, clôture et suivi des inscriptions.
-          </p>
+          <p class="summer-panel-text" id="pageSubtitle">Ouverture, suspension, clôture et suivi.</p>
         </div>
         <div class="summer-pill" id="stepLabel">Étape</div>
       </div>
@@ -227,6 +242,13 @@
 
   <section class="section" id="itemsSection" style="display:none;">
     <div class="summer-panel compact-panel">
+
+      <div id="etape2Tabs" class="subtabs hidden">
+        <button class="subtab active" id="tabTeams" type="button">👥 Équipes</button>
+        <button class="subtab" id="tabProfiles" type="button">🔎 Recherches</button>
+        <button class="subtab" id="tabInvites" type="button">🤝 Propositions</button>
+      </div>
+
       <div class="summer-panel-head">
         <div>
           <h2 class="summer-panel-title" id="listTitle">Inscriptions</h2>
@@ -246,7 +268,7 @@
 <script type="module" src="../assets/js/header-admin.js"></script>
 
 <script type="module">
-  import { auth, db } from "../assets/js/firebase.js?v=admin-insc-summer-2";
+  import { auth, db } from "../assets/js/firebase.js?v=admin-inscriptions-summer-v3";
 
   import {
     signInWithEmailAndPassword,
@@ -273,7 +295,6 @@
   document.body.dataset.step = STEP_ID;
 
   const isAmericano = STEP_ID === "etape-1";
-  const collectionName = isAmericano ? "players" : "teams";
 
   const stepNames = {
     "etape-1":"Étape 1 — Americano",
@@ -299,6 +320,11 @@
   const btnPause = document.getElementById("btnPause");
   const btnClose = document.getElementById("btnClose");
 
+  const etape2Tabs = document.getElementById("etape2Tabs");
+  const tabTeams = document.getElementById("tabTeams");
+  const tabProfiles = document.getElementById("tabProfiles");
+  const tabInvites = document.getElementById("tabInvites");
+
   const itemsList = document.getElementById("itemsList");
   const listTitle = document.getElementById("listTitle");
   const listText = document.getElementById("listText");
@@ -308,21 +334,19 @@
   const countConfirmed = document.getElementById("countConfirmed");
 
   const stepRef = doc(db, "events", EVENT_ID, "steps", STEP_ID);
-  const itemsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, collectionName);
+
+  const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
+  const teamsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "teams");
+  const profilesRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "partnerProfiles");
+  const invitesRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "teamInvitations");
 
   let unsubscribeStep = null;
-  let unsubscribeItems = null;
+  let unsubscribeMain = null;
   let currentStatus = "not_open";
+  let currentTab = "teams";
+  let liveRows = [];
 
   stepLabel.textContent = stepNames[STEP_ID] || STEP_ID;
-  listTitle.textContent = isAmericano ? "Joueurs inscrits" : "Équipes inscrites";
-  listText.textContent = isAmericano
-    ? "Liste des joueurs de l’Americano."
-    : "Liste des équipes de double mixte.";
-
-  pageSubtitle.textContent = isAmericano
-    ? "Ouverture, suspension, clôture et suivi des joueurs."
-    : "Ouverture, suspension, clôture et suivi des équipes.";
 
   function esc(value){
     return String(value || "")
@@ -331,6 +355,10 @@
       .replaceAll(">","&gt;")
       .replaceAll('"',"&quot;")
       .replaceAll("'","&#039;");
+  }
+
+  function clean(value){
+    return String(value || "").trim();
   }
 
   function stateLabel(state){
@@ -357,9 +385,7 @@
   }
 
   async function isAdmin(uid){
-    const userRef = doc(db, "users", uid);
-    const snap = await getDoc(userRef);
-
+    const snap = await getDoc(doc(db, "users", uid));
     if(!snap.exists()) return false;
 
     const data = snap.data() || {};
@@ -404,6 +430,59 @@
     });
   }
 
+  function setEtape2Tab(tab){
+    currentTab = tab;
+
+    tabTeams.classList.toggle("active", tab === "teams");
+    tabProfiles.classList.toggle("active", tab === "profiles");
+    tabInvites.classList.toggle("active", tab === "invites");
+
+    startMainListener();
+  }
+
+  function updateTitles(){
+    etape2Tabs.classList.toggle("hidden", isAmericano);
+
+    if(isAmericano){
+      listTitle.textContent = "Joueurs inscrits";
+      listText.textContent = "Liste des joueurs de l’Americano.";
+      pageSubtitle.textContent = "Ouverture, suspension, clôture et suivi des joueurs.";
+      return;
+    }
+
+    pageSubtitle.textContent = "Ouverture, suspension, clôture et suivi des équipes.";
+
+    if(currentTab === "profiles"){
+      listTitle.textContent = "Recherches partenaire";
+      listText.textContent = "Profils déposés par les joueurs en recherche.";
+      return;
+    }
+
+    if(currentTab === "invites"){
+      listTitle.textContent = "Propositions d’équipe";
+      listText.textContent = "Propositions envoyées depuis les profils.";
+      return;
+    }
+
+    listTitle.textContent = "Équipes inscrites";
+    listText.textContent = "Liste des équipes de double mixte.";
+  }
+
+  function countRows(rows){
+    let total = rows.length;
+    let registered = 0;
+    let confirmed = 0;
+
+    rows.forEach(row => {
+      if(row.status === "confirmed" || row.status === "accepted") confirmed++;
+      else registered++;
+    });
+
+    countTotal.textContent = total;
+    countRegistered.textContent = registered;
+    countConfirmed.textContent = confirmed;
+  }
+
   function playerCard(id, data){
     const prenom = data.prenom || "";
     const nom = data.nom || "";
@@ -420,7 +499,7 @@
         <div class="item-actions">
           <button class="mini-btn green" data-action="confirm" data-id="${esc(id)}">Confirmer</button>
           <button class="mini-btn yellow" data-action="registered" data-id="${esc(id)}">Remettre inscrit</button>
-          <button class="mini-btn red" data-action="delete" data-id="${esc(id)}" data-key="${esc(data.nicknameKey || "")}">Supprimer</button>
+          <button class="mini-btn red" data-action="delete-player" data-id="${esc(id)}" data-key="${esc(data.nicknameKey || "")}">Supprimer</button>
         </div>
       </div>
     `;
@@ -438,108 +517,204 @@
         <div class="item-meta">
           <strong>Joueuse :</strong> ${esc(woman.prenom)} ${esc(woman.nom)} — Licence ${esc(woman.licence)}<br>
           <strong>Joueur :</strong> ${esc(man.prenom)} ${esc(man.nom)} — Licence ${esc(man.licence)}<br>
-          Statut : <strong>${esc(status)}</strong>
+          Statut : <strong>${esc(status)}</strong><br>
+          Source : ${esc(data.source || "—")}
         </div>
         <div class="item-actions">
           <button class="mini-btn green" data-action="confirm" data-id="${esc(id)}">Confirmer</button>
           <button class="mini-btn yellow" data-action="registered" data-id="${esc(id)}">Remettre inscrit</button>
-          <button class="mini-btn red" data-action="delete" data-id="${esc(id)}">Supprimer</button>
+          <button class="mini-btn red" data-action="delete-team" data-id="${esc(id)}">Supprimer</button>
         </div>
       </div>
     `;
   }
 
-  function startItemsListener(){
-    if(unsubscribeItems) unsubscribeItems();
+  function profileCard(id, data){
+    const status = data.status || "active";
+    const sex = data.sexe === "F" ? "Joueuse" : "Joueur";
 
-    const q = query(itemsRef, orderBy("createdAt", "asc"));
+    return `
+      <div class="item-card">
+        <div class="item-title">${esc(data.prenom || "Profil")} — ${esc(sex)}</div>
+        <div class="item-meta">
+          <strong>Nom :</strong> ${esc(data.nom)}<br>
+          <strong>Licence :</strong> ${esc(data.licence)}<br>
+          <strong>Téléphone :</strong> ${esc(data.phone)}<br>
+          <strong>Statut :</strong> ${esc(status)}<br><br>
+          ${esc(data.profile)}
+        </div>
+        <div class="item-actions">
+          <button class="mini-btn green" data-action="profile-active" data-id="${esc(id)}">Actif</button>
+          <button class="mini-btn yellow" data-action="profile-closed" data-id="${esc(id)}">Masquer</button>
+          <button class="mini-btn red" data-action="delete-profile" data-id="${esc(id)}">Supprimer</button>
+        </div>
+      </div>
+    `;
+  }
 
-    unsubscribeItems = onSnapshot(q, (snap) => {
-      let total = 0;
-      let registered = 0;
-      let confirmed = 0;
+  function inviteCard(id, data){
+    const proposer = data.proposer || {};
+    const status = data.status || "pending";
 
-      if(snap.empty){
-        itemsList.innerHTML = `<div class="admin-status">Aucune inscription pour le moment.</div>`;
-      }else{
-        itemsList.innerHTML = "";
+    return `
+      <div class="item-card">
+        <div class="item-title">Proposition pour ${esc(data.partnerPrenom || "profil")}</div>
+        <div class="item-meta">
+          <strong>Proposé par :</strong> ${esc(proposer.prenom)} ${esc(proposer.nom)}<br>
+          <strong>Licence :</strong> ${esc(proposer.licence)}<br>
+          <strong>Statut :</strong> ${esc(status)}
+        </div>
+        <div class="item-actions">
+          <button class="mini-btn yellow" data-action="invite-pending" data-id="${esc(id)}">Remettre attente</button>
+          <button class="mini-btn green" data-action="invite-accepted" data-id="${esc(id)}">Marquer acceptée</button>
+          <button class="mini-btn pink" data-action="invite-refused" data-id="${esc(id)}">Marquer refusée</button>
+          <button class="mini-btn red" data-action="delete-invite" data-id="${esc(id)}">Supprimer</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderRows(rows){
+    liveRows = rows;
+    countRows(rows);
+
+    if(!rows.length){
+      itemsList.innerHTML = `<div class="admin-status">Aucun élément pour le moment.</div>`;
+      return;
+    }
+
+    if(isAmericano){
+      itemsList.innerHTML = rows.map(r => playerCard(r.id, r)).join("");
+      return;
+    }
+
+    if(currentTab === "profiles"){
+      itemsList.innerHTML = rows.map(r => profileCard(r.id, r)).join("");
+      return;
+    }
+
+    if(currentTab === "invites"){
+      itemsList.innerHTML = rows.map(r => inviteCard(r.id, r)).join("");
+      return;
+    }
+
+    itemsList.innerHTML = rows.map(r => teamCard(r.id, r)).join("");
+  }
+
+  function mainCollection(){
+    if(isAmericano) return playersRef;
+    if(currentTab === "profiles") return profilesRef;
+    if(currentTab === "invites") return invitesRef;
+    return teamsRef;
+  }
+
+  function startMainListener(){
+    if(unsubscribeMain) unsubscribeMain();
+
+    updateTitles();
+    itemsList.innerHTML = `<div class="admin-status">Chargement…</div>`;
+
+    unsubscribeMain = onSnapshot(
+      query(mainCollection(), orderBy("createdAt", "asc")),
+      (snap) => {
+        const rows = snap.docs.map(d => ({
+          id:d.id,
+          ...d.data()
+        }));
+
+        renderRows(rows);
+      },
+      (error) => {
+        console.error(error);
+        itemsList.innerHTML = `<div class="admin-status">Erreur de chargement.</div>`;
       }
+    );
+  }
 
-      snap.forEach(docSnap => {
-        const data = docSnap.data() || {};
-        total++;
+  async function updateItem(id, patch){
+    let ref;
 
-        if(data.status === "confirmed") confirmed++;
-        else registered++;
+    if(isAmericano) ref = doc(db, "events", EVENT_ID, "steps", STEP_ID, "players", id);
+    else if(currentTab === "profiles") ref = doc(db, "events", EVENT_ID, "steps", STEP_ID, "partnerProfiles", id);
+    else if(currentTab === "invites") ref = doc(db, "events", EVENT_ID, "steps", STEP_ID, "teamInvitations", id);
+    else ref = doc(db, "events", EVENT_ID, "steps", STEP_ID, "teams", id);
 
-        itemsList.insertAdjacentHTML(
-          "beforeend",
-          isAmericano
-            ? playerCard(docSnap.id, data)
-            : teamCard(docSnap.id, data)
-        );
-      });
-
-      countTotal.textContent = total;
-      countRegistered.textContent = registered;
-      countConfirmed.textContent = confirmed;
+    await updateDoc(ref, {
+      ...patch,
+      updatedAt:serverTimestamp()
     });
   }
 
+  async function deleteItem(id, type, nicknameKey = ""){
+    const ok = confirm("Supprimer cet élément ?");
+    if(!ok) return;
+
+    if(type === "player"){
+      await deleteDoc(doc(db, "events", EVENT_ID, "steps", STEP_ID, "players", id));
+      if(nicknameKey){
+        await deleteDoc(doc(db, "summerTourNicknames", nicknameKey));
+      }
+      return;
+    }
+
+    if(type === "team"){
+      await deleteDoc(doc(db, "events", EVENT_ID, "steps", STEP_ID, "teams", id));
+      return;
+    }
+
+    if(type === "profile"){
+      await deleteDoc(doc(db, "events", EVENT_ID, "steps", STEP_ID, "partnerProfiles", id));
+      return;
+    }
+
+    if(type === "invite"){
+      await deleteDoc(doc(db, "events", EVENT_ID, "steps", STEP_ID, "teamInvitations", id));
+    }
+  }
+
   itemsList.addEventListener("click", async (event) => {
-    const btn = event.target.closest("button");
+    const btn = event.target.closest("button[data-action]");
     if(!btn) return;
 
     const action = btn.dataset.action;
     const id = btn.dataset.id;
-    const nicknameKey = btn.dataset.key;
 
-    if(!id) return;
-
-    const itemRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, collectionName, id);
+    btn.disabled = true;
 
     try{
-      if(action === "confirm"){
-        await updateDoc(itemRef, {
-          status:"confirmed",
-          updatedAt:serverTimestamp()
-        });
-      }
+      if(action === "confirm") await updateItem(id, { status:"confirmed" });
+      if(action === "registered") await updateItem(id, { status:"registered" });
 
-      if(action === "registered"){
-        await updateDoc(itemRef, {
-          status:"registered",
-          updatedAt:serverTimestamp()
-        });
-      }
+      if(action === "profile-active") await updateItem(id, { status:"active", closedReason:null });
+      if(action === "profile-closed") await updateItem(id, { status:"closed", closedReason:"admin" });
 
-      if(action === "delete"){
-        const ok = confirm("Supprimer cette inscription ?");
-        if(!ok) return;
+      if(action === "invite-pending") await updateItem(id, { status:"pending" });
+      if(action === "invite-accepted") await updateItem(id, { status:"accepted" });
+      if(action === "invite-refused") await updateItem(id, { status:"refused" });
 
-        await deleteDoc(itemRef);
+      if(action === "delete-player") await deleteItem(id, "player", btn.dataset.key || "");
+      if(action === "delete-team") await deleteItem(id, "team");
+      if(action === "delete-profile") await deleteItem(id, "profile");
+      if(action === "delete-invite") await deleteItem(id, "invite");
 
-        if(isAmericano && nicknameKey){
-          await deleteDoc(doc(db, "summerTourNicknames", nicknameKey));
-        }
-      }
     }catch(error){
       console.error(error);
-      alert("Erreur : action impossible.");
+      alert("Action impossible.");
+    }finally{
+      btn.disabled = false;
     }
   });
 
   function stopListeners(){
     if(unsubscribeStep) unsubscribeStep();
-    if(unsubscribeItems) unsubscribeItems();
+    if(unsubscribeMain) unsubscribeMain();
 
     unsubscribeStep = null;
-    unsubscribeItems = null;
+    unsubscribeMain = null;
   }
 
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-
     loginMessage.textContent = "Connexion…";
 
     try{
@@ -561,6 +736,10 @@
   btnPause.onclick = () => setState(currentStatus === "paused" ? "open" : "paused");
   btnClose.onclick = () => setState("closed");
 
+  if(tabTeams) tabTeams.onclick = () => setEtape2Tab("teams");
+  if(tabProfiles) tabProfiles.onclick = () => setEtape2Tab("profiles");
+  if(tabInvites) tabInvites.onclick = () => setEtape2Tab("invites");
+
   onAuthStateChanged(auth, async (user) => {
     stopListeners();
 
@@ -580,7 +759,7 @@
 
       showAdmin();
       startStepListener();
-      startItemsListener();
+      startMainListener();
 
     }catch(error){
       console.error(error);
