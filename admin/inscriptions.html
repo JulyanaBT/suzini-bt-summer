@@ -8,10 +8,12 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
 
   <style>
-    .admin-form{
-      display:grid;
-      gap:10px;
-    }
+    main{padding-top:0;padding-bottom:24px;}
+    .section{margin-top:10px;}
+    .section:first-child{margin-top:0;}
+    .compact-panel{padding:12px;border-radius:22px;}
+
+    .admin-form{display:grid;gap:10px;}
 
     .admin-input{
       width:100%;
@@ -27,15 +29,17 @@
 
     .admin-actions{
       display:grid;
-      gap:10px;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:10px;
     }
 
     .admin-btn{
-      min-height:46px;
+      min-height:42px;
       border:0;
-      border-radius:16px;
-      padding:10px 14px;
-      font-size:14px;
+      border-radius:14px;
+      padding:9px 11px;
+      font-size:13px;
       font-weight:1000;
       background:#063b72;
       color:#fff;
@@ -46,52 +50,78 @@
     .admin-btn.yellow{background:#ffd84d;color:#111;}
     .admin-btn.green{background:#0b7a3b;}
     .admin-btn.red{background:#9b1c1c;}
-
-    .admin-btn:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-    }
+    .admin-btn:disabled{opacity:.55;cursor:not-allowed;}
 
     .admin-status{
-      margin-top:10px;
-      padding:12px 14px;
+      padding:10px 12px;
       border-radius:16px;
       background:#fff;
       color:#102033;
-      font-size:14px;
+      font-size:13px;
       font-weight:900;
       line-height:1.35;
+      box-shadow:0 6px 14px rgba(16,24,40,.08);
     }
 
-    .players-list{
+    .stats-line{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .stat-box{
+      background:#fff;
+      color:#063b72;
+      border-radius:16px;
+      padding:10px;
+      text-align:center;
+      font-weight:1000;
+    }
+
+    .stat-box strong{
+      display:block;
+      font-size:24px;
+      line-height:1;
+    }
+
+    .stat-box span{
+      display:block;
+      margin-top:4px;
+      font-size:10px;
+      text-transform:uppercase;
+      color:#667085;
+    }
+
+    .items-list{
       display:grid;
       gap:10px;
     }
 
-    .player-card{
+    .item-card{
       background:#fff;
       color:#102033;
       border-radius:18px;
-      padding:14px;
+      padding:12px;
       display:grid;
       gap:8px;
-      box-shadow:0 8px 18px rgba(16,24,40,.12);
+      box-shadow:0 8px 18px rgba(16,24,40,.10);
     }
 
-    .player-name{
-      font-size:20px;
+    .item-title{
+      font-size:19px;
       font-weight:1000;
       color:#063b72;
+      line-height:1.05;
     }
 
-    .player-meta{
-      font-size:14px;
-      font-weight:800;
+    .item-meta{
+      font-size:13px;
+      font-weight:850;
       color:#344054;
       line-height:1.35;
     }
 
-    .player-actions{
+    .item-actions{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
@@ -110,40 +140,11 @@
 
     .mini-btn.green{background:#0b7a3b;}
     .mini-btn.red{background:#9b1c1c;}
-
-    .stats-line{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-    }
-
-    .stat-box{
-      background:#fff;
-      color:#063b72;
-      border-radius:18px;
-      padding:12px;
-      text-align:center;
-      font-weight:1000;
-    }
-
-    .stat-box strong{
-      display:block;
-      font-size:28px;
-      line-height:1;
-    }
-
-    .stat-box span{
-      display:block;
-      margin-top:4px;
-      font-size:11px;
-      text-transform:uppercase;
-      color:#344054;
-    }
+    .mini-btn.yellow{background:#ffd84d;color:#102033;}
 
     @media(min-width:760px){
-      .admin-actions{
-        grid-template-columns:repeat(4,1fr);
-      }
+      .admin-actions{grid-template-columns:repeat(4,1fr);}
+      .items-list{grid-template-columns:1fr 1fr;}
     }
   </style>
 </head>
@@ -155,13 +156,11 @@
 <main class="container">
 
   <section class="section" id="loginSection">
-    <div class="summer-panel">
+    <div class="summer-panel compact-panel">
       <div class="summer-panel-head">
         <div>
           <h1 class="summer-panel-title">Connexion admin</h1>
-          <p class="summer-panel-text">
-            Connecte-toi pour gérer les inscriptions du Summer Tour.
-          </p>
+          <p class="summer-panel-text">Connecte-toi pour gérer les inscriptions.</p>
         </div>
         <div class="summer-pill">Admin</div>
       </div>
@@ -170,9 +169,7 @@
         <input id="email" class="admin-input" type="email" placeholder="Email" required>
         <input id="password" class="admin-input" type="password" placeholder="Mot de passe" required>
 
-        <button class="admin-btn" type="submit">
-          🔐 Se connecter
-        </button>
+        <button class="admin-btn" type="submit">🔐 Se connecter</button>
 
         <div id="loginMessage" class="admin-status">Non connecté.</div>
       </form>
@@ -180,15 +177,15 @@
   </section>
 
   <section class="section" id="adminSection" style="display:none;">
-    <div class="summer-panel">
+    <div class="summer-panel compact-panel">
       <div class="summer-panel-head">
         <div>
           <h1 class="summer-panel-title">Gestion inscriptions</h1>
-          <p class="summer-panel-text">
-            Ouverture, suspension, clôture et suivi des joueurs inscrits.
+          <p class="summer-panel-text" id="pageSubtitle">
+            Ouverture, suspension, clôture et suivi des inscriptions.
           </p>
         </div>
-        <div class="summer-pill" id="stepLabel">Étape 1</div>
+        <div class="summer-pill" id="stepLabel">Étape</div>
       </div>
 
       <div class="admin-status">
@@ -196,29 +193,19 @@
         <span id="currentState">Chargement…</span>
       </div>
 
-      <div class="admin-actions" style="margin-top:12px;">
+      <div class="admin-actions">
         <button class="admin-btn yellow" id="btnNotOpen" type="button">💤 Pas ouvertes</button>
         <button class="admin-btn green" id="btnOpen" type="button">✅ Ouvrir</button>
         <button class="admin-btn pink" id="btnPause" type="button">⏸️ Suspendre</button>
         <button class="admin-btn" id="btnClose" type="button">🔒 Clôturer</button>
       </div>
 
-      <div id="statusMessage" class="admin-status">—</div>
+      <div id="statusMessage" class="admin-status" style="margin-top:10px;">—</div>
     </div>
   </section>
 
   <section class="section" id="statsSection" style="display:none;">
-    <div class="summer-panel">
-      <div class="summer-panel-head">
-        <div>
-          <h2 class="summer-panel-title">Résumé</h2>
-          <p class="summer-panel-text">
-            Nombre de joueurs inscrits sur l’étape sélectionnée.
-          </p>
-        </div>
-        <div class="summer-pill">Live</div>
-      </div>
-
+    <div class="summer-panel compact-panel">
       <div class="stats-line">
         <div class="stat-box">
           <strong id="countTotal">0</strong>
@@ -238,20 +225,18 @@
     </div>
   </section>
 
-  <section class="section" id="playersSection" style="display:none;">
-    <div class="summer-panel">
+  <section class="section" id="itemsSection" style="display:none;">
+    <div class="summer-panel compact-panel">
       <div class="summer-panel-head">
         <div>
-          <h2 class="summer-panel-title">Joueurs inscrits</h2>
-          <p class="summer-panel-text">
-            Liste des joueurs, surnoms et actions admin.
-          </p>
+          <h2 class="summer-panel-title" id="listTitle">Inscriptions</h2>
+          <p class="summer-panel-text" id="listText">Liste des inscriptions.</p>
         </div>
-        <div class="summer-pill">Players</div>
+        <div class="summer-pill">Live</div>
       </div>
 
-      <div id="playersList" class="players-list">
-        <div class="admin-status">Chargement des inscriptions…</div>
+      <div id="itemsList" class="items-list">
+        <div class="admin-status">Chargement…</div>
       </div>
     </div>
   </section>
@@ -261,7 +246,7 @@
 <script type="module" src="../assets/js/header-admin.js"></script>
 
 <script type="module">
-  import { auth, db } from "../assets/js/firebase.js?v=admin-insc-1";
+  import { auth, db } from "../assets/js/firebase.js?v=admin-insc-summer-2";
 
   import {
     signInWithEmailAndPassword,
@@ -285,19 +270,21 @@
 
   const params = new URLSearchParams(window.location.search);
   const STEP_ID = params.get("step") || "etape-1";
-
   document.body.dataset.step = STEP_ID;
 
+  const isAmericano = STEP_ID === "etape-1";
+  const collectionName = isAmericano ? "players" : "teams";
+
   const stepNames = {
-    "etape-1": "Étape 1 — Americano",
-    "etape-2": "Étape 2 — Double mixte",
-    "etape-3": "Étape 3 — Double mixte"
+    "etape-1":"Étape 1 — Americano",
+    "etape-2":"Étape 2 — Double mixte",
+    "etape-3":"Étape 3 — Double mixte"
   };
 
   const loginSection = document.getElementById("loginSection");
   const adminSection = document.getElementById("adminSection");
   const statsSection = document.getElementById("statsSection");
-  const playersSection = document.getElementById("playersSection");
+  const itemsSection = document.getElementById("itemsSection");
 
   const loginForm = document.getElementById("loginForm");
   const loginMessage = document.getElementById("loginMessage");
@@ -305,26 +292,46 @@
   const stepLabel = document.getElementById("stepLabel");
   const currentState = document.getElementById("currentState");
   const statusMessage = document.getElementById("statusMessage");
+  const pageSubtitle = document.getElementById("pageSubtitle");
 
   const btnNotOpen = document.getElementById("btnNotOpen");
   const btnOpen = document.getElementById("btnOpen");
   const btnPause = document.getElementById("btnPause");
   const btnClose = document.getElementById("btnClose");
 
-  const playersList = document.getElementById("playersList");
+  const itemsList = document.getElementById("itemsList");
+  const listTitle = document.getElementById("listTitle");
+  const listText = document.getElementById("listText");
 
   const countTotal = document.getElementById("countTotal");
   const countRegistered = document.getElementById("countRegistered");
   const countConfirmed = document.getElementById("countConfirmed");
 
   const stepRef = doc(db, "events", EVENT_ID, "steps", STEP_ID);
-  const playersRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "players");
+  const itemsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, collectionName);
 
   let unsubscribeStep = null;
-  let unsubscribePlayers = null;
+  let unsubscribeItems = null;
   let currentStatus = "not_open";
 
   stepLabel.textContent = stepNames[STEP_ID] || STEP_ID;
+  listTitle.textContent = isAmericano ? "Joueurs inscrits" : "Équipes inscrites";
+  listText.textContent = isAmericano
+    ? "Liste des joueurs de l’Americano."
+    : "Liste des équipes de double mixte.";
+
+  pageSubtitle.textContent = isAmericano
+    ? "Ouverture, suspension, clôture et suivi des joueurs."
+    : "Ouverture, suspension, clôture et suivi des équipes.";
+
+  function esc(value){
+    return String(value || "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
 
   function stateLabel(state){
     switch(state){
@@ -339,14 +346,14 @@
     loginSection.style.display = "none";
     adminSection.style.display = "block";
     statsSection.style.display = "block";
-    playersSection.style.display = "block";
+    itemsSection.style.display = "block";
   }
 
   function hideAdmin(){
     loginSection.style.display = "block";
     adminSection.style.display = "none";
     statsSection.style.display = "none";
-    playersSection.style.display = "none";
+    itemsSection.style.display = "none";
   }
 
   async function isAdmin(uid){
@@ -371,9 +378,9 @@
 
     try{
       await setDoc(stepRef, {
-        inscriptionsState: nextState,
-        updatedAt: serverTimestamp(),
-        updatedBy: auth.currentUser?.uid || null
+        inscriptionsState:nextState,
+        updatedAt:serverTimestamp(),
+        updatedBy:auth.currentUser?.uid || null
       }, { merge:true });
 
       statusMessage.textContent = "✅ Statut mis à jour.";
@@ -403,39 +410,59 @@
     const surnom = data.surnom || "—";
     const status = data.status || "registered";
 
-    const div = document.createElement("div");
-    div.className = "player-card";
-
-    div.innerHTML = `
-      <div class="player-name">${surnom}</div>
-      <div class="player-meta">
-        ${prenom} ${nom}<br>
-        Statut : <strong>${status}</strong>
-      </div>
-      <div class="player-actions">
-        <button class="mini-btn green" data-action="confirm" data-id="${id}">Confirmer</button>
-        <button class="mini-btn" data-action="registered" data-id="${id}">Remettre inscrit</button>
-        <button class="mini-btn red" data-action="delete" data-id="${id}" data-key="${data.nicknameKey || ""}">Supprimer</button>
+    return `
+      <div class="item-card">
+        <div class="item-title">${esc(surnom)}</div>
+        <div class="item-meta">
+          ${esc(prenom)} ${esc(nom)}<br>
+          Statut : <strong>${esc(status)}</strong>
+        </div>
+        <div class="item-actions">
+          <button class="mini-btn green" data-action="confirm" data-id="${esc(id)}">Confirmer</button>
+          <button class="mini-btn yellow" data-action="registered" data-id="${esc(id)}">Remettre inscrit</button>
+          <button class="mini-btn red" data-action="delete" data-id="${esc(id)}" data-key="${esc(data.nicknameKey || "")}">Supprimer</button>
+        </div>
       </div>
     `;
-
-    return div;
   }
 
-  function startPlayersListener(){
-    if(unsubscribePlayers) unsubscribePlayers();
+  function teamCard(id, data){
+    const woman = data.woman || data.player1 || {};
+    const man = data.man || data.player2 || {};
+    const status = data.status || "registered";
+    const teamName = data.teamName || `${woman.prenom || ""} & ${man.prenom || ""}`;
 
-    const q = query(playersRef, orderBy("createdAt", "asc"));
+    return `
+      <div class="item-card">
+        <div class="item-title">${esc(teamName || "Équipe")}</div>
+        <div class="item-meta">
+          <strong>Joueuse :</strong> ${esc(woman.prenom)} ${esc(woman.nom)} — Licence ${esc(woman.licence)}<br>
+          <strong>Joueur :</strong> ${esc(man.prenom)} ${esc(man.nom)} — Licence ${esc(man.licence)}<br>
+          Statut : <strong>${esc(status)}</strong>
+        </div>
+        <div class="item-actions">
+          <button class="mini-btn green" data-action="confirm" data-id="${esc(id)}">Confirmer</button>
+          <button class="mini-btn yellow" data-action="registered" data-id="${esc(id)}">Remettre inscrit</button>
+          <button class="mini-btn red" data-action="delete" data-id="${esc(id)}">Supprimer</button>
+        </div>
+      </div>
+    `;
+  }
 
-    unsubscribePlayers = onSnapshot(q, (snap) => {
-      playersList.innerHTML = "";
+  function startItemsListener(){
+    if(unsubscribeItems) unsubscribeItems();
 
+    const q = query(itemsRef, orderBy("createdAt", "asc"));
+
+    unsubscribeItems = onSnapshot(q, (snap) => {
       let total = 0;
       let registered = 0;
       let confirmed = 0;
 
       if(snap.empty){
-        playersList.innerHTML = `<div class="admin-status">Aucun joueur inscrit pour le moment.</div>`;
+        itemsList.innerHTML = `<div class="admin-status">Aucune inscription pour le moment.</div>`;
+      }else{
+        itemsList.innerHTML = "";
       }
 
       snap.forEach(docSnap => {
@@ -445,7 +472,12 @@
         if(data.status === "confirmed") confirmed++;
         else registered++;
 
-        playersList.appendChild(playerCard(docSnap.id, data));
+        itemsList.insertAdjacentHTML(
+          "beforeend",
+          isAmericano
+            ? playerCard(docSnap.id, data)
+            : teamCard(docSnap.id, data)
+        );
       });
 
       countTotal.textContent = total;
@@ -454,7 +486,7 @@
     });
   }
 
-  playersList.addEventListener("click", async (event) => {
+  itemsList.addEventListener("click", async (event) => {
     const btn = event.target.closest("button");
     if(!btn) return;
 
@@ -464,30 +496,30 @@
 
     if(!id) return;
 
-    const playerRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "players", id);
+    const itemRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, collectionName, id);
 
     try{
       if(action === "confirm"){
-        await updateDoc(playerRef, {
-          status: "confirmed",
-          updatedAt: serverTimestamp()
+        await updateDoc(itemRef, {
+          status:"confirmed",
+          updatedAt:serverTimestamp()
         });
       }
 
       if(action === "registered"){
-        await updateDoc(playerRef, {
-          status: "registered",
-          updatedAt: serverTimestamp()
+        await updateDoc(itemRef, {
+          status:"registered",
+          updatedAt:serverTimestamp()
         });
       }
 
       if(action === "delete"){
-        const ok = confirm("Supprimer cette inscription ? Le surnom sera libéré.");
+        const ok = confirm("Supprimer cette inscription ?");
         if(!ok) return;
 
-        await deleteDoc(playerRef);
+        await deleteDoc(itemRef);
 
-        if(nicknameKey){
+        if(isAmericano && nicknameKey){
           await deleteDoc(doc(db, "summerTourNicknames", nicknameKey));
         }
       }
@@ -499,10 +531,10 @@
 
   function stopListeners(){
     if(unsubscribeStep) unsubscribeStep();
-    if(unsubscribePlayers) unsubscribePlayers();
+    if(unsubscribeItems) unsubscribeItems();
 
     unsubscribeStep = null;
-    unsubscribePlayers = null;
+    unsubscribeItems = null;
   }
 
   loginForm.addEventListener("submit", async (event) => {
@@ -548,7 +580,7 @@
 
       showAdmin();
       startStepListener();
-      startPlayersListener();
+      startItemsListener();
 
     }catch(error){
       console.error(error);
