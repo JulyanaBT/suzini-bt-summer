@@ -151,6 +151,19 @@
     .mini-card.yellow{background:#ffd84d;color:#102033;}
     .mini-card.green{background:#0b7a3b;}
 
+    .compact-mini{
+      min-height:70px;
+      padding:10px;
+    }
+
+    .compact-mini .mini-title{
+      font-size:17px;
+    }
+
+    .compact-mini .mini-text{
+      font-size:11px;
+    }
+
     .mini-kicker{
       font-size:11px;
       font-weight:1000;
@@ -187,10 +200,32 @@
       text-transform:uppercase;
     }
 
+    @media(max-width:759px){
+      #secondaryGrid{
+        grid-template-columns:1fr 1fr 1fr;
+      }
+
+      .compact-mini{
+        min-height:68px;
+      }
+
+      .compact-mini .mini-kicker{
+        font-size:9px;
+      }
+
+      .compact-mini .mini-title{
+        font-size:15px;
+      }
+
+      .compact-mini .mini-text{
+        font-size:10px;
+      }
+    }
+
     @media(min-width:760px){
       .top-strip{padding:16px 18px;}
       .main-card{grid-template-columns:1.2fr .8fr;align-items:center;}
-      .mini-grid{grid-template-columns:repeat(2,1fr);}
+      .mini-grid{grid-template-columns:repeat(3,1fr);}
     }
   </style>
 </head>
@@ -238,7 +273,6 @@
   <section class="section">
     <div class="summer-panel compact-panel">
       <h2 id="secondaryTitle" class="section-title">Suivre l’étape</h2>
-
       <div id="secondaryGrid" class="mini-grid"></div>
     </div>
   </section>
@@ -249,7 +283,7 @@
 <script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
 
 <script type="module">
-  import { db } from "../assets/js/firebase.js?v=etape2-index-1";
+  import { db } from "../assets/js/firebase.js?v=etape2-index-2";
 
   import {
     doc,
@@ -260,6 +294,8 @@
   const EVENT_ID = "suzini-summer-tour-2026";
   const STEP_ID = "etape-2";
   const MAX_TEAMS = 12;
+
+  const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/Kk8uAXuZplX1Tw0g2rHtp6?s=em&p=i&mlu=0&ilr=0";
 
   const mainCard = document.getElementById("mainCard");
   const statusPill = document.getElementById("statusPill");
@@ -307,16 +343,22 @@
 
       secondaryTitle.textContent = "Suivre l’étape";
       secondaryGrid.innerHTML = `
-        <a class="mini-card blue" href="programmation.html">
+        <a class="mini-card blue compact-mini" href="programmation.html">
           <div class="mini-kicker">À venir</div>
-          <div class="mini-title">Programmation</div>
-          <div class="mini-text">Publication après clôture.</div>
+          <div class="mini-title">Planning</div>
+          <div class="mini-text">Après clôture.</div>
         </a>
 
-        <a class="mini-card yellow" href="classement.html">
+        <a class="mini-card yellow compact-mini" href="classement.html">
           <div class="mini-kicker">Résultats</div>
           <div class="mini-title">Classement</div>
-          <div class="mini-text">Disponible pendant le tournoi.</div>
+          <div class="mini-text">Pendant tournoi.</div>
+        </a>
+
+        <a class="mini-card green compact-mini" href="${WHATSAPP_GROUP_URL}" target="_blank" rel="noopener">
+          <div class="mini-kicker">Infos live</div>
+          <div class="mini-title">WhatsApp</div>
+          <div class="mini-text">Rejoindre.</div>
         </a>
       `;
       return;
@@ -338,16 +380,22 @@
 
       secondaryTitle.textContent = "Infos utiles";
       secondaryGrid.innerHTML = `
-        <a class="mini-card green" href="paiement.html">
-          <div class="mini-kicker">Paiement</div>
-          <div class="mini-title">Inscriptions</div>
-          <div class="mini-text">Régulariser si besoin.</div>
+        <a class="mini-card green compact-mini" href="${WHATSAPP_GROUP_URL}" target="_blank" rel="noopener">
+          <div class="mini-kicker">Infos live</div>
+          <div class="mini-title">WhatsApp</div>
+          <div class="mini-text">Rejoindre.</div>
         </a>
 
-        <a class="mini-card pink" href="../restauration.html">
+        <a class="mini-card pink compact-mini" href="../restauration.html">
           <div class="mini-kicker">Sur place</div>
-          <div class="mini-title">Restauration</div>
-          <div class="mini-text">Repas et boissons.</div>
+          <div class="mini-title">Resto</div>
+          <div class="mini-text">Repas boissons.</div>
+        </a>
+
+        <a class="mini-card blue compact-mini" href="paiement.html">
+          <div class="mini-kicker">Paiement</div>
+          <div class="mini-title">Infos</div>
+          <div class="mini-text">Si besoin.</div>
         </a>
       `;
       return;
@@ -368,16 +416,22 @@
 
     secondaryTitle.textContent = "Autres informations";
     secondaryGrid.innerHTML = `
-      <a class="mini-card green" href="../restauration.html">
+      <a class="mini-card green compact-mini" href="${WHATSAPP_GROUP_URL}" target="_blank" rel="noopener">
+        <div class="mini-kicker">Groupe</div>
+        <div class="mini-title">WhatsApp</div>
+        <div class="mini-text">Infos BT.</div>
+      </a>
+
+      <a class="mini-card pink compact-mini" href="../restauration.html">
         <div class="mini-kicker">Sur place</div>
-        <div class="mini-title">Restauration</div>
+        <div class="mini-title">Resto</div>
         <div class="mini-text">Infos pratiques.</div>
       </a>
 
-      <a class="mini-card blue" href="../evenements.html">
+      <a class="mini-card blue compact-mini" href="../evenements.html">
         <div class="mini-kicker">Summer Tour</div>
         <div class="mini-title">Étapes</div>
-        <div class="mini-text">Voir les autres événements.</div>
+        <div class="mini-text">Voir autres.</div>
       </a>
     `;
   }
