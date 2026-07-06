@@ -45,19 +45,6 @@
       font-style:italic;
     }
 
-    .version-pill{
-      display:inline-flex;
-      margin-top:8px;
-      padding:5px 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.22);
-      color:#fff;
-      font-size:11px;
-      font-weight:1000;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-
     .next-card{
       display:grid;
       gap:10px;
@@ -137,6 +124,48 @@
     .action-btn.primary{
       background:linear-gradient(180deg,#ffd84d,#f3b800);
       color:#102033;
+    }
+
+    .whatsapp-card{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:center;
+      border-radius:22px;
+      padding:13px;
+      background:#0b7a3b;
+      color:#fff;
+      box-shadow:0 10px 22px rgba(16,24,40,.12);
+    }
+
+    .whatsapp-card strong{
+      display:block;
+      font-size:18px;
+      line-height:1.05;
+      font-weight:1000;
+    }
+
+    .whatsapp-card span{
+      display:block;
+      margin-top:4px;
+      font-size:13px;
+      line-height:1.25;
+      font-weight:900;
+    }
+
+    .whatsapp-btn-home{
+      min-height:42px;
+      border-radius:999px;
+      padding:10px 13px;
+      background:#fff;
+      color:#0b7a3b;
+      font-size:13px;
+      font-weight:1000;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
     }
 
     .mini-grid{
@@ -239,6 +268,16 @@
       text-decoration:none;
     }
 
+    @media(max-width:420px){
+      .whatsapp-card{
+        grid-template-columns:1fr;
+      }
+
+      .whatsapp-btn-home{
+        width:100%;
+      }
+    }
+
     @media(min-width:760px){
       .compact-panel{
         padding:18px;
@@ -301,6 +340,23 @@
         <a class="action-btn" href="etape-2/programmation.html">📅 Planning</a>
         <a class="action-btn" href="etape-2/">🎾 Voir l’étape</a>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="whatsapp-card">
+      <div>
+        <strong>💬 Groupe WhatsApp officiel</strong>
+        <span>Toutes les infos et actualités du BT Summer Tour : convocations, résultats, météo et annonces.</span>
+      </div>
+
+      <a
+        class="whatsapp-btn-home"
+        href="https://chat.whatsapp.com/Kk8uAXuZplX1Tw0g2rHtp6?s=em&p=i&mlu=0&ilr=0"
+        target="_blank"
+        rel="noopener">
+        Rejoindre
+      </a>
     </div>
   </section>
 
@@ -392,12 +448,12 @@
 <script type="module" src="assets/js/maintenance-guard.js"></script>
 
 <script type="module">
-  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-v1";
+  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-v2";
   import {
     login,
     logout,
     getRoleByUid
-  } from "./assets/js/session.js?v=suzini-summer-index-v1";
+  } from "./assets/js/session.js?v=suzini-summer-index-v2";
 
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
