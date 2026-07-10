@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inscriptions — Étape 2 BT250</title>
+  <title>Inscriptions — Étape 3 BT250</title>
 
   <link rel="stylesheet" href="../assets/css/style.css" />
 
@@ -23,7 +23,8 @@
       box-shadow:0 10px 22px rgba(16,24,40,.12);
     }
 
-    .subtab,.mode-btn{
+    .subtab,
+    .mode-btn{
       min-height:42px;
       border:0;
       border-radius:16px;
@@ -33,8 +34,15 @@
       font-family:inherit;
     }
 
-    .subtab{background:rgba(255,255,255,.18);color:#fff;}
-    .subtab.active{background:#fff;color:#063b72;}
+    .subtab{
+      background:rgba(255,255,255,.18);
+      color:#fff;
+    }
+
+    .subtab.active{
+      background:#fff;
+      color:#063b72;
+    }
 
     .partner-mode{
       display:grid;
@@ -43,12 +51,29 @@
       margin-bottom:10px;
     }
 
-    .mode-btn{background:#063b72;color:#fff;}
-    .mode-btn.active{background:#ffd84d;color:#102033;}
+    .mode-btn{
+      background:#063b72;
+      color:#fff;
+    }
 
-    .form-grid{display:grid;gap:10px;}
-    .form-grid.two{grid-template-columns:1fr;}
-    .field{display:grid;gap:6px;}
+    .mode-btn.active{
+      background:#ffd84d;
+      color:#102033;
+    }
+
+    .form-grid{
+      display:grid;
+      gap:10px;
+    }
+
+    .form-grid.two{
+      grid-template-columns:1fr;
+    }
+
+    .field{
+      display:grid;
+      gap:6px;
+    }
 
     .field label{
       color:#063b72;
@@ -56,7 +81,9 @@
       font-weight:1000;
     }
 
-    input,textarea,select{
+    input,
+    textarea,
+    select{
       width:100%;
       border:1px solid rgba(16,24,40,.12);
       border-radius:16px;
@@ -68,7 +95,10 @@
       background:#fff;
     }
 
-    textarea{min-height:96px;resize:vertical;}
+    textarea{
+      min-height:96px;
+      resize:vertical;
+    }
 
     input:disabled,
     textarea:disabled,
@@ -112,11 +142,19 @@
       text-align:center;
     }
 
-    .btn.primary{background:linear-gradient(180deg,#ffd84d,#f3b800);color:#102033;}
+    .btn.primary{
+      background:linear-gradient(180deg,#ffd84d,#f3b800);
+      color:#102033;
+    }
+
     .btn.green{background:#0b7a3b;}
     .btn.pink{background:#ff3e8a;}
     .btn.blue{background:#063b72;}
-    .btn:disabled{opacity:.55;cursor:not-allowed;}
+
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
 
     .status{
       padding:10px 12px;
@@ -128,9 +166,20 @@
       line-height:1.35;
     }
 
-    .status.warn{background:#fff7d6;color:#102033;}
-    .status.ok{background:#d9fbe8;color:#087a35;}
-    .status.err{background:#ffecec;color:#9b1c1c;}
+    .status.warn{
+      background:#fff7d6;
+      color:#102033;
+    }
+
+    .status.ok{
+      background:#d9fbe8;
+      color:#087a35;
+    }
+
+    .status.err{
+      background:#ffecec;
+      color:#9b1c1c;
+    }
 
     .search-list{
       display:grid;
@@ -192,23 +241,6 @@
       margin-bottom:10px;
     }
 
-    .proposal-box{
-      display:grid;
-      gap:10px;
-      padding:12px;
-      border-radius:18px;
-      background:#f8fafc;
-      border:1px solid rgba(16,24,40,.08);
-      margin-top:8px;
-    }
-
-    .proposal-title{
-      font-size:16px;
-      font-weight:1000;
-      color:#063b72;
-      line-height:1.1;
-    }
-
     .empty{
       padding:12px;
       border-radius:16px;
@@ -219,12 +251,22 @@
       text-align:center;
     }
 
-    .hidden{display:none!important;}
+    .hidden{
+      display:none!important;
+    }
 
     @media(min-width:760px){
-      .form-grid.two{grid-template-columns:1fr 1fr;}
-      .search-list{grid-template-columns:1fr 1fr;}
-      .filter-row{grid-template-columns:220px 1fr;}
+      .form-grid.two{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .search-list{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .filter-row{
+        grid-template-columns:220px 1fr;
+      }
     }
   </style>
 </head>
@@ -232,8 +274,8 @@
 <body
   data-page="inscription"
   data-type="double-mixte"
-  data-title="Étape 2 - Double Mixte"
-  data-date="09 juillet 2026"
+  data-title="Étape 3 - Double Mixte"
+  data-date="16 juillet 2026"
 >
 
 <div id="siteHeaderEtape"></div>
@@ -245,26 +287,43 @@
       <div class="summer-panel-head">
         <div>
           <h1 class="summer-panel-title">Proposition d’équipe</h1>
-          <p class="summer-panel-text" id="inviteIntro">Chargement de la proposition…</p>
+          <p class="summer-panel-text" id="inviteIntro">
+            Chargement de la proposition…
+          </p>
         </div>
+
         <div class="summer-pill">Invitation</div>
       </div>
 
-      <div id="inviteBox" class="status">Chargement…</div>
-
-      <div class="form-grid two" style="margin-top:10px;">
-        <button class="btn green" id="btnAcceptInvite" type="button">✅ Accepter</button>
-        <button class="btn pink" id="btnRefuseInvite" type="button">❌ Refuser</button>
+      <div id="inviteBox" class="status">
+        Chargement…
       </div>
 
-      <div id="inviteStatus" class="status" style="margin-top:10px;">—</div>
+      <div class="form-grid two" style="margin-top:10px;">
+        <button class="btn green" id="btnAcceptInvite" type="button">
+          ✅ Accepter
+        </button>
+
+        <button class="btn pink" id="btnRefuseInvite" type="button">
+          ❌ Refuser
+        </button>
+      </div>
+
+      <div id="inviteStatus" class="status" style="margin-top:10px;">
+        —
+      </div>
     </div>
   </section>
 
   <section class="section" id="normalPage">
     <div class="subtabs">
-      <button class="subtab active" id="tabRegister" type="button">📝 Inscriptions</button>
-      <button class="subtab" id="tabPartner" type="button">🔎 Recherche partenaire</button>
+      <button class="subtab active" id="tabRegister" type="button">
+        📝 Inscriptions
+      </button>
+
+      <button class="subtab" id="tabPartner" type="button">
+        🔎 Recherche partenaire
+      </button>
     </div>
   </section>
 
@@ -273,9 +332,14 @@
       <div class="summer-panel-head">
         <div>
           <h1 class="summer-panel-title">Inscription équipe</h1>
-          <p class="summer-panel-text">Renseigne les informations de la joueuse et du joueur.</p>
+          <p class="summer-panel-text">
+            Renseigne les informations de la joueuse et du joueur.
+          </p>
         </div>
-        <div class="summer-pill" id="openPill">Vérification</div>
+
+        <div class="summer-pill" id="openPill">
+          Vérification
+        </div>
       </div>
 
       <div id="stateMessage" class="status warn" style="margin-bottom:10px;">
@@ -301,7 +365,12 @@
 
           <div class="field">
             <label for="wLicence">Numéro de licence FFT *</label>
-            <input id="wLicence" required inputmode="text" autocapitalize="characters" maxlength="12">
+            <input
+              id="wLicence"
+              required
+              inputmode="text"
+              autocapitalize="characters"
+              maxlength="12">
           </div>
         </div>
 
@@ -322,7 +391,12 @@
 
           <div class="field">
             <label for="mLicence">Numéro de licence FFT *</label>
-            <input id="mLicence" required inputmode="text" autocapitalize="characters" maxlength="12">
+            <input
+              id="mLicence"
+              required
+              inputmode="text"
+              autocapitalize="characters"
+              maxlength="12">
           </div>
         </div>
 
@@ -331,7 +405,8 @@
         </button>
 
         <div id="teamStatus" class="status">
-          Le nom d’équipe sera généré automatiquement : prénom joueuse & prénom joueur.
+          Le nom d’équipe sera généré automatiquement :
+          prénom joueuse & prénom joueur.
         </div>
       </form>
     </div>
@@ -341,8 +416,13 @@
     <div class="summer-panel compact-panel">
 
       <div class="partner-mode">
-        <button class="mode-btn active" id="modeView" type="button">👀 Voir les profils</button>
-        <button class="mode-btn" id="modePost" type="button">✍️ Déposer une recherche</button>
+        <button class="mode-btn active" id="modeView" type="button">
+          👀 Voir les profils
+        </button>
+
+        <button class="mode-btn" id="modePost" type="button">
+          ✍️ Déposer une recherche
+        </button>
       </div>
 
       <div id="partnerView">
@@ -365,6 +445,7 @@
 
       <div id="partnerPost" class="hidden">
         <form id="searchForm" class="form-grid" autocomplete="off">
+
           <div class="form-grid two">
             <div class="field">
               <label for="sPrenom">Prénom *</label>
@@ -380,6 +461,7 @@
           <div class="form-grid two">
             <div class="field">
               <label for="sSexe">Profil *</label>
+
               <select id="sSexe" required>
                 <option value="">Choisir</option>
                 <option value="F">Joueuse</option>
@@ -389,18 +471,35 @@
 
             <div class="field">
               <label for="sLicence">Licence FFT *</label>
-              <input id="sLicence" required inputmode="text" autocapitalize="characters" maxlength="12">
+
+              <input
+                id="sLicence"
+                required
+                inputmode="text"
+                autocapitalize="characters"
+                maxlength="12">
             </div>
           </div>
 
           <div class="field">
             <label for="sPhone">WhatsApp / téléphone *</label>
-            <input id="sPhone" required inputmode="tel" placeholder="Ex : 0694...">
+
+            <input
+              id="sPhone"
+              required
+              inputmode="tel"
+              placeholder="Ex : 0694...">
           </div>
 
           <div class="field">
-            <label for="sProfile">Description de votre profil BT et profil recherché *</label>
-            <textarea id="sProfile" required placeholder="Ex : classé 250e BT, plutôt côté gauche, cherche partenaire motivé(e) pour le BT250."></textarea>
+            <label for="sProfile">
+              Description de votre profil BT et profil recherché *
+            </label>
+
+            <textarea
+              id="sProfile"
+              required
+              placeholder="Ex : classé 250e BT, plutôt côté gauche, cherche partenaire motivé(e) pour le BT250."></textarea>
           </div>
 
           <button class="btn green" type="submit" id="searchSubmit">
@@ -422,17 +521,14 @@
 <script type="module" src="../assets/js/maintenance-guard-etape.js"></script>
 
 <script type="module">
-
-    import { db } from "../assets/js/firebase.js?v=etape2-inscriptions-v3";
+  import { db } from "../assets/js/firebase.js?v=etape3-inscriptions-v1";
 
   import {
     collection,
     doc,
     getDoc,
     addDoc,
-    setDoc,
     updateDoc,
-    deleteDoc,
     onSnapshot,
     query,
     orderBy,
@@ -440,15 +536,46 @@
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   const EVENT_ID = "suzini-summer-tour-2026";
-  const STEP_ID = "etape-2";
+  const STEP_ID = "etape-3";
+  const EVENT_DATE = "16/07";
 
   const params = new URLSearchParams(window.location.search);
   const inviteId = params.get("invite");
 
-  const stepRef = doc(db, "events", EVENT_ID, "steps", STEP_ID);
-  const teamsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "teams");
-  const profilesRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "partnerProfiles");
-  const invitationsRef = collection(db, "events", EVENT_ID, "steps", STEP_ID, "teamInvitations");
+  const stepRef = doc(
+    db,
+    "events",
+    EVENT_ID,
+    "steps",
+    STEP_ID
+  );
+
+  const teamsRef = collection(
+    db,
+    "events",
+    EVENT_ID,
+    "steps",
+    STEP_ID,
+    "teams"
+  );
+
+  const profilesRef = collection(
+    db,
+    "events",
+    EVENT_ID,
+    "steps",
+    STEP_ID,
+    "partnerProfiles"
+  );
+
+  const invitationsRef = collection(
+    db,
+    "events",
+    EVENT_ID,
+    "steps",
+    STEP_ID,
+    "teamInvitations"
+  );
 
   const invitationSection = document.getElementById("invitationSection");
   const normalPage = document.getElementById("normalPage");
@@ -535,9 +662,11 @@
   }
 
   function disableForm(form, disabled){
-    form.querySelectorAll("input, textarea, select, button").forEach(el => {
-      el.disabled = disabled;
-    });
+    form
+      .querySelectorAll("input, textarea, select, button")
+      .forEach(element => {
+        element.disabled = disabled;
+      });
   }
 
   function updateStateUi(){
@@ -550,34 +679,64 @@
       openPill.textContent = "Ouvert";
       stateMessage.className = "status ok";
       stateMessage.textContent = "✅ Les inscriptions sont ouvertes.";
-      teamStatus.textContent = "Le nom d’équipe sera généré automatiquement : prénom joueuse & prénom joueur.";
-      searchStatus.textContent = "Ton numéro servira uniquement au contact WhatsApp.";
+
+      teamStatus.className = "status";
+      teamStatus.textContent =
+        "Le nom d’équipe sera généré automatiquement : prénom joueuse & prénom joueur.";
+
+      searchStatus.className = "status";
+      searchStatus.textContent =
+        "Ton numéro servira uniquement au contact WhatsApp.";
+
       return;
     }
 
     if(inscriptionsState === "paused"){
       openPill.textContent = "Suspendu";
       stateMessage.className = "status warn";
-      stateMessage.textContent = "⏸️ Les inscriptions sont momentanément suspendues.";
-      teamStatus.textContent = "Les inscriptions sont momentanément suspendues.";
-      searchStatus.textContent = "Les recherches partenaire sont momentanément suspendues.";
+      stateMessage.textContent =
+        "⏸️ Les inscriptions sont momentanément suspendues.";
+
+      teamStatus.className = "status warn";
+      teamStatus.textContent =
+        "Les inscriptions sont momentanément suspendues.";
+
+      searchStatus.className = "status warn";
+      searchStatus.textContent =
+        "Les recherches partenaire sont momentanément suspendues.";
+
       return;
     }
 
     if(inscriptionsState === "closed"){
       openPill.textContent = "Clos";
       stateMessage.className = "status warn";
-      stateMessage.textContent = "🔒 Les inscriptions sont clôturées.";
-      teamStatus.textContent = "Les inscriptions sont clôturées.";
-      searchStatus.textContent = "Les recherches partenaire sont clôturées.";
+      stateMessage.textContent =
+        "🔒 Les inscriptions sont clôturées.";
+
+      teamStatus.className = "status warn";
+      teamStatus.textContent =
+        "Les inscriptions sont clôturées.";
+
+      searchStatus.className = "status warn";
+      searchStatus.textContent =
+        "Les recherches partenaire sont clôturées.";
+
       return;
     }
 
     openPill.textContent = "Bientôt";
     stateMessage.className = "status warn";
-    stateMessage.textContent = "💤 Les inscriptions ouvriront prochainement.";
-    teamStatus.textContent = "Les inscriptions ne sont pas encore ouvertes.";
-    searchStatus.textContent = "Les recherches partenaire ne sont pas encore ouvertes.";
+    stateMessage.textContent =
+      "💤 Les inscriptions ouvriront prochainement.";
+
+    teamStatus.className = "status warn";
+    teamStatus.textContent =
+      "Les inscriptions ne sont pas encore ouvertes.";
+
+    searchStatus.className = "status warn";
+    searchStatus.textContent =
+      "Les recherches partenaire ne sont pas encore ouvertes.";
   }
 
   function sexBadge(sexe){
@@ -595,14 +754,14 @@
       phone = "594" + phone.slice(1);
     }
 
-    const msg = [
+    const message = [
       "Bonjour,",
       "",
-      "J’ai vu ta recherche de partenaire pour le BT250 Double Mixte du 09/07.",
+      `J’ai vu ta recherche de partenaire pour le BT250 Double Mixte du ${EVENT_DATE}.`,
       "Est-ce que tu cherches toujours un/une partenaire ?"
     ].join("\n");
 
-    return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   }
 
   function proposalLink(invitationId){
@@ -617,16 +776,16 @@
       phone = "594" + phone.slice(1);
     }
 
-    const msg = [
+    const message = [
       "Bonjour,",
       "",
-      `${proposer.prenom} te propose de faire équipe pour le BT250 Double Mixte du 09/07.`,
+      `${proposer.prenom} te propose de faire équipe pour le BT250 Double Mixte du ${EVENT_DATE}.`,
       "",
       "Pour accepter ou refuser la proposition, clique ici :",
       proposalLink(invitationId)
     ].join("\n");
 
-    return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   }
 
   async function createTeamFromInvite(invite, profile){
@@ -686,14 +845,25 @@
       updatedAt:serverTimestamp()
     });
 
-    await updateDoc(doc(db, "events", EVENT_ID, "steps", STEP_ID, "partnerProfiles", invite.partnerId), {
-      status:"closed",
-      closedReason:"team_created",
-      updatedAt:serverTimestamp()
-    });
+    await updateDoc(
+      doc(
+        db,
+        "events",
+        EVENT_ID,
+        "steps",
+        STEP_ID,
+        "partnerProfiles",
+        invite.partnerId
+      ),
+      {
+        status:"closed",
+        closedReason:"team_created",
+        updatedAt:serverTimestamp()
+      }
+    );
   }
 
-    async function refuseInvite(){
+  async function refuseInvite(){
     if(!currentInvite || !currentInviteRef) return;
 
     await updateDoc(currentInviteRef, {
@@ -721,15 +891,27 @@
     panelPartner.classList.add("hidden");
 
     try{
-      currentInviteRef = doc(db, "events", EVENT_ID, "steps", STEP_ID, "teamInvitations", inviteId);
+      currentInviteRef = doc(
+        db,
+        "events",
+        EVENT_ID,
+        "steps",
+        STEP_ID,
+        "teamInvitations",
+        inviteId
+      );
+
       const inviteSnap = await getDoc(currentInviteRef);
 
       if(!inviteSnap.exists()){
         inviteIntro.textContent = "Proposition introuvable.";
         inviteBox.className = "status err";
-        inviteBox.textContent = "Cette proposition n’existe pas ou n’est plus disponible.";
+        inviteBox.textContent =
+          "Cette proposition n’existe pas ou n’est plus disponible.";
+
         btnAcceptInvite.disabled = true;
         btnRefuseInvite.disabled = true;
+
         return true;
       }
 
@@ -739,15 +921,26 @@
       };
 
       const profileSnap = await getDoc(
-        doc(db, "events", EVENT_ID, "steps", STEP_ID, "partnerProfiles", currentInvite.partnerId)
+        doc(
+          db,
+          "events",
+          EVENT_ID,
+          "steps",
+          STEP_ID,
+          "partnerProfiles",
+          currentInvite.partnerId
+        )
       );
 
       if(!profileSnap.exists()){
         inviteIntro.textContent = "Profil introuvable.";
         inviteBox.className = "status err";
-        inviteBox.textContent = "Le profil associé à cette proposition n’est plus disponible.";
+        inviteBox.textContent =
+          "Le profil associé à cette proposition n’est plus disponible.";
+
         btnAcceptInvite.disabled = true;
         btnRefuseInvite.disabled = true;
+
         return true;
       }
 
@@ -761,31 +954,39 @@
       if(currentInvite.status !== "pending"){
         inviteIntro.textContent = "Proposition déjà traitée.";
         inviteBox.className = "status warn";
-        inviteBox.textContent = `Cette proposition a déjà été traitée : ${currentInvite.status}.`;
+        inviteBox.textContent =
+          `Cette proposition a déjà été traitée : ${currentInvite.status}.`;
+
         btnAcceptInvite.disabled = true;
         btnRefuseInvite.disabled = true;
+
         return true;
       }
 
       if(profile.status !== "active"){
         inviteIntro.textContent = "Profil indisponible.";
         inviteBox.className = "status warn";
-        inviteBox.textContent = "Ce profil n’est plus en recherche de partenaire.";
+        inviteBox.textContent =
+          "Ce profil n’est plus en recherche de partenaire.";
+
         btnAcceptInvite.disabled = true;
         btnRefuseInvite.disabled = true;
+
         return true;
       }
 
       const proposer = currentInvite.proposer || {};
 
-      inviteIntro.textContent = `${proposer.prenom || "Un joueur"} te propose de faire équipe.`;
+      inviteIntro.textContent =
+        `${proposer.prenom || "Un joueur"} te propose de faire équipe.`;
 
       inviteBox.className = "status";
       inviteBox.innerHTML = `
         <strong>Proposition reçue</strong><br>
         ${esc(proposer.prenom)} ${esc(proposer.nom)}<br>
         Licence FFT : ${esc(proposer.licence)}<br><br>
-        Si tu acceptes, l’équipe sera inscrite automatiquement et ton profil sera retiré de la recherche partenaire.
+        Si tu acceptes, l’équipe sera inscrite automatiquement
+        et ton profil sera retiré de la recherche partenaire.
       `;
 
       btnAcceptInvite.disabled = false;
@@ -793,9 +994,12 @@
 
     }catch(error){
       console.error(error);
+
       inviteIntro.textContent = "Erreur de chargement.";
       inviteBox.className = "status err";
-      inviteBox.textContent = "Impossible de charger la proposition.";
+      inviteBox.textContent =
+        "Impossible de charger la proposition.";
+
       btnAcceptInvite.disabled = true;
       btnRefuseInvite.disabled = true;
     }
@@ -811,20 +1015,32 @@
       .filter(item => filter === "all" || item.sexe === filter);
 
     if(items.length === 0){
-      searchList.innerHTML = `<div class="empty">Aucun profil à afficher.</div>`;
+      searchList.innerHTML =
+        `<div class="empty">Aucun profil à afficher.</div>`;
+
       return;
     }
 
     searchList.innerHTML = items.map(item => `
       <div class="search-card">
         <div class="search-top">
-          <div class="search-name">${esc(item.prenom || "Profil")}</div>
+          <div class="search-name">
+            ${esc(item.prenom || "Profil")}
+          </div>
+
           ${sexBadge(item.sexe)}
         </div>
 
-        <div class="search-profile">${esc(item.profile)}</div>
+        <div class="search-profile">
+          ${esc(item.profile)}
+        </div>
 
-        <a class="btn pink" href="${esc(whatsappLink(item))}" target="_blank" rel="noopener">
+        <a
+          class="btn pink"
+          href="${esc(whatsappLink(item))}"
+          target="_blank"
+          rel="noopener">
+
           💬 Contacter en privé
         </a>
 
@@ -833,6 +1049,7 @@
           type="button"
           data-action="proposal"
           data-id="${esc(item.id)}">
+
           🤝 Proposition d’inscription
         </button>
       </div>
@@ -854,7 +1071,14 @@
       sexe:"M"
     };
 
-    if(!woman.prenom || !woman.nom || !woman.licence || !man.prenom || !man.nom || !man.licence){
+    if(
+      !woman.prenom ||
+      !woman.nom ||
+      !woman.licence ||
+      !man.prenom ||
+      !man.nom ||
+      !man.licence
+    ){
       throw new Error("Tous les champs sont obligatoires.");
     }
 
@@ -918,19 +1142,29 @@
       return;
     }
 
-    const profile = partnerProfiles.find(item => item.id === profileId);
+    const profile = partnerProfiles.find(
+      item => item.id === profileId
+    );
+
     if(!profile) return;
 
     const expectedSex = profile.sexe === "F" ? "M" : "F";
-    const expectedLabel = expectedSex === "F" ? "joueuse" : "joueur";
+    const expectedLabel =
+      expectedSex === "F" ? "joueuse" : "joueur";
 
-    const prenom = prompt(`Votre prénom (${expectedLabel}) :`);
+    const prenom = prompt(
+      `Votre prénom (${expectedLabel}) :`
+    );
+
     if(!prenom) return;
 
     const nom = prompt("Votre nom :");
     if(!nom) return;
 
-    const licence = prompt("Votre numéro de licence FFT :");
+    const licence = prompt(
+      "Votre numéro de licence FFT :"
+    );
+
     if(!licence) return;
 
     const proposer = {
@@ -957,10 +1191,17 @@
       updatedAt:serverTimestamp()
     });
 
-    const url = proposalWhatsappLink(profile, invitationDoc.id, proposer);
+    const url = proposalWhatsappLink(
+      profile,
+      invitationDoc.id,
+      proposer
+    );
+
     window.open(url, "_blank", "noopener");
 
-    alert("✅ Proposition créée. Le message WhatsApp va s’ouvrir pour envoyer le lien d’acceptation.");
+    alert(
+      "✅ Proposition créée. Le message WhatsApp va s’ouvrir pour envoyer le lien d’acceptation."
+    );
   }
 
   tabRegister.onclick = () => setTab("register");
@@ -971,12 +1212,14 @@
 
   sexFilter.onchange = renderProfiles;
 
-  teamForm.addEventListener("submit", async (event) => {
+  teamForm.addEventListener("submit", async event => {
     event.preventDefault();
 
     if(!isOpen()){
       teamStatus.className = "status warn";
-      teamStatus.textContent = "Les inscriptions ne sont pas ouvertes.";
+      teamStatus.textContent =
+        "Les inscriptions ne sont pas ouvertes.";
+
       return;
     }
 
@@ -986,25 +1229,34 @@
 
     try{
       const teamName = await createDirectTeam();
+
       teamForm.reset();
+
       teamStatus.className = "status ok";
-      teamStatus.textContent = `✅ Équipe inscrite : ${teamName}.`;
+      teamStatus.textContent =
+        `✅ Équipe inscrite : ${teamName}.`;
+
     }catch(error){
       console.error(error);
+
       teamStatus.className = "status err";
-      teamStatus.textContent = "❌ " + (error?.message || "Inscription impossible.");
+      teamStatus.textContent =
+        "❌ " + (error?.message || "Inscription impossible.");
+
     }finally{
       teamSubmit.disabled = false;
       updateStateUi();
     }
   });
 
-  searchForm.addEventListener("submit", async (event) => {
+  searchForm.addEventListener("submit", async event => {
     event.preventDefault();
 
     if(!isOpen()){
       searchStatus.className = "status warn";
-      searchStatus.textContent = "Les recherches partenaire ne sont pas ouvertes.";
+      searchStatus.textContent =
+        "Les recherches partenaire ne sont pas ouvertes.";
+
       return;
     }
 
@@ -1014,33 +1266,44 @@
 
     try{
       await createPartnerProfile();
+
       searchForm.reset();
+
       searchStatus.className = "status ok";
-      searchStatus.textContent = "✅ Recherche publiée.";
+      searchStatus.textContent =
+        "✅ Recherche publiée.";
+
       setPartnerMode("view");
+
     }catch(error){
       console.error(error);
+
       searchStatus.className = "status err";
-      searchStatus.textContent = "❌ " + (error?.message || "Publication impossible.");
+      searchStatus.textContent =
+        "❌ " + (error?.message || "Publication impossible.");
+
     }finally{
       searchSubmit.disabled = false;
       updateStateUi();
     }
   });
 
-  searchList.addEventListener("click", async (event) => {
-    const btn = event.target.closest("[data-action='proposal']");
-    if(!btn) return;
+  searchList.addEventListener("click", async event => {
+    const button = event.target.closest(
+      "[data-action='proposal']"
+    );
 
-    btn.disabled = true;
+    if(!button) return;
+
+    button.disabled = true;
 
     try{
-      await createProposal(btn.dataset.id);
+      await createProposal(button.dataset.id);
     }catch(error){
       console.error(error);
       alert("Proposition impossible.");
     }finally{
-      btn.disabled = false;
+      button.disabled = false;
     }
   });
 
@@ -1049,18 +1312,28 @@
 
     btnAcceptInvite.disabled = true;
     btnRefuseInvite.disabled = true;
+
     inviteStatus.className = "status";
-    inviteStatus.textContent = "Création de l’équipe…";
+    inviteStatus.textContent =
+      "Création de l’équipe…";
 
     try{
-      await createTeamFromInvite(currentInvite, currentInvite.profile);
+      await createTeamFromInvite(
+        currentInvite,
+        currentInvite.profile
+      );
 
       inviteStatus.className = "status ok";
-      inviteStatus.textContent = "✅ Équipe inscrite automatiquement. Le profil a été retiré des recherches.";
+      inviteStatus.textContent =
+        "✅ Équipe inscrite automatiquement. Le profil a été retiré des recherches.";
+
     }catch(error){
       console.error(error);
+
       inviteStatus.className = "status err";
-      inviteStatus.textContent = "❌ Impossible d’accepter la proposition.";
+      inviteStatus.textContent =
+        "❌ Impossible d’accepter la proposition.";
+
       btnAcceptInvite.disabled = false;
       btnRefuseInvite.disabled = false;
     }
@@ -1071,6 +1344,7 @@
 
     btnAcceptInvite.disabled = true;
     btnRefuseInvite.disabled = true;
+
     inviteStatus.className = "status";
     inviteStatus.textContent = "Refus en cours…";
 
@@ -1078,38 +1352,57 @@
       await refuseInvite();
     }catch(error){
       console.error(error);
+
       inviteStatus.className = "status err";
-      inviteStatus.textContent = "❌ Impossible de refuser la proposition.";
+      inviteStatus.textContent =
+        "❌ Impossible de refuser la proposition.";
+
       btnAcceptInvite.disabled = false;
       btnRefuseInvite.disabled = false;
     }
   };
 
-  onSnapshot(stepRef, (snap) => {
-    const data = snap.exists() ? snap.data() : {};
-    inscriptionsState = data.inscriptionsState || "not_open";
-    updateStateUi();
-  }, (error) => {
-    console.error(error);
-    inscriptionsState = "not_open";
-    updateStateUi();
-  });
+  onSnapshot(
+    stepRef,
+    snap => {
+      const data = snap.exists() ? snap.data() : {};
 
-  onSnapshot(query(profilesRef, orderBy("createdAt", "desc")), (snap) => {
-    partnerProfiles = snap.docs.map(d => ({
-      id:d.id,
-      ...d.data()
-    }));
+      inscriptionsState =
+        data.inscriptionsState || "not_open";
 
-    renderProfiles();
-  }, (error) => {
-    console.error(error);
-    searchList.innerHTML = `<div class="empty">Impossible de charger les profils.</div>`;
-  });
+      updateStateUi();
+    },
+    error => {
+      console.error(error);
+
+      inscriptionsState = "not_open";
+      updateStateUi();
+    }
+  );
+
+  onSnapshot(
+    query(
+      profilesRef,
+      orderBy("createdAt", "desc")
+    ),
+    snap => {
+      partnerProfiles = snap.docs.map(documentSnap => ({
+        id:documentSnap.id,
+        ...documentSnap.data()
+      }));
+
+      renderProfiles();
+    },
+    error => {
+      console.error(error);
+
+      searchList.innerHTML =
+        `<div class="empty">Impossible de charger les profils.</div>`;
+    }
+  );
 
   loadInvitationMode();
 </script>
 
 </body>
 </html>
-  
