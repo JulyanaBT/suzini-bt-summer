@@ -317,37 +317,64 @@
     </div>
   </section>
 
+  <!-- Prochain événement : étape 3 -->
   <section class="section">
     <div class="next-card">
       <div>
         <div class="next-top">
           <div>
-            <div class="next-date">09/07</div>
-            <div class="next-kicker">Étape 2</div>
+            <div class="next-date">16/07</div>
+            <div class="next-kicker">Étape 3</div>
           </div>
+
           <div class="next-badge">BT250</div>
         </div>
 
         <h2 class="next-title">Double mixte</h2>
+
         <div class="next-text">
           Licenciés FFT uniquement • 10 € / joueur • inscriptions ouvertes.
         </div>
       </div>
 
       <div class="action-grid">
-        <a class="action-btn primary" href="etape-2/inscriptions.html">📝 S’inscrire</a>
-        <a class="action-btn" href="etape-2/participants.html">👥 Participants</a>
-        <a class="action-btn" href="etape-2/programmation.html">📅 Planning</a>
-        <a class="action-btn" href="etape-2/">🎾 Voir l’étape</a>
+        <a
+          class="action-btn primary"
+          href="etape-3/inscriptions.html">
+          📝 S’inscrire
+        </a>
+
+        <a
+          class="action-btn"
+          href="etape-3/participants.html">
+          👥 Participants
+        </a>
+
+        <a
+          class="action-btn"
+          href="etape-3/programmation.html">
+          📅 Planning
+        </a>
+
+        <a
+          class="action-btn"
+          href="etape-3/">
+          🎾 Voir l’étape
+        </a>
       </div>
     </div>
   </section>
 
+  <!-- Groupe WhatsApp -->
   <section class="section">
     <div class="whatsapp-card">
       <div>
         <strong>💬 Groupe WhatsApp officiel</strong>
-        <span>Toutes les infos et actualités du BT Summer Tour : convocations, résultats, météo et annonces.</span>
+
+        <span>
+          Toutes les infos et actualités du BT Summer Tour :
+          convocations, résultats, météo et annonces.
+        </span>
       </div>
 
       <a
@@ -360,11 +387,13 @@
     </div>
   </section>
 
+  <!-- Accès utiles -->
   <section class="section">
     <div class="summer-panel compact-panel">
       <h2 class="section-title">Accès utiles</h2>
 
       <div class="mini-grid">
+
         <a class="mini-card blue" href="reglement.html">
           <div class="mini-kicker">Compétition</div>
           <div class="mini-title">Règlement</div>
@@ -388,56 +417,72 @@
           <div class="mini-title">Événements</div>
           <div class="mini-text">Toutes les étapes.</div>
         </a>
+
       </div>
     </div>
   </section>
 
+  <!-- Étapes précédentes -->
   <section class="section">
     <div class="summer-panel compact-panel">
-      <h2 class="section-title">Autres étapes</h2>
+      <h2 class="section-title">Étapes précédentes</h2>
 
       <div class="mini-grid">
+
         <a class="mini-card blue" href="etape-1/">
           <div class="mini-kicker">02/07</div>
           <div class="mini-title">Americano</div>
           <div class="mini-text">Étape terminée.</div>
         </a>
 
-        <a class="mini-card yellow" href="etape-3/">
-          <div class="mini-kicker">16/07</div>
+        <a class="mini-card pink" href="etape-2/">
+          <div class="mini-kicker">09/07</div>
           <div class="mini-title">Double mixte</div>
-          <div class="mini-text">BT250 licenciés FFT.</div>
+          <div class="mini-text">BT250 — étape 2.</div>
         </a>
+
       </div>
     </div>
   </section>
 
+  <!-- Administration -->
   <section class="section" id="orga">
     <div class="summer-panel compact-panel">
       <h2 class="section-title">Administration</h2>
 
       <div class="admin-row">
+
         <div class="mini-grid">
+
           <a class="mini-card blue" href="#" id="btnAdmin">
             <div class="mini-kicker">Gestion</div>
             <div class="mini-title">Admin</div>
-            <div class="mini-text">Gestion du Summer Tour.</div>
+            <div class="mini-text">Gestion de l’étape 3.</div>
           </a>
 
-          <a class="mini-card green" href="etape-2/participants.html">
+          <a class="mini-card green" href="etape-3/participants.html">
             <div class="mini-kicker">Lecture</div>
             <div class="mini-title">Public</div>
-            <div class="mini-text">Inscrits étape 2.</div>
+            <div class="mini-text">Inscrits étape 3.</div>
           </a>
+
         </div>
 
         <div class="status-line">
           Statut :
           <span id="authHint">Vérification…</span>
-          <span id="roleBadge" class="role-badge none" style="display:none;"></span>
+
+          <span
+            id="roleBadge"
+            class="role-badge none"
+            style="display:none;">
+          </span>
         </div>
 
-        <a class="logout-link" href="#" id="btnLogout">🚪 Déconnexion</a>
+        <a class="logout-link" href="#" id="btnLogout">
+          🚪 Déconnexion
+        </a>
+
       </div>
     </div>
   </section>
@@ -448,14 +493,17 @@
 <script type="module" src="assets/js/maintenance-guard.js"></script>
 
 <script type="module">
-  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-v2";
+  import { auth } from "./assets/js/firebase.js?v=suzini-summer-index-v3";
+
   import {
     login,
     logout,
     getRoleByUid
-  } from "./assets/js/session.js?v=suzini-summer-index-v2";
+  } from "./assets/js/session.js?v=suzini-summer-index-v3";
 
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import {
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
   const btnAdmin = document.getElementById("btnAdmin");
   const btnLogout = document.getElementById("btnLogout");
@@ -490,15 +538,25 @@
     if(!password) return null;
 
     try{
-      return await login(email.trim(), password);
+      return await login(
+        email.trim(),
+        password
+      );
     }catch(error){
-      alert("Connexion impossible : " + (error?.message || "Erreur inconnue"));
+      alert(
+        "Connexion impossible : " +
+        (error?.message || "Erreur inconnue")
+      );
+
       return null;
     }
   }
 
   async function ensureUser(){
-    if(auth.currentUser) return auth.currentUser;
+    if(auth.currentUser){
+      return auth.currentUser;
+    }
+
     return await askLogin();
   }
 
@@ -507,31 +565,38 @@
     if(!user) return null;
 
     const role = await getRoleByUid(user.uid);
-    return { user, role };
+
+    return {
+      user,
+      role
+    };
   }
 
-  btnAdmin.onclick = async (event) => {
+  btnAdmin.onclick = async event => {
     event.preventDefault();
 
-    const ctx = await getCurrentRole();
-    if(!ctx) return;
+    const context = await getCurrentRole();
+    if(!context) return;
 
-    if(ctx.role !== "admin"){
+    if(context.role !== "admin"){
       alert("Accès réservé aux administrateurs.");
       return;
     }
 
-    window.location.href = "admin/index.html?step=etape-2";
+    window.location.href =
+      "admin/index.html?step=etape-3";
   };
 
-  btnLogout.onclick = async (event) => {
+  btnLogout.onclick = async event => {
     event.preventDefault();
+
     await logout();
+
     hint.textContent = "Non connecté.";
     clearRoleBadge();
   };
 
-  onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, async user => {
     if(!user){
       hint.textContent = "Non connecté.";
       clearRoleBadge();
@@ -540,10 +605,18 @@
 
     try{
       const role = await getRoleByUid(user.uid);
-      hint.textContent = `Connecté : ${user.email}`;
+
+      hint.textContent =
+        `Connecté : ${user.email}`;
+
       setRoleBadge(role);
+
     }catch(error){
-      hint.textContent = `Connecté : ${user.email} — rôle non trouvé`;
+      console.error(error);
+
+      hint.textContent =
+        `Connecté : ${user.email} — rôle non trouvé`;
+
       setRoleBadge(null);
     }
   });
